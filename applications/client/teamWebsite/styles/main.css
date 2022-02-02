@@ -1,6 +1,139 @@
+/* Resets and Variables */
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+:root{
+    --font-inter: 'Inter', sans-serif;
+    --font-openSans: 'Open Sans', sans-serif;
+    
+    --c-textBase: rgb(0,0,0);
+
+
+    --c-button-bg: rgb(0,0,0);
+    --c-button-text: rgb(255,255,255);
+
+    --c-button-hov-bg: rgb(100,100,100);
+
+    --border-card-radius: 20px;
+    --box-shadow-card: 2px 4px 12px rgba(0, 0, 0, .10);
+    --card-padding: 50px 50px;
+}
+
+h1,h2,h3,h4,h5,h6,p{
+    font-weight: 400;
+    font-size: 1rem;
+    color: var(--c-textBase);
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-family: var(--font-inter);
+}
+
+p{
+    font-family: var(--font-openSans);
+}
+
+button{
+    font-family: var(--font-inter);
+    font-size: 1.2rem;
+    padding: 15px 25px;
+    border-radius: 15px;
+    background-color: var(--c-button-bg);
+    color: var(--c-button-text);
+    transition: all .2s ease-in-out;
+}
+
+button:hover{
+    cursor: pointer;
+    background-color: var(--c-button-hov-bg);
+    transform: scale(1.1);
+}
+
+button:active{
+    transform: scale(.9);
+}
+/* Body Styles */
+
+.landing-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    align-items: center;
+    justify-content: center;
+
+    height: 100vh;
+    width: 100%;
+}
+
+.landing-hero-text{
+    font-size: 5rem;
+    font-weight: 600;
+}
+
+.about-wrapper{
+    margin: auto;
+    width: fit-content;
+    padding: 50px 0;
+}
+
+.about-head{
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.about-team-wrapper{
+    display: grid;
+    gap: 75px;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.about-team-member{
+    display: flex;
+    flex-direction: column;
+    gap:15px;
+    max-width: 375px;
+
+    padding: var(--card-padding);
+    box-shadow: var(--box-shadow-card);
+    border-radius: var(--border-card-radius);
+
+    transition: transform .2s ease-in-out;
+}
+
+.about-team-member:hover{
+    transform: scale(1.05);
+}
+
+.about-team-member img{
+    display: block;
+    width:200px;
+    margin: auto;
+    object-fit: cover;
+    border-radius: 100%;
+}
+
+.about-team-member h3{
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+
+
+@media screen and (max-width:1300px) {
+    .about-team-wrapper{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 950px) {
+    .about-team-wrapper{
+        grid-template-columns: 1fr;
+    }
+    .about-team-member{
+        max-width: 425px;
+    }
+}
