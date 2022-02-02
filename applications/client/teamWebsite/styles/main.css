@@ -5,6 +5,14 @@
     box-sizing: border-box;
 }
 
+html{
+    scroll-behavior: smooth;
+}
+
+svg, img{
+    display: block;
+}
+
 :root{
     --font-inter: 'Inter', sans-serif;
     --font-openSans: 'Open Sans', sans-serif;
@@ -36,11 +44,25 @@ p{
     font-family: var(--font-openSans);
 }
 
+nav li{
+    font-family: var(--font-inter);
+    list-style: none;
+}
+
+nav a{
+    color: var(--c-textBase);
+    text-decoration: none;
+}
+nav a:visited{
+    color: var(--c-textBase);
+}
+
 button{
     font-family: var(--font-inter);
     font-size: 1.2rem;
     padding: 15px 25px;
     border-radius: 15px;
+    border: none;
     background-color: var(--c-button-bg);
     color: var(--c-button-text);
     transition: all .2s ease-in-out;
@@ -49,13 +71,48 @@ button{
 button:hover{
     cursor: pointer;
     background-color: var(--c-button-hov-bg);
-    transform: scale(1.1);
+    transform: scale(1.07);
 }
 
 button:active{
-    transform: scale(.9);
+    transform: scale(.98) translateY(4px);
+}
+
+.hide-off-screen{
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
 }
 /* Body Styles */
+.header-wrapper{
+    position: fixed;
+    top:0;
+    right: 0;
+    padding: 55px 6%;
+    transition: all .3s ease-in-out;
+}
+
+.about{
+    position: relative;
+    font-size: 1.5rem;
+}
+
+.about::after{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left:0;
+    background-color: var(--c-textBase);
+    height: 2px;
+    width: 100%;
+    transform: translateY(-50%) scale(0);
+    transform-origin: left;
+    transition: transform .3s ease-in-out;
+}
+
+.about:hover::after{
+    transform: translateY(-50%) scale(1);
+}
 
 .landing-wrapper{
     display: flex;
@@ -87,12 +144,15 @@ button:active{
 
 .about-team-wrapper{
     display: grid;
+    margin: auto;
     gap: 75px;
     grid-template-columns: 1fr 1fr 1fr;
 }
 
 .about-team-member{
     display: flex;
+    align-items: center;
+    justify-content: center;
     flex-direction: column;
     gap:15px;
     max-width: 375px;
@@ -105,11 +165,15 @@ button:active{
 }
 
 .about-team-member:hover{
-    transform: scale(1.05);
+    cursor: pointer;
+    transform: scale(1.03);
 }
 
-.about-team-member img{
-    display: block;
+.about-team-member:active{
+    transform: scale(.98) translateY(10px);
+}
+
+.avatar{
     width:200px;
     margin: auto;
     object-fit: cover;
@@ -120,8 +184,6 @@ button:active{
     font-size: 1.8rem;
     text-align: center;
 }
-
-
 
 @media screen and (max-width:1300px) {
     .about-team-wrapper{
@@ -135,5 +197,12 @@ button:active{
     }
     .about-team-member{
         max-width: 425px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .about-team-member{
+        max-width: 95%;
+        margin: auto;
     }
 }
