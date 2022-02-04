@@ -124,12 +124,22 @@ button:active{
     height: 100vh;
     width: 100%;
 }
+.hero-text-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
 .landing-hero-text{
     font-size: 5rem;
     font-weight: 600;
 }
 
+.landing-sub-text{
+    font-size: 1.3rem;
+    color: rgb(40, 40, 40);
+}
 .about-wrapper{
     margin: auto;
     width: fit-content;
