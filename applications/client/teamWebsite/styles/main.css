@@ -5,6 +5,15 @@
     box-sizing: border-box;
 }
 
+@keyframes fadeIn{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
 html{
     scroll-behavior: smooth;
 }
@@ -17,17 +26,30 @@ svg, img{
     --font-inter: 'Inter', sans-serif;
     --font-openSans: 'Open Sans', sans-serif;
     
-    --c-textBase: rgb(0,0,0);
+    --c-textBase: rgb(255,255,255);
 
 
     --c-button-bg: rgb(0,0,0);
     --c-button-text: rgb(255,255,255);
 
     --c-button-hov-bg: rgb(100,100,100);
+    --c-pink: rgb(166,44,88);
+    --c-purple: rgb(67,44,88);
+
+    --c-main-red:#F07178;
+    --c-main-blue:#89ddf1;
+    --c-main-green:#b9e871;
+    --c-main-back-black:#1B1B1B;
+
 
     --border-card-radius: 20px;
     --box-shadow-card: 2px 4px 12px rgba(0, 0, 0, .10);
     --card-padding: 50px 50px;
+}
+
+body{
+    background-color: var(--c-main-back-black);
+    animation: fadeIn .3s ease-in-out both;
 }
 
 h1,h2,h3,h4,h5,h6,p{
@@ -50,11 +72,11 @@ nav li{
 }
 
 nav a{
-    color: var(--c-textBase);
+    color: white;
     text-decoration: none;
 }
 nav a:visited{
-    color: var(--c-textBase);
+    color: white;
 }
 
 button{
@@ -63,14 +85,14 @@ button{
     padding: 15px 25px;
     border-radius: 15px;
     border: none;
-    background-color: var(--c-button-bg);
+    background-color: var(--c-main-red);
     color: var(--c-button-text);
     transition: all .2s ease-in-out;
 }
 
 button:hover{
     cursor: pointer;
-    background-color: var(--c-button-hov-bg);
+    background-color: var(--c-main-blue);
     transform: scale(1.07);
 }
 
@@ -95,6 +117,7 @@ button:active{
 .about{
     position: relative;
     font-size: 1.5rem;
+    color: var(--c-textBase);
 }
 
 .about::after{
@@ -134,12 +157,14 @@ button:active{
 .landing-hero-text{
     font-size: 5rem;
     font-weight: 600;
+    color: var(--c-textBase);
 }
 
 .landing-sub-text{
     font-size: 1.3rem;
-    color: rgb(40, 40, 40);
+    color: var(--c-main-blue)
 }
+
 .about-wrapper{
     margin: auto;
     width: fit-content;
@@ -161,39 +186,84 @@ button:active{
 
 .about-team-member{
     display: flex;
+    position: relative;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     gap:15px;
-    max-width: 375px;
+    width: 350px;
+    height: 500px;
 
-    padding: var(--card-padding);
     box-shadow: var(--box-shadow-card);
     border-radius: var(--border-card-radius);
-
+    overflow: hidden;
     transition: transform .2s ease-in-out;
 }
+
 
 .about-team-member:hover{
     cursor: pointer;
     transform: scale(1.03);
 }
 
+.about-team-member:hover .name-box{
+    transform: translateY(0);
+}
+
 .about-team-member:active{
     transform: scale(.98) translateY(10px);
 }
 
-.avatar{
-    width:200px;
-    margin: auto;
-    object-fit: cover;
-    border-radius: 100%;
+.name-box{
+    position: absolute;
+    bottom:0;
+    left:0;
+    width: 100%;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--c-main-red);
+    transform: translateY(100%);
+    transition: transform .2s ease-in-out;
 }
 
-.about-team-member h3{
-    font-size: 1.8rem;
+.name-box h3{
+    font-size: 2rem;
+    color: white;
     text-align: center;
 }
+
+.name-box h2{
+    font-size: 1.2rem;
+    color: white;
+    text-align: center;
+}
+
+.avatar{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.project-info-wrapper{
+    padding-top: 75px;
+}
+
+.schedule, .communication{
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.schedule h3, .communication h3{
+    font-size: 2.5rem;
+}
+
+.schedule p, .communication p{
+    font-size: 1.2rem;
+}
+
 
 @media screen and (max-width:1300px) {
     .about-team-wrapper{
@@ -206,7 +276,7 @@ button:active{
         grid-template-columns: 1fr;
     }
     .about-team-member{
-        max-width: 425px;
+        max-width: 100%;
     }
 }
 

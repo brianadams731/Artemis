@@ -13,3 +13,4 @@ const observer = new IntersectionObserver((elements)=>{
 }, options);
 
 observer.observe(aboutElement);
+
