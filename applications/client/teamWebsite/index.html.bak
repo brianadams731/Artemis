@@ -36,7 +36,7 @@
 
             <a href="./about/arslan.html">
                 <section class="about-team-member">
-                    <img loading="lazy" class="avatar" src="./assets/arslan2.jpg">
+                    <img loading="lazy" class="avatar" src="../assets/arslan2.jpg">
                     <div class="name-box">
                         <h3>Arslan</h3>
                         <h2>Backend Developer</h2>
