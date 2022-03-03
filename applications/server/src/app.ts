@@ -1,8 +1,17 @@
 import express from "express";
 import dotenv from "dotenv";
-dotenv.config();
+import { createConnection } from "typeorm";
 
+import {connectionConfig} from "./utils/connectionConfig";
+
+import { exampleRouter } from "./routes/exampleRoute";
+
+dotenv.config();
+createConnection(connectionConfig);
 const app = express();
+
+app.use(exampleRouter);
+
 
 app.get("/",(req,res)=>{
     return res.send("Test from server");

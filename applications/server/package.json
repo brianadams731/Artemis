@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --verbose",
     "start": "ts-node-dev ./src/app.ts",
-    "build":"tsc",
+    "build": "tsc",
     "buildNoEmit": "tsc --noEmit"
   },
   "repository": {
@@ -33,6 +33,7 @@
   "dependencies": {
     "express": "^4.17.3",
     "express-session": "^1.17.2",
+    "pg": "^8.7.3",
     "typeorm": "^0.2.44"
   }
 }
