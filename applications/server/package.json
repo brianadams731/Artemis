@@ -6,6 +6,8 @@
   "scripts": {
     "test": "jest --verbose",
     "start": "ts-node-dev ./src/app.ts",
+    "start:prod": "tsc && pm2 start ./out/app.js",
+    "stop:prod": "pm2 stop app",
     "build": "tsc",
     "buildNoEmit": "tsc --noEmit"
   },
