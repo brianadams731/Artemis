@@ -1,9 +1,9 @@
-thoughtgrove.com {
-    root * /home/brianadams731/csc648-spring22-04-team02/application/client/teamWebsite/
-    try_files {path} /index.html
-    file_server
+www.thoughtgrove.com:80, thoughtgrove.com:80 {
+	root * /home/brianadams731/csc648-spring22-04-team02/applications/client/teamWebsite/
+	try_files {path} /index.html
+	file_server
 }
 
-api.thoughtgrove.com {
-    reverse_proxy 127.0.0.1:8080
+api.thoughtgrove.com:80 {
+	reverse_proxy 127.0.0.1:8080
 }
