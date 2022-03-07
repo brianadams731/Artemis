@@ -14,6 +14,6 @@ const exampleFunction = (exampleArg:number):exampleInterface =>{
 test("This is an example description",()=>{
     expect(exampleFunction(5)).toEqual({
         exampleArg: 5,
-        otherData: "other"
+        otherData: "other data"
     })
 })

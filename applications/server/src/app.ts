@@ -5,13 +5,16 @@ import { createConnection } from "typeorm";
 import {connectionConfig} from "./utils/connectionConfig";
 
 import { exampleRouter } from "./routes/exampleRoute";
+import { ticketRoute } from "./routes/ticketRoute"
 
 dotenv.config();
 createConnection(connectionConfig);
 const app = express();
 
-app.use(exampleRouter);
+app.use(express.json());
 
+app.use(exampleRouter);
+app.use(ticketRoute);
 
 app.get("/",(req,res)=>{
     return res.send("Test from server");

@@ -2,6 +2,8 @@ import { ConnectionOptions } from "typeorm";
 import dotenv from "dotenv";
 
 import { Example } from "../models/Example";
+import { Board } from "../models/Board";
+import { Ticket } from "../models/Ticket";
 
 dotenv.config();
 const connectionConfig:ConnectionOptions = {
@@ -10,7 +12,9 @@ const connectionConfig:ConnectionOptions = {
     logging: false,
     synchronize: true,
     entities:[
-        Example
+        Example,
+        Board,
+        Ticket,
     ]
 }
 
