@@ -4,7 +4,6 @@ import { createConnection } from "typeorm";
 
 import {connectionConfig} from "./utils/connectionConfig";
 
-import { exampleRouter } from "./routes/exampleRoute";
 import { ticketRoute } from "./routes/ticketRoute"
 
 dotenv.config();
@@ -13,7 +12,6 @@ const app = express();
 
 app.use(express.json());
 
-app.use(exampleRouter);
 app.use(ticketRoute);
 
 app.get("/",(req,res)=>{
