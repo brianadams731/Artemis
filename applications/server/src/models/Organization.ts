@@ -1,18 +1,14 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
-import { Users } from "./Users";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, OneToMany, PrimaryColumn } from "typeorm";
+import { User } from "./User";
 import { Workspace } from "./Workspace";
 
 @Entity()
 class Organization extends BaseEntity {
+    @PrimaryColumn()
+    name: string;
 
-    @PrimaryGeneratedColumn()
-    id:number;
-
-    @Column({unique: true, nullable:false})
-    name:string;
-
-    @OneToMany(()=>Users, user => user.organization)
-    members: Users;
+    @OneToMany(()=>User, user => user.organization)
+    members: User;
 
     @OneToMany(()=>Workspace, workspace => workspace.organization)
     workspaces: Workspace;

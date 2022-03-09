@@ -13,7 +13,7 @@ class Ticket extends BaseEntity{
     @Column({nullable:true})
     comment: string;
 
-    @CreateDateColumn({nullable:false})
+    @CreateDateColumn()
     openDate: Date;
 
     @Column({type:"date", nullable:true})

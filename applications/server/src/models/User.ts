@@ -2,7 +2,7 @@ import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "t
 import { Organization } from "./Organization";
 
 @Entity()
-class Users extends BaseEntity{
+class User extends BaseEntity{
     @PrimaryGeneratedColumn()
     id:number;
 
@@ -14,7 +14,8 @@ class Users extends BaseEntity{
 
     @ManyToOne(()=>Organization, (organization) => organization.members)
     organization:Organization;
+    
     //TODO: Many to many relation   
 }
 
-export { Users }
+export { User }
