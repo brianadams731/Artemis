@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Organization } from "./Organization";
 
 @Entity()
 class Users extends BaseEntity{
@@ -11,5 +12,9 @@ class Users extends BaseEntity{
     @Column()
     password: string;
 
+    @ManyToOne(()=>Organization, (organization) => organization.members)
+    organization:Organization;
     //TODO: Many to many relation   
 }
+
+export { Users }

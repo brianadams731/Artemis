@@ -1,5 +1,6 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { Board } from "./Board";
+import { Workspace } from "./Workspace";
 
 
 @Entity()
@@ -13,11 +14,11 @@ class Teams extends BaseEntity{
     // @Column({nullable:true})
     // permissions: string;
 
-    @ManyToOne(()=> Workspaces, workspace => workspace.teams, {
+    @ManyToOne(()=> Workspace, workspace => workspace.teams, {
         onDelete:"CASCADE"
         
     })
-    board: Board;
+    workspace: Workspace;
 
 }
 

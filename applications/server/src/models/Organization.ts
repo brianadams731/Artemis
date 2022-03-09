@@ -1,4 +1,6 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Users } from "./Users";
+import { Workspace } from "./Workspace";
 
 @Entity()
 class Organization extends BaseEntity {
@@ -9,8 +11,8 @@ class Organization extends BaseEntity {
     @Column({unique: true, nullable:false})
     name:string;
 
-    @OneToMany(()=>Members, member => member.organization)
-    members: Members;
+    @OneToMany(()=>Users, user => user.organization)
+    members: Users;
 
     @OneToMany(()=>Workspace, workspace => workspace.organization)
     workspaces: Workspace;

@@ -1,4 +1,6 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, OneToMany } from "typeorm";
+import { Organization } from "./Organization";
+import { Teams } from "./Teams";
 
 
 @Entity()
@@ -10,10 +12,10 @@ class Workspace extends BaseEntity {
     @Column({ unique: true, nullable: false })
     name: string;
 
-    @ManyToOne(() => Organization, organization => organization.Workspace)
+    @ManyToOne(() => Organization, organization => organization.workspaces)
     organization: Organization;
 
-    @OneToMany(() => Teams, teams => teams.Workspace)
+    @OneToMany(() => Teams, teams => teams.workspace)
     teams: Teams;
 }
 
