@@ -1,4 +1,5 @@
 www.thoughtgrove.com:80/about, thoughtgrove.com:80/about {
+	rewrite * /
 	root * /home/brianadams731/csc648-spring22-04-team02/applications/client/teamWebsite/
 	file_server
 }

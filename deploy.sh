@@ -1,5 +1,7 @@
 #!/bin/bash
-
+# This script does not account for changes in dependencies. If dependencies change then
+# you will need to cd into the root of the fronend/backend dir and execute npm install
+# to install any missing dependencies, then execute this script
 git checkout master
 git pull
 caddy reload Caddyfile
