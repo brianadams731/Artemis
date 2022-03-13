@@ -1,5 +1,10 @@
-www.thoughtgrove.com:80, thoughtgrove.com:80 {
+www.thoughtgrove.com:80/about, thoughtgrove.com:80/about {
 	root * /home/brianadams731/csc648-spring22-04-team02/applications/client/teamWebsite/
+	file_server
+}
+
+www.thoughtgrove.com:80, thoughtgrove.com:80 {
+	root * /home/brianadams731/csc648-spring22-04-team02/applications/client/artemis/build/
 	try_files {path} /index.html
 	file_server
 }
