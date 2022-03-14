@@ -5,6 +5,7 @@ import { createConnection } from "typeorm";
 import {connectionConfig} from "./utils/connectionConfig";
 
 import { ticketRoute } from "./routes/ticketRoute"
+import { workspaceRoute } from "./routes/workspaceRoute";
 
 dotenv.config();
 createConnection(connectionConfig);
@@ -13,6 +14,7 @@ const app = express();
 app.use(express.json());
 
 app.use(ticketRoute);
+app.use("/workspace", workspaceRoute);
 
 app.get("/",(req,res)=>{
     return res.send("Test from server");
