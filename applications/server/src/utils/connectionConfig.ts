@@ -14,6 +14,10 @@ const connectionConfig:ConnectionOptions = {
     url: process.env.DATABASE_URL,
     logging: false,
     synchronize: true,
+    migrations:['src/migrations/*.ts'],
+    cli:{
+        migrationsDir: "src/migrations"
+    },
     entities:[
         Board,
         Ticket,
@@ -24,4 +28,4 @@ const connectionConfig:ConnectionOptions = {
     ]
 }
 
-export { connectionConfig };
+export = connectionConfig;

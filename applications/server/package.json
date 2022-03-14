@@ -6,11 +6,19 @@
   "scripts": {
     "test": "jest --verbose",
     "start": "ts-node-dev ./src/app.ts",
+
+    "build": "tsc",
+    "buildNoEmit": "tsc --noEmit",
+
     "start:prod": "tsc && pm2 start ./out/app.js",
     "stop:prod": "pm2 stop app",
     "restart:prod": "pm2 restart app",
-    "build": "tsc",
-    "buildNoEmit": "tsc --noEmit"
+
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js --config src/utils/connectionConfig.ts",
+    "db:create:migration": "npm run typeorm migration:create -- -n",
+    "db:generate":"npm run typeorm migration:generate -- --name",
+    "db:migrate":"npm run typeorm migration:run",
+    "db:rollback":"npm run typeorm migration:revert"
   },
   "repository": {
     "type": "git",

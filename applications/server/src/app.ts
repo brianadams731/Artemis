@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { createConnection } from "typeorm";
 
-import {connectionConfig} from "./utils/connectionConfig";
+import connectionConfig from "./utils/connectionConfig";
 
 import { ticketRoute } from "./routes/ticketRoute"
 import { workspaceRoute } from "./routes/workspaceRoute";
