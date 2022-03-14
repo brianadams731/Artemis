@@ -11,7 +11,7 @@ function App():JSX.Element {
     <div className={styles.wrapper} data-testid="app-wrapper">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Workspace />} />
+          <Route path="/" element={<Workspace id="testDoNotDelete" />} />
           <Route path="login" element={<LogIn />} />
           <Route path="register" element={<Register />} />
         </Routes>

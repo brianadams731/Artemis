@@ -12,7 +12,7 @@ interface IWorkspace {
 const useFetchWorkspaceById = (
     workspaceId: string
 ): {
-    workspace: IWorkspace;
+    workspaceData: IWorkspace;
     isWorkspaceLoading: boolean;
     workspaceHasError: ResError;
     mutateWorkspace: KeyedMutator<IWorkspace>;
@@ -21,9 +21,8 @@ const useFetchWorkspaceById = (
         `${getEndpoint("workspace_by_id")}/${workspaceId}`,
         fetcher
     );
-
     return {
-        workspace: data,
+        workspaceData: data,
         isWorkspaceLoading: !error && !data,
         workspaceHasError: error,
         mutateWorkspace: mutate,
@@ -31,3 +30,4 @@ const useFetchWorkspaceById = (
 };
 
 export { useFetchWorkspaceById };
+export type {IWorkspace};

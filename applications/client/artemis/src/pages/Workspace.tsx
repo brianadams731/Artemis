@@ -1,52 +1,24 @@
-import styles from '../styles/Workspace.module.scss';
-import { DragDropContext, Draggable, DraggableProvided, DraggableStateSnapshot, Droppable, DroppableProvided, DroppableStateSnapshot, DropResult } from "react-beautiful-dnd"
 import { useState } from 'react';
-
+import { DragDropContext, Draggable, DraggableProvided, DraggableStateSnapshot, Droppable, DroppableProvided, DroppableStateSnapshot, DropResult } from "react-beautiful-dnd"
 import { produce } from "immer";
-import { IBoard } from '../interfaces/IBoard';
-import { useFetchWorkspaceById } from '../hooks/swr/useFetchWorkspace';
+import { KeyedMutator } from 'swr';
 
+import { IWorkspace, useFetchWorkspaceById } from '../hooks/swr/useFetchWorkspace';
+import { postDataAsync } from '../utils/postDataAsync';
+import { getEndpoint } from '../utils/apiEndpoints';
 
-const Workspace = (): JSX.Element => {
-    const [boards, setBoards] = useState<IBoard[]>([
-        {
-            id: 'board1',
-            name: "Unassigned",
-            tickets: [
-                {
-                    id: "ticket1",
-                    description: "Ticket 1"
-                },
-                {
-                    id: "ticket2",
-                    description: "Ticket 2"
-                },
-                {
-                    id: "ticket3",
-                    description: "Ticket 3"
-                }
-            ]
-        },
-        {
-            id: 'board2',
-            name: "Person 1",
-            tickets: [
-                {
-                    id: "ticket4",
-                    description: "Ticket 4"
-                },
-                {
-                    id: "ticket5",
-                    description: "Ticket 5"
-                }
-            ]
-        }
-    ])
+import styles from '../styles/Workspace.module.scss';
+import { patchDataAsync } from '../utils/patchDataAsync';
+
+interface Props {
+    id: string;
+}
+
+const Workspace = ({ id }: Props): JSX.Element => {
     const [ticketCount, setTicketCount] = useState<number>(5)
+    const { workspaceData, isWorkspaceLoading, workspaceHasError, mutateWorkspace } = useFetchWorkspaceById(id);
 
-    const { workspace, isWorkspaceLoading, workspaceHasError } = useFetchWorkspaceById("1");
-
-    const dragEnd = (result: DropResult, setBoards: React.Dispatch<React.SetStateAction<IBoard[]>>) => {
+    const dragEnd = async (result: DropResult, mutate: KeyedMutator<IWorkspace>) => {
         const { source, destination } = result;
         if (!destination) {
             return;
@@ -56,39 +28,57 @@ const Workspace = (): JSX.Element => {
 
         const sourceTicketIndex = source.index;
         const destinationTicketIndex = destination.index;
-
-        setBoards(
-            produce(draft => {
-                const sourceBoard = draft.find((board) => board.id === sourceBoardId);
-                const destinationBoard = draft.find((board) => board.id === destinationBoardId)
+        // Mutated cache here, this is now out of sync with the backend!
+        mutate(
+            produce<IWorkspace>((draft) => {
+                const sourceBoard = draft.boards.find((board) => board.id === sourceBoardId);
+                const destinationBoard = draft.boards.find((board) => board.id === destinationBoardId)
                 const moveTicket = sourceBoard?.tickets[sourceTicketIndex];
 
                 sourceBoard?.tickets.splice(sourceTicketIndex, 1);
                 destinationBoard?.tickets.splice(destinationTicketIndex, 0, moveTicket!);
             })
-        )
+            , false)
+        // TODO: Post Request
+        await patchDataAsync(`${getEndpoint("workspace_by_id")}/${id}`, {
+            //TODO: Update workspace here
+        }, false)
+        // TODO: Uncomment when endpoint is created to sync with backend
+        //mutate();        
     }
 
     if (isWorkspaceLoading) {
+        // TODO: Add loading spinner
         return <h1>Loading...</h1>
+    }
+    if (workspaceHasError) {
+        return <h1>Error</h1>
     }
 
     return (
         <div className={styles.wrapper}>
-            <DragDropContext onDragEnd={(result) => dragEnd(result, setBoards)}>
-                {boards.map((board) => (
+            <pre style={{ fontSize: ".6rem" }}>
+                {JSON.stringify(workspaceData, null, 4)}
+            </pre>
+            <DragDropContext onDragEnd={(result) => dragEnd(result, mutateWorkspace)}>
+                {workspaceData.boards.map((board) => (
                     <div key={board.id}>
-                        <div className={styles.addTicket} onClick={() => {
-                            setBoards(
-                                produce(draft => {
-                                    const sourceBoard = draft.find((item) => item.id === board.id);
+                        <div className={styles.addTicket} onClick={async () => {
+                            mutateWorkspace(
+                                produce<IWorkspace>(draft => {
+                                    const sourceBoard = draft.boards.find((item) => item.id === board.id);
                                     sourceBoard?.tickets.push({
                                         id: `ticket${ticketCount + 1}`,
                                         description: `Ticket ${ticketCount + 1}`,
                                     })
                                 })
-                            )
+                                , false)
                             setTicketCount(prev => prev + 1);
+                            await postDataAsync(`${getEndpoint("workspace_by_id")}/${id}`, {
+                                // TODO: Add tickets here
+                            })
+                            //TODO: Uncomment out below to sync with backend
+                            //mutateWorkspace();
                         }}>
                             + Add Ticket
                         </div>
