@@ -5,7 +5,7 @@ interface IEndpoints {
 const base =
     process.env.NODE_ENV === "development"
         ? ""
-        : "http://api.thoughtgrove.com";
+        : "http://www.thoughtgrove.com/api";
 
 const endpoints: IEndpoints = Object.freeze({
     workspace_by_id: `${base}/workspace/byId`, // :id is required

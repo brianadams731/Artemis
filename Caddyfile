@@ -4,11 +4,14 @@ about.thoughtgrove.com:80 {
 }
 
 www.thoughtgrove.com:80, thoughtgrove.com:80 {
-	root * /home/brianadams731/csc648-spring22-04-team02/applications/client/artemis/build/
-	try_files {path} /index.html
-	file_server
-}
+	route /api* {
+		uri strip_prefix /api
+		reverse_proxy 127.0.0.1:8080
+	}
 
-api.thoughtgrove.com:80 {
-	reverse_proxy 127.0.0.1:8080
+	route {
+		root * /home/brianadams731/csc648-spring22-04-team02/applications/client/artemis/build/
+		try_files {path} /index.html
+		file_server
+	}
 }

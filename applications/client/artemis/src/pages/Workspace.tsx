@@ -52,6 +52,7 @@ const Workspace = ({ id }: Props): JSX.Element => {
         return <h1>Loading...</h1>
     }
     if (workspaceHasError) {
+	console.log(workspaceHasError);
         return <h1>Error</h1>
     }
 
