@@ -27,7 +27,6 @@ boardRouter.post("/add", async(req,res)=>{
 
 boardRouter.get("/get-all-debug", async(req, res) => {
     const query = await getRepository(Board).createQueryBuilder("board")
-    .select(["board.name"])
     .leftJoinAndSelect("board.tickets","ticket")
     .getMany();
 
