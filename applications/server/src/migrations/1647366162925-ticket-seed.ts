@@ -5,7 +5,6 @@ import { Ticket } from "../models/Ticket";
 export class ticketSeed1647366162925 implements MigrationInterface {
     // this is a migration example if you want to use the TypeORM syntax
     public async up(queryRunner: QueryRunner): Promise<void> {
-        queryRunner.connect();
         const board = await Board.findOne(1,{
             relations:["tickets"]
         });
@@ -15,6 +14,7 @@ export class ticketSeed1647366162925 implements MigrationInterface {
             ticket.description = "test";
             board?.tickets.push(ticket);
         }
+        console.log(JSON.stringify(board,null,4));
         await board?.save();
     }
 
