@@ -1,4 +1,4 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, OneToMany } from "typeorm";
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, OneToMany, JoinColumn } from "typeorm";
 import { Ticket } from "./Ticket";
 import { Workspace } from "./Workspace";
 
@@ -11,8 +11,10 @@ class Board extends BaseEntity{
     @Column({nullable:false})
     name: string;
 
-    @OneToMany(()=>Ticket, ticket => ticket.board)
-    tickets: Ticket;
+    @OneToMany(()=>Ticket, ticket => ticket.board,{
+        cascade:["insert"],
+    })
+    tickets: Ticket[];
 
     @ManyToOne(()=>Workspace, workspace => workspace.boards)
     workspace: Workspace;

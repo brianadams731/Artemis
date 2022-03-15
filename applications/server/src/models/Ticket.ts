@@ -20,8 +20,7 @@ class Ticket extends BaseEntity{
     closeDate: string;
 
     @ManyToOne(()=> Board, board => board.tickets, {
-        eager: true,
-        onDelete:"CASCADE"
+        onDelete:"CASCADE",
     })
     board: Board;
 }

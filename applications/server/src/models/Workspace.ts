@@ -19,7 +19,7 @@ class Workspace extends BaseEntity {
     boards: Board;
 
     @OneToMany(() => Team, team => team.workspace)
-    teams: Team;
+    teams: Team[];
 }
 
 export { Workspace };

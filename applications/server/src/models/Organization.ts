@@ -8,10 +8,10 @@ class Organization extends BaseEntity {
     name: string;
 
     @OneToMany(()=>User, user => user.organization)
-    members: User;
+    members: User[];
 
     @OneToMany(()=>Workspace, workspace => workspace.organization)
-    workspaces: Workspace;
+    workspaces: Workspace[];
 }
 
 export { Organization };

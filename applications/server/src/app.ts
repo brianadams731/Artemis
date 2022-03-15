@@ -6,7 +6,7 @@ import connectionConfig from "./utils/connectionConfig";
 
 import { ticketRoute } from "./routes/ticketRoute";
 import { workspaceRoute } from "./routes/workspaceRoute";
-import { boardRouter } from "./routes/boardRotute";
+import { boardRouter } from "./routes/boardRoute";
 
 dotenv.config();
 createConnection(connectionConfig);

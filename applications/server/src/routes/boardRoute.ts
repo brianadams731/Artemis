@@ -4,22 +4,34 @@ import { Board } from "../models/Board";
 
 const boardRouter = express.Router();
 
-boardRouter.get("/get-all-debug", async(req, res) => {
-    const query = await getRepository(Board).createQueryBuilder("board")
-    .select(["board.name"])
-    .getMany()
-
-    return res.status(200).json(query);
-});
-
-boardRouter.get("/search/byDescription/:name",async(req,res)=>{
+boardRouter.get("/search/byName/:name",async(req,res)=>{
     const name = req.params.name;
     const query = await getRepository(Board).createQueryBuilder("board")
-    .select(["board.name"])
     .where("board.name like :name", { name:`%${name}%` })
-    .getMany()
+    .leftJoinAndSelect("board.tickets","ticket")
+    .getMany();
 
     return res.status(200).json(query);
 })
+
+boardRouter.post("/add", async(req,res)=>{
+    interface BoardRequest{
+        name: string;
+    }
+    const board = new Board();
+    board.name = req.body.name;
+    await board.save();
+
+    return res.status(201).json(board);
+})
+
+boardRouter.get("/get-all-debug", async(req, res) => {
+    const query = await getRepository(Board).createQueryBuilder("board")
+    .select(["board.name"])
+    .leftJoinAndSelect("board.tickets","ticket")
+    .getMany();
+
+    return res.status(200).json(query);
+});
 
 export { boardRouter };
