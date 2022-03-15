@@ -11,7 +11,7 @@ import styles from '../styles/Workspace.module.scss';
 import { patchDataAsync } from '../utils/patchDataAsync';
 
 interface Props {
-    id: string;
+    id: string; 
 }
 
 const Workspace = ({ id }: Props): JSX.Element => {
