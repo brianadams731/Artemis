@@ -11,6 +11,8 @@ const endpoints: IEndpoints = Object.freeze({
     workspace_by_id: `${base}/workspace/byId`, // :id is required
     ticket_by_id: `${base}/ticket/byId`, //:ticketId is required
     all_user_workspaces: `${base}/workspace/byUser`, // :userId is required
+    board_get_all_debug: `${base}/board/get-all-debug`,
+    board_search_by_name: `${base}/board/search/byName/`, // :boardName is required
 });
 
 const getEndpoint = (endpoint: string): string | undefined => {

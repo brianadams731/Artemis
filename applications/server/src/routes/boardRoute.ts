@@ -7,7 +7,7 @@ const boardRouter = express.Router();
 boardRouter.get("/search/byName/:name",async(req,res)=>{
     const name = req.params.name;
     const query = await getRepository(Board).createQueryBuilder("board")
-    .where("board.name like :name", { name:`%${name}%` })
+    .where("LOWER(board.name) like LOWER(:name)", { name:`%${name}%` })
     .leftJoinAndSelect("board.tickets","ticket")
     .getMany();
 

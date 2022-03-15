@@ -9,7 +9,7 @@ ticketRoute.get("/search/byDescription/:description",async(req,res)=>{
     const description = req.params.description;
     const query = await getRepository(Ticket).createQueryBuilder("ticket")
     .select(["ticket.description", "ticket.comment"])
-    .where("ticket.description like :desc", { desc:`%${description}%` })
+    .where("LOWER(ticket.description) like LOWER(:desc)", { desc:`%${description}%` })
     .getMany()
 
     return res.status(200).json(query);
