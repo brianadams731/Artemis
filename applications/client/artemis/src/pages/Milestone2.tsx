@@ -35,7 +35,7 @@ const Milestone2 = (): JSX.Element => {
                 e.preventDefault();
                 searchBox !== "" ?
                     (async () => {
-                        const res = await fetch(`${getEndpoint("board_search_by_name")}/${searchBox}`)
+                        const res = await fetch(`${getEndpoint("board_search_by_name")}${searchBox}`)
                         const parsedRes = await res.json();
                         setBoard(parsedRes);
                     })() :
