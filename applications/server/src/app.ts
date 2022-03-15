@@ -4,8 +4,9 @@ import { createConnection } from "typeorm";
 
 import connectionConfig from "./utils/connectionConfig";
 
-import { ticketRoute } from "./routes/ticketRoute"
+import { ticketRoute } from "./routes/ticketRoute";
 import { workspaceRoute } from "./routes/workspaceRoute";
+import { boardRouter } from "./routes/boardRotute";
 
 dotenv.config();
 createConnection(connectionConfig);
@@ -15,11 +16,12 @@ app.use(express.json());
 
 app.use("/ticket", ticketRoute);
 app.use("/workspace", workspaceRoute);
+app.use("/board", boardRouter);
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
     return res.send("Test from server");
-})
+});
 
-app.listen(process.env.PORT||"8080",()=>{
-    console.log(`Server running at http://localhost:${process.env.PORT||"8080"}/`);
-})
+app.listen(process.env.PORT || "8080", () => {
+    console.log(`Server running at http://localhost:${process.env.PORT || "8080"}/`);
+});
