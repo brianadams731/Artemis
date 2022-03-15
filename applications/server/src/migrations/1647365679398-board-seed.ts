@@ -9,7 +9,7 @@ export class boardSeed1647365679398 implements MigrationInterface {
         await board.save();
         
         const board1 = new Board();
-        board.name = "test";
+        board1.name = "test";
         await board1.save();    
     }
 
