@@ -4,7 +4,7 @@ interface IEndpoints {
 
 const base =
     process.env.NODE_ENV === "development"
-        ? ""
+        ? "/api"
         : "http://www.thoughtgrove.com/api";
 
 const endpoints: IEndpoints = Object.freeze({
