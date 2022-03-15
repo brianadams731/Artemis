@@ -13,7 +13,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use(ticketRoute);
+app.use("/ticket", ticketRoute);
 app.use("/workspace", workspaceRoute);
 
 app.get("/",(req,res)=>{
