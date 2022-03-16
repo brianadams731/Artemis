@@ -8,6 +8,7 @@ const base =
         : "http://www.thoughtgrove.com/api";
 
 const endpoints: IEndpoints = Object.freeze({
+    workspace_debug: `${base}/workspace/debug`,
     workspace_by_id: `${base}/workspace/byId`, // :id is required
     ticket_by_id: `${base}/ticket/byId`, //:ticketId is required
     all_user_workspaces: `${base}/workspace/byUser`, // :userId is required

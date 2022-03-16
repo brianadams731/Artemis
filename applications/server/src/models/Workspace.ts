@@ -6,8 +6,8 @@ import { Team } from "./Team";
 
 @Entity()
 class Workspace extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn("uuid")
+    id: string;
 
     @Column({nullable: false})
     name: string;
@@ -15,8 +15,10 @@ class Workspace extends BaseEntity {
     @ManyToOne(() => Organization, organization => organization.workspaces)
     organization: Organization;
 
-    @OneToMany(()=>Board, boards => boards.workspace)
-    boards: Board;
+    @OneToMany(()=>Board, boards => boards.workspace,{
+        cascade:["update","insert"]
+    })
+    boards: Board[];
 
     @OneToMany(() => Team, team => team.workspace)
     teams: Team[];
