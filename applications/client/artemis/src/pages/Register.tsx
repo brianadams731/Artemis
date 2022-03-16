@@ -22,10 +22,8 @@ const Register = ():JSX.Element =>{
                 <div className="submit-container">
                     <button>Register</button>
                 </div>
-
-
-
             </div>
+            <footer>already joined? login</footer>
         </div>
     )
 }

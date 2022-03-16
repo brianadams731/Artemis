@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getEndpoint } from "../utils/apiEndpoints";
+// import m2 from "../styles/Milestone2CSS";
 
 const Milestone2 = (): JSX.Element => {
     interface Ticket {
@@ -29,7 +30,7 @@ const Milestone2 = (): JSX.Element => {
 
     return (
         <main>
-            <Link to="/workspace">Click to View Work Space Example</Link>
+            <Link  to="/workspace">Click to View Work Space Example</Link>
 
             <form onSubmit={(e) => {
                 e.preventDefault();
@@ -45,13 +46,12 @@ const Milestone2 = (): JSX.Element => {
                         setBoard(parsedRes);
                     })();
             }}>
-                <input type="text" value={searchBox} onChange={(e) => {
+                <input  type="text" value={searchBox} onChange={(e) => {
                     setSearchBox(e.target.value);
                 }} />
                 <button type="submit">Search</button>
             </form>
-
-            <pre style={{ fontSize: ".7rem" }}>
+            <pre>
                 {JSON.stringify(board, null, 2)}
             </pre>
         </main>

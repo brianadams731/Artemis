@@ -1,0 +1,49 @@
+.form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+
+/* const formStyle = {
+
+    link: {
+        position: "fixed",
+        left: "50%",
+        transform: "translate(-50%, -30%)",
+        padding: "5px",
+        width: "100%",
+    },
+
+    form: {
+        position: "fixed",
+        left: "50%",
+        transform: "translate(-50%, 30%)",
+        padding: "5px"
+    },
+
+    button: {
+        position: "fixed",
+        left: "50%",
+        transform: "translate(-50%, 30%)",
+        padding: "5px"
+    },
+
+    board: {
+        position: "fixed",
+        left: "50%",
+        transform: "translate(-40%)",
+        fontSize: ".7rem",
+        padding: "50px"
+    },
+
+    input: {
+        position: "relative",
+        // backgroundColor: "#34eb3a",
+        // border: 
+    },
+
+
+
+} as const; */
