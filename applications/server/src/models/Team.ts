@@ -4,8 +4,8 @@ import { Workspace } from "./Workspace";
 
 @Entity()
 class Team extends BaseEntity{
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn("uuid")
+    id: string;
 
     @Column({nullable:false})
     name: string;

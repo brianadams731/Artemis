@@ -1,4 +1,6 @@
 import express from "express";
+import { getRepository } from "typeorm";
+import { Workspace } from "../models/Workspace";
 
 const workspaceRoute = express.Router();
 // This interface needs to be returned in the get method
@@ -17,7 +19,17 @@ interface ITicket {
     id: string;
     description: string;
 }
-
+workspaceRoute.get('/debug',async(req,res)=>{
+    const query = await getRepository(Workspace).createQueryBuilder('workspace')
+    .select(["workspace.id","workspace.name"])
+    .leftJoinAndSelect("workspace.boards","boards")
+    .leftJoinAndSelect("boards.tickets","tickets")
+    .where("workspace.name='Artemis Backend'")
+    .getOne();
+    console.log(query);
+    
+    return res.status(200).json(query);
+})
 workspaceRoute.get("/byId/:workspaceId", (req, res) => {
     // Do not delete test included below until an a valid response is provided
     console.log(req.params.workspaceId);

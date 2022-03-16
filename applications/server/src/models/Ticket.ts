@@ -4,8 +4,8 @@ import { Board } from "./Board";
 
 @Entity()
 class Ticket extends BaseEntity{
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn("uuid")
+    id: string;
 
     @Column({nullable:false})
     description: string;

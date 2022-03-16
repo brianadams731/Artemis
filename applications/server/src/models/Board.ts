@@ -5,8 +5,8 @@ import { Workspace } from "./Workspace";
 
 @Entity()
 class Board extends BaseEntity{
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn("uuid")
+    id: string;
 
     @Column({nullable:false})
     name: string;
@@ -16,7 +16,9 @@ class Board extends BaseEntity{
     })
     tickets: Ticket[];
 
-    @ManyToOne(()=>Workspace, workspace => workspace.boards)
+    @ManyToOne(()=>Workspace, workspace => workspace.boards,{
+        onDelete:"CASCADE"
+    })
     workspace: Workspace;
 }
 
