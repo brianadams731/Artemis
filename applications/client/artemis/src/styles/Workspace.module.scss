@@ -1,5 +1,5 @@
 .wrapper{
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     gap: 35px;
     display: flex;
@@ -7,21 +7,41 @@
     justify-content: center;
 }
 
-.addTicket{
-    padding: 5px 5px;
-    width: fit-content;
-    &:hover{
-        cursor: pointer;
+.boardHead{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    padding: 0px 20px;
+    h2{
+        font-weight: 600;
+    }
+    &::after{
+        content: "";
+        width: 25px;
     }
 }
-.board{
-    h2{
-        text-align: center;
-        margin-bottom: 10px;
-    }
+
+.addTicket{
+    height: 25px;
+    width: 25px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    
+    border: 1px solid rgba(var(--c-main-gray-open), 0.9);
+    border-radius: 5px;
+
+    background-color: white;
+    color: var(--c-main-gray);
+}
+
+.board {
     padding: 15px 15px;
-    background-color: rgba(196, 196, 196, 0.72);
-    border-radius: 25px;
+    background-color: rgba(var(--c-main-gray-open), 0.72);
+    border-radius: var(--border-radius-main);
     width: 300px;
     height: 85vh;
     overflow: auto;
@@ -31,11 +51,18 @@
 
 .ticket {
     padding: 15px 0px;
-    border-radius: 15px;
+    border-radius: var(--border-radius-low);
     background-color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 10px;
     user-select: none;
+
+    &:hover{
+        cursor: pointer;    
+    }
+    &:active{
+        cursor: grabbing;
+    }
 }

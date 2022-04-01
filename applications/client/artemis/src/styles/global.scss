@@ -2,6 +2,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
+  
 }
 
 :root{
@@ -19,6 +21,12 @@
 
   --font-header: 'Inter', sans-serif;
   --font-body: 'Open Sans', sans-serif;
+
+  --c-main-gray-open: 196, 196, 196;
+  --c-main-gray: rgb(196,196,196);
+
+  --border-radius-main: 25px;
+  --border-radius-low: 15px;
 }
 
 body {
@@ -47,4 +55,21 @@ a:visited{
 
 ul{
   list-style-type: none;
+}
+
+button{
+  border: none;
+  padding: 10px 25px;
+  border-radius: 5px;
+  transition: all .15s ease-in-out;
+
+  font-family: var(--font-header);
+  font-size: var(--fs-standard);
+  &:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+  &:active{
+    transform: scale(.98);
+  }
 }

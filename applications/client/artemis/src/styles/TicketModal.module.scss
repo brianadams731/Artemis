@@ -1,0 +1,45 @@
+.wrapper{
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left:0;
+    top:0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0,0,0,.6);
+}
+
+.modalWrapper{
+    padding: 35px;
+    background-color: white;
+    border-radius: var(--border-radius-low);
+
+    form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 15px
+    }
+
+    label{
+        font-family: var(--font-header);
+    }
+
+    input, textarea{
+        width: 300px;
+        border-radius: 15px;
+        padding: 5px 10px;
+        display: block;
+
+        font-size: var(--fs-standard);
+        font-family: var(--font-body);
+    
+        border: 1px solid var(--c-main-gray);
+    }
+
+    textarea{
+        height: 100px;
+    }
+}

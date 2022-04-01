@@ -9,13 +9,19 @@ import { getEndpoint } from '../utils/apiEndpoints';
 
 import styles from '../styles/Workspace.module.scss';
 import { patchDataAsync } from '../utils/patchDataAsync';
+import { TicketModal } from '../components/TicketModal';
+import { TicketModalState } from '../interfaces/TicketModalState';
+import { AnimatePresence } from 'framer-motion';
 
 interface Props {
     id: string;
 }
 
+
 const Workspace = ({ id }: Props): JSX.Element => {
     const [ticketCount, setTicketCount] = useState<number>(5)
+
+    const [ticketModalState, setTicketModalState] = useState<TicketModalState>({ state: "closed" });
     const { workspaceData, isWorkspaceLoading, workspaceHasError, mutateWorkspace } = useFetchWorkspaceById(id);
 
     const dragEnd = async (result: DropResult, mutate: KeyedMutator<IWorkspace>) => {
@@ -57,42 +63,57 @@ const Workspace = ({ id }: Props): JSX.Element => {
     }
 
     return (
-        <>
-            <h1 style={{textAlign:"center"}}>Drag The Tickets Around</h1>
+        <div className={styles.outerWrap}>
+            <AnimatePresence>
+                {ticketModalState.state === "edit" && <TicketModal id={ticketModalState.id} title={ticketModalState.title} description={ticketModalState.description} closeModal={() => setTicketModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace} />}
+                {ticketModalState.state === "new" && <TicketModal boardId={ticketModalState.boardId} closeModal={() => setTicketModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace} /> }
+            </AnimatePresence>
+
             <div className={styles.wrapper}>
-                <pre style={{ fontSize: ".6rem" }}>
-                    {JSON.stringify(workspaceData, null, 4)}
-                </pre>
                 <DragDropContext onDragEnd={(result) => dragEnd(result, mutateWorkspace)}>
                     {workspaceData.boards.map((board) => (
                         <div key={board.id}>
-                            <div className={styles.addTicket} onClick={async () => {
-                                mutateWorkspace(
-                                    produce<IWorkspace>(draft => {
-                                        const sourceBoard = draft.boards.find((item) => item.id === board.id);
-                                        sourceBoard?.tickets.push({
-                                            id: `ticket${ticketCount + 1}`,
-                                            description: `Ticket ${ticketCount + 1}`,
+                            <div className={styles.boardHead}>
+                                <button className={styles.addTicket} onClick={async () => {
+                                    setTicketModalState({
+                                        state: "new",
+                                        boardId: board.id
+                                    });
+                                    
+                                    // mutation will happen inside modal, remove this once endpoint is hooked up
+                                    mutateWorkspace(
+                                        produce<IWorkspace>(draft => {
+                                            const sourceBoard = draft.boards.find((item) => item.id === board.id);
+                                            sourceBoard?.tickets.push({
+                                                id: `ticket${ticketCount + 1}`,
+                                                description: `Ticket ${ticketCount + 1}`,
+                                            })
                                         })
+                                        , false)
+                                    setTicketCount(prev => prev + 1);
+                                    await postDataAsync(`${getEndpoint("workspace_by_id")}/${id}`, {
+                                        // TODO: Add tickets here
                                     })
-                                    , false)
-                                setTicketCount(prev => prev + 1);
-                                await postDataAsync(`${getEndpoint("workspace_by_id")}/${id}`, {
-                                    // TODO: Add tickets here
-                                })
-                                //TODO: Uncomment out below to sync with backend
-                                //mutateWorkspace();
-                            }}>
-                                + Add Ticket
+                                    //TODO: Uncomment out below to sync with backend
+                                }}>
+                                    +
+                                </button>
+                                <h2>{board.name}</h2>
                             </div>
                             <Droppable droppableId={board.id}>
                                 {(provided: DroppableProvided, snapshot: DroppableStateSnapshot) => (
                                     <div ref={provided.innerRef} {...provided.droppableProps} className={styles.board} style={snapshot.isDraggingOver ? { backgroundColor: '#00F0FF' } : {}}>
-                                        <h2>{board.name}</h2>
                                         {board.tickets.map((ticket, index) => (
                                             <Draggable draggableId={ticket.id} index={index} key={ticket.id}>
                                                 {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
-                                                    <div ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps} className={styles.ticket} style={{ ...provided.draggableProps.style }}>
+                                                    <div ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps} className={styles.ticket} style={{ ...provided.draggableProps.style }} onClick={() => {
+                                                        setTicketModalState({
+                                                            state: "edit",
+                                                            id: ticket.id,
+                                                            title: ticket.description,
+                                                            description: ticket.description,
+                                                        });
+                                                    }}>
                                                         {ticket.description}
                                                     </div>
                                                 )}
@@ -106,7 +127,7 @@ const Workspace = ({ id }: Props): JSX.Element => {
                     ))}
                 </DragDropContext>
             </div>
-        </>
+        </div>
     )
 }
 
