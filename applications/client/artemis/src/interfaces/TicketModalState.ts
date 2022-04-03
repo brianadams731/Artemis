@@ -1,8 +1,9 @@
 interface TicketModelEdit {
     state: "edit";
-    title: string;
-    description: string;
     id: string;
+    boardId: string;
+    description: string;
+    comment: string;
 }
 
 interface TicketModalNew {

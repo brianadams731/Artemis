@@ -4,7 +4,6 @@ import { produce } from "immer";
 import { KeyedMutator } from 'swr';
 
 import { IWorkspace, useFetchWorkspaceById } from '../hooks/swr/useFetchWorkspace';
-import { postDataAsync } from '../utils/postDataAsync';
 import { getEndpoint } from '../utils/apiEndpoints';
 
 import styles from '../styles/Workspace.module.scss';
@@ -17,7 +16,6 @@ import { useParams } from 'react-router-dom';
 
 const Workspace = (): JSX.Element => {
     const { id } = useParams();
-    const [ticketCount, setTicketCount] = useState<number>(5)
 
     const [ticketModalState, setTicketModalState] = useState<TicketModalState>({ state: "closed" });
     const { workspaceData, isWorkspaceLoading, workspaceHasError, mutateWorkspace } = useFetchWorkspaceById(id!);
@@ -63,8 +61,8 @@ const Workspace = (): JSX.Element => {
     return (
         <div className={styles.outerWrap}>
             <AnimatePresence>
-                {ticketModalState.state === "edit" && <TicketModal id={ticketModalState.id} title={ticketModalState.title} description={ticketModalState.description} closeModal={() => setTicketModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace} />}
-                {ticketModalState.state === "new" && <TicketModal boardId={ticketModalState.boardId} closeModal={() => setTicketModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace} />}
+                {ticketModalState.state === "edit" && <TicketModal state={ticketModalState.state} id={ticketModalState.id} boardId={ticketModalState.boardId} description={ticketModalState.description} comment={ticketModalState.comment} closeModal={() => setTicketModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace} />}
+                {ticketModalState.state === "new" && <TicketModal state={ticketModalState.state} boardId={ticketModalState.boardId} closeModal={() => setTicketModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace} />}
             </AnimatePresence>
 
             <div className={styles.wrapper}>
@@ -77,24 +75,10 @@ const Workspace = (): JSX.Element => {
                                         state: "new",
                                         boardId: board.id
                                     });
-
-                                    // mutation will happen inside modal, remove this once endpoint is hooked up
-                                    mutateWorkspace(
-                                        produce<IWorkspace>(draft => {
-                                            const sourceBoard = draft.boards.find((item) => item.id === board.id);
-                                            sourceBoard?.tickets.push({
-                                                id: `ticket${ticketCount + 1}`,
-                                                description: `Ticket ${ticketCount + 1}`,
-                                            })
-                                        })
-                                        , false)
-                                    setTicketCount(prev => prev + 1);
-                                    await postDataAsync(`${getEndpoint("workspace_by_id")}/${id}`, {
-                                        // TODO: Add tickets here
-                                    })
-                                    //TODO: Uncomment out below to sync with backend
                                 }}>
-                                    +
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="75%">
+                                        <path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"/>
+                                    </svg>
                                 </button>
                                 <h2>{board.name}</h2>
                             </div>
@@ -108,8 +92,9 @@ const Workspace = (): JSX.Element => {
                                                         setTicketModalState({
                                                             state: "edit",
                                                             id: ticket.id,
-                                                            title: ticket.description,
+                                                            boardId: board.id,
                                                             description: ticket.description,
+                                                            comment: ticket.comment,
                                                         });
                                                     }}>
                                                         {ticket.description}

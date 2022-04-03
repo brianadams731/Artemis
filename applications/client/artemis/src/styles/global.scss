@@ -2,8 +2,12 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
 
-  
+html{
+  /*This is to fix scroll bar jump, overflow overlay only works in chrome*/
+  overflow: overlay;
+  margin-left: calc(100vw - 100%);
 }
 
 :root{
