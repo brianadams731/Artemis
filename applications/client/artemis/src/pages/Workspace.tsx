@@ -12,17 +12,15 @@ import { patchDataAsync } from '../utils/patchDataAsync';
 import { TicketModal } from '../components/TicketModal';
 import { TicketModalState } from '../interfaces/TicketModalState';
 import { AnimatePresence } from 'framer-motion';
-
-interface Props {
-    id: string;
-}
+import { useParams } from 'react-router-dom';
 
 
-const Workspace = ({ id }: Props): JSX.Element => {
+const Workspace = (): JSX.Element => {
+    const { id } = useParams();
     const [ticketCount, setTicketCount] = useState<number>(5)
 
     const [ticketModalState, setTicketModalState] = useState<TicketModalState>({ state: "closed" });
-    const { workspaceData, isWorkspaceLoading, workspaceHasError, mutateWorkspace } = useFetchWorkspaceById(id);
+    const { workspaceData, isWorkspaceLoading, workspaceHasError, mutateWorkspace } = useFetchWorkspaceById(id!);
 
     const dragEnd = async (result: DropResult, mutate: KeyedMutator<IWorkspace>) => {
         const { source, destination } = result;
@@ -66,7 +64,7 @@ const Workspace = ({ id }: Props): JSX.Element => {
         <div className={styles.outerWrap}>
             <AnimatePresence>
                 {ticketModalState.state === "edit" && <TicketModal id={ticketModalState.id} title={ticketModalState.title} description={ticketModalState.description} closeModal={() => setTicketModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace} />}
-                {ticketModalState.state === "new" && <TicketModal boardId={ticketModalState.boardId} closeModal={() => setTicketModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace} /> }
+                {ticketModalState.state === "new" && <TicketModal boardId={ticketModalState.boardId} closeModal={() => setTicketModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace} />}
             </AnimatePresence>
 
             <div className={styles.wrapper}>
@@ -79,7 +77,7 @@ const Workspace = ({ id }: Props): JSX.Element => {
                                         state: "new",
                                         boardId: board.id
                                     });
-                                    
+
                                     // mutation will happen inside modal, remove this once endpoint is hooked up
                                     mutateWorkspace(
                                         produce<IWorkspace>(draft => {
