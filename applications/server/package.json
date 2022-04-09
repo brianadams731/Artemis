@@ -6,19 +6,16 @@
   "scripts": {
     "test": "jest --verbose",
     "start": "ts-node-dev ./src/app.ts",
-
     "build": "tsc",
     "buildNoEmit": "tsc --noEmit",
-
     "start:prod": "tsc && pm2 start ./out/app.js",
     "stop:prod": "pm2 stop app",
     "restart:prod": "pm2 restart app",
-
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js --config src/utils/connectionConfig.ts",
     "db:create:migration": "npm run typeorm migration:create -- -n",
-    "db:generate":"npm run typeorm migration:generate -- --name",
-    "db:migrate":"npm run typeorm migration:run",
-    "db:rollback":"npm run typeorm migration:revert"
+    "db:generate": "npm run typeorm migration:generate -- --name",
+    "db:migrate": "npm run typeorm migration:run",
+    "db:rollback": "npm run typeorm migration:revert"
   },
   "repository": {
     "type": "git",
@@ -35,6 +32,7 @@
     "@types/express-session": "^1.17.4",
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.21",
+    "@types/uuid": "^8.3.4",
     "dotenv": "^16.0.0",
     "jest": "^27.5.1",
     "ts-jest": "^27.1.3",
