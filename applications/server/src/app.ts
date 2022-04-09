@@ -17,11 +17,13 @@ const app = express();
 
 app.use(express.json());
 
+app.use(session(sessionConfig));
+
 app.use("/ticket", ticketRoute);
 app.use("/workspace", workspaceRoute);
 app.use("/board", boardRouter);
 
-app.use(session(sessionConfig));
+
 
 app.get("/", (req, res) => {
     return res.send("Test from server");
