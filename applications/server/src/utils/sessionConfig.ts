@@ -21,5 +21,4 @@ const sessionConfig: SessionOptions  = {
     },
 }
 
-
-export {sessionConfig};
+export { sessionConfig };
