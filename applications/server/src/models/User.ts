@@ -12,6 +12,9 @@ class User extends BaseEntity{
     @Column()
     password: string;
 
+    @Column({unique:true})
+    email: string;
+
     @ManyToOne(()=>Organization, (organization) => organization.members)
     organization:Organization;
     
