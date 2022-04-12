@@ -15,7 +15,7 @@ registerRouter.post("/", async (req,res)=>{
         res.status(500).send("Error: User exists")
     });
     
-    req.session.userId = user!.id;
+   // req.session.userId =user!.id;
     res.redirect("/");
 })
 
