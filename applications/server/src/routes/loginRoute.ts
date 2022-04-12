@@ -4,7 +4,7 @@ import { checkHashedPasswordAsync } from "../utils/passwordHash";
 
 const loginRouter = express.Router();
 
-loginRouter.route("/login")
+loginRouter.route("/")
     .post(async(req,res) =>{
         const loginCred = req.body;
         const user = await User.findOne({

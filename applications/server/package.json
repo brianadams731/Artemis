@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/CSC-648-SFSU/csc648-spring22-04-team02#readme",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.13",
     "@types/express-session": "^1.17.4",
     "@types/jest": "^27.4.1",
@@ -40,6 +41,7 @@
     "typescript": "^4.6.2"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "express": "^4.17.3",
     "express-session": "^1.17.2",
     "pg": "^8.7.3",
