@@ -10,6 +10,7 @@ import { ticketRoute } from "./routes/ticketRoute";
 import { workspaceRoute } from "./routes/workspaceRoute";
 import { boardRouter } from "./routes/boardRoute";
 import { loginRouter } from "./routes/loginRoute";
+import { registerRouter } from "./routes/registerRoute";
 import { logoutRouter } from "./routes/logoutRoute";
 
 
@@ -21,6 +22,8 @@ app.use(session(sessionConfig));
 app.use(express.json());
 
 
+app.use("/register",registerRouter)
+app.use("/logout",logoutRouter)
 app.use("/login", loginRouter);
 app.use("/logout", logoutRouter);
 app.use("/ticket", ticketRoute);
