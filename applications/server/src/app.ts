@@ -10,6 +10,8 @@ import { ticketRoute } from "./routes/ticketRoute";
 import { workspaceRoute } from "./routes/workspaceRoute";
 import { boardRouter } from "./routes/boardRoute";
 import { loginRouter } from "./routes/loginRoute";
+import { registerRouter } from "./routes/registerRoute";
+import { logoutRouter } from "./routes/logoutRoute";
 
 
 dotenv.config();
@@ -20,6 +22,8 @@ app.use(express.json());
 
 app.use(session(sessionConfig));
 
+app.use("/register",registerRouter)
+app.use("/logout",logoutRouter)
 app.use("/login", loginRouter);
 app.use("/ticket", ticketRoute);
 app.use("/workspace", workspaceRoute);
