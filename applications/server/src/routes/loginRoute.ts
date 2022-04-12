@@ -4,26 +4,34 @@ import { checkHashedPasswordAsync } from "../utils/passwordHash";
 
 const loginRouter = express.Router();
 
-loginRouter.route("/")
-    .post(async(req,res) =>{
-        const loginCred = req.body;
-        const user = await User.findOne({
-            select:["email","password","id"],
-            where:{email:loginCred.email}
-        });
-        // Checking for user ahead to save hashing against an invalid user
-        if(!user){
-            return res.status(401).send("Error: Invalid Credentials")
-        }
+loginRouter.post("/", async (req, res) => {
+    const loginCred = req.body;
+    const user = await User.findOne({
+        select: ["email", "password", "id"],
+        where: { email: loginCred.email },
+    });
+    // Checking for user ahead to save hashing against an invalid user
+    if (!user) {
+        return res.status(401).send("Error: Invalid Credentials");
+    }
 
-        const isValidPassword = await checkHashedPasswordAsync(loginCred.password, user.password);
-        
-        if(!isValidPassword){
-            return res.status(401).send("Error: Invalid Credentials")
-        }else{
-            req.session.id = user!.id;
-            return res.status(200).send("Good");
-        }
-    })
+    const isValidPassword = await checkHashedPasswordAsync(loginCred.password, user.password);
+    console.log(isValidPassword);
+    if (!isValidPassword) {
+        return res.status(401).send("Error: Invalid Credentials");
+    } else {
+        req.session.userId = user!.id;
+        return res.status(200).send("User: Logged In");
+    }
+});
 
-export {loginRouter};
+loginRouter.get("/test", async (req, res)=>{
+    console.log(req.session.userId);
+    if(!req.session.userId){
+        return res.status(401).send("Error: Not Logged In");
+    }
+    const user = await User.findOne(req.session.userId);
+    return res.status(200).json(user);
+})
+
+export { loginRouter };
