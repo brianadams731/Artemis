@@ -12,7 +12,7 @@ dotenv.config();
 
 const sessionConfig: SessionOptions  = {
     name: "userSession",
-    secret: process.env.COOKIE_SECRET as string,
+    secret: "cookieSecret",
     resave: false,
     saveUninitialized: false,
     store: new MemoryStore,
