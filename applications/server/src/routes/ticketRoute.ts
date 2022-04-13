@@ -1,5 +1,5 @@
 import express from "express";
-import { getRepository } from "typeorm";
+import { getRepository, useContainer } from "typeorm";
 import { requireWithUserAsync } from "../middleware/requireWithUserAsync";
 import { Board } from "../models/Board";
 import { Ticket } from "../models/Ticket";
@@ -42,6 +42,29 @@ ticketRoute.get("/get-all-tickets-debug", async (req, res) => {
         .getMany();
 
     return res.status(200).json(query);
+});
+
+ticketRoute.put("/:ticketId/:ticketComment/:ticketDescription", requireWithUserAsync, async (req, res) => {
+    const ticketId = req.params.ticketId;
+    const ticketComment = req.params.ticketComment;
+    const ticketDescription = req.params.ticketDescription;
+    if (!ticketId) {
+        return res.status(500).send("Error: Please include Ticket ID");
+    }
+    const ticket = await Ticket.findOne(ticketId);
+    if (!ticket) {
+        return res.status(500).send("Error: No such a ticket ID");
+    }
+    if(ticketComment || ticketComment === "")
+    {
+        ticket.comment=ticketComment;
+    }
+    if(ticketDescription)
+    {
+        ticket.description=ticketDescription;
+    }
+    await ticket.save();
+
 });
 
 ticketRoute.delete("/:ticketId", requireWithUserAsync, async (req, res) => {
