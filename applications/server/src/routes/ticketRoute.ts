@@ -1,5 +1,5 @@
 import express from "express";
-import { getRepository, useContainer } from "typeorm";
+import { getRepository } from "typeorm";
 import { requireWithUserAsync } from "../middleware/requireWithUserAsync";
 import { Board } from "../models/Board";
 import { Ticket } from "../models/Ticket";
