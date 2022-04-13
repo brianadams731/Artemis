@@ -1,10 +1,9 @@
 import express from "express";
 import { User } from "../models/User";
 import { parseUserRegisterAsync } from "../utils/parseUser";
-import { sessionConfig } from "../utils/sessionConfig";
 const registerRouter = express.Router();
 
-registerRouter.post("/register", async (req,res)=>{
+registerRouter.post("/", async (req,res)=>{
     const parsedUser = await parseUserRegisterAsync(req.body);
 
     let user = await User.create({
@@ -15,7 +14,7 @@ registerRouter.post("/register", async (req,res)=>{
         res.status(500).send("Error: User exists")
     });
     
-    req.session.id = user!.id;
+    req.session.userId = user!.id;
     res.redirect("/");
 })
 
