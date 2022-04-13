@@ -65,6 +65,8 @@ ticketRoute.put("/:ticketId/:ticketComment/:ticketDescription", requireWithUserA
     }
     await ticket.save();
 
+    
+    return res.status(200).send("Ticket updated");
 });
 
 ticketRoute.delete("/:ticketId", requireWithUserAsync, async (req, res) => {
