@@ -1,4 +1,4 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } from "typeorm";
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from "typeorm";
 import { Board } from "./Board";
 
 
@@ -19,9 +19,13 @@ class Ticket extends BaseEntity{
     @Column({type:"date", nullable:true})
     closeDate: string;
 
+    @Column()
+    index: number;
+    
     @ManyToOne(()=> Board, board => board.tickets, {
         onDelete:"CASCADE",
     })
+    @JoinColumn({name:"board_id"})
     board: Board;
 }
 

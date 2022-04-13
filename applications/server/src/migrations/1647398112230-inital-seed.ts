@@ -10,6 +10,7 @@ export class initalSeed1647398112230 implements MigrationInterface {
         board.tickets = [];
         for(let i = 0; i<3; i++){
             const ticket = new Ticket();
+            ticket.index = i;
             ticket.comment = `Comment ${i+1}`
             ticket.description = `Ticket ${i+1}`;
             board.tickets.push(ticket);
@@ -21,6 +22,7 @@ export class initalSeed1647398112230 implements MigrationInterface {
         board1.tickets = [];
         for(let i = 0; i<3; i++){
             const ticket = new Ticket();
+            ticket.index = i;
             ticket.comment = `Dave's Comment ${i+1}`
             ticket.description = `Dave's Ticket ${i+1}`;
             board1.tickets.push(ticket);
@@ -32,6 +34,7 @@ export class initalSeed1647398112230 implements MigrationInterface {
         board2.tickets = [];
         for(let i = 0; i<3; i++){
             const ticket = new Ticket();
+            ticket.index = i;
             ticket.comment = `Janice's Comment ${i+1}`
             ticket.description = `Janice's Ticket ${i+1}`;
             board2.tickets.push(ticket);
