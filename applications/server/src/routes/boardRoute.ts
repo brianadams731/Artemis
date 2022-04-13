@@ -43,7 +43,9 @@ boardRouter.put("/:boardId", requireWithUserAsync, async (req, res) => {
     }
     
     const board = await Board.findOne(boardId);
-    board.name = req.body.name;
+    if(board){
+        board.name = req.body.name;
+    }
     await board?.save();
 
     return res.status(200).send("Board updated");
