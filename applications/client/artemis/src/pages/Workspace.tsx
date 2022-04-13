@@ -43,8 +43,6 @@ const Workspace = (): JSX.Element => {
                 destinationBoard?.tickets.splice(destinationTicketIndex, 0, moveTicket!);
             })
             , false)
-        // TODO: Post Request
-        console.log(ticketMoved?.id);
         await postDataAsync(`${getEndpoint("board_update_ticket")}`, {
             source:{
                 boardId: sourceBoardId,
@@ -56,7 +54,6 @@ const Workspace = (): JSX.Element => {
                 ticketIndex: destinationTicketIndex
             }
         }, false)
-        // TODO: Uncomment when endpoint is created to sync with backend
         mutate();        
     }
 

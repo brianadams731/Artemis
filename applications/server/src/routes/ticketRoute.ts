@@ -22,14 +22,22 @@ ticketRoute.post("/add/byBoardId/:boardId", async (req, res) => {
         comment: string;
         description: string;
     }
-    const boardId = parseInt(req.params.boardId);
+    const boardId = req.params.boardId;
+    
+    const lastIndex = await getRepository(Ticket).createQueryBuilder("ticket")
+    .leftJoin("ticket.board","board")
+    .where("board.id=:boardId",{boardId: boardId})
+    .getCount();
+    
     const board = await Board.findOne(boardId, {
         relations: ["tickets"],
     });
+
     const ticket = new Ticket();
     ticket.comment = req.body.comment;
     ticket.description = req.body.description;
-    board?.tickets.push();
+    ticket.index = lastIndex;
+    board?.tickets.push(ticket);
     await board?.save();
 
     return res.status(201).json(board);

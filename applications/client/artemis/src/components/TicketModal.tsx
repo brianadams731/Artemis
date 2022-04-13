@@ -61,9 +61,11 @@ const TicketModal = ({ id, state, boardId, comment, description, closeModal, mut
                                 })
                             })
                             , false)
-                        await postDataAsync(`${getEndpoint("")}/${boardId}`, {
-                            // TODO: Add tickets here
+                        await postDataAsync(`${getEndpoint("add_ticket_by_boardId")}/${boardId}`, {
+                            description: ticketDescription,
+                            comment: ticketComment
                         })
+                        mutateWorkspace();
                     } else {
                         mutateWorkspace(
                             produce<IWorkspace>(draft => {
