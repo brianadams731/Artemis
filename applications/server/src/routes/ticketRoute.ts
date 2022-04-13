@@ -44,6 +44,29 @@ ticketRoute.get("/get-all-tickets-debug", async (req, res) => {
     return res.status(200).json(query);
 });
 
+ticketRoute.put("/:ticketId/:ticketComment/:ticketDescription", requireWithUserAsync, async (req, res) => {
+    const ticketId = req.params.ticketId;
+    const ticketComment = req.params.ticketComment;
+    const ticketDescription = req.params.ticketDescription;
+    if (!ticketId) {
+        return res.status(500).send("Error: Please include Ticket ID");
+    }
+    const ticket = await Ticket.findOne(ticketId);
+    if (!ticket) {
+        return res.status(500).send("Error: No such a ticket ID");
+    }
+    if(ticketComment || ticketComment === "")
+    {
+        ticket.comment=ticketComment;
+    }
+    if(ticketDescription)
+    {
+        ticket.description=ticketDescription;
+    }
+    await ticket.save();
+
+});
+
 ticketRoute.delete("/:ticketId", requireWithUserAsync, async (req, res) => {
     // TODO: Test route
     const ticketId = req.params.ticketId;
