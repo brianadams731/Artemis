@@ -12,6 +12,7 @@ import { TicketModal } from '../components/TicketModal';
 import { TicketModalState } from '../interfaces/TicketModalState';
 import { AnimatePresence } from 'framer-motion';
 import { useParams } from 'react-router-dom';
+import { postDataAsync } from '../utils/postDataAsync';
 
 
 const Workspace = (): JSX.Element => {
@@ -30,6 +31,7 @@ const Workspace = (): JSX.Element => {
 
         const sourceTicketIndex = source.index;
         const destinationTicketIndex = destination.index;
+        const ticketMoved = workspaceData.boards.find((board) => board.id === sourceBoardId)?.tickets[sourceTicketIndex];
         // Mutated cache here, this is now out of sync with the backend!
         mutate(
             produce<IWorkspace>((draft) => {
@@ -42,11 +44,20 @@ const Workspace = (): JSX.Element => {
             })
             , false)
         // TODO: Post Request
-        await patchDataAsync(`${getEndpoint("workspace_by_id")}/${id}`, {
-            //TODO: Update workspace here
+        console.log(ticketMoved?.id);
+        await postDataAsync(`${getEndpoint("board_update_ticket")}`, {
+            source:{
+                boardId: sourceBoardId,
+                ticketIndex: sourceTicketIndex,
+                ticketId: ticketMoved?.id
+            },
+            target:{
+                boardId: destinationBoardId,
+                ticketIndex: destinationTicketIndex
+            }
         }, false)
         // TODO: Uncomment when endpoint is created to sync with backend
-        //mutate();        
+        mutate();        
     }
 
     if (isWorkspaceLoading) {
