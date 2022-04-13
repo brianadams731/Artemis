@@ -1,6 +1,8 @@
 import express from "express";
 import { getRepository } from "typeorm";
+import { requireWithUserAsync } from "../middleware/requireWithUserAsync";
 import { Workspace } from "../models/Workspace";
+import { ticketRoute } from "./ticketRoute";
 
 const workspaceRoute = express.Router();
 // This interface needs to be returned in the get method
@@ -79,6 +81,43 @@ workspaceRoute.post("/byId/:workspaceId", (req, res) => {
     console.log(req.params.workspaceId);
     console.log(req.body);
     return res.status(204).send();
+});
+
+workspaceRoute.put("/byId/:workspaceId/workspaceOrg", requireWithUserAsync, async (req, res) => {
+    const workspaceId = req.params.workspaceId;
+
+    if (!workspaceId) {
+        return res.status(500).send("Error: Please include Workspace ID");
+    }
+
+    if (!workspaceId) {
+        return res.status(500).send("Error: workspace id invalid");
+    }
+
+    const workspace = await Workspace.findOne(workspaceId);
+
+    if(workspace) {
+        workspace.name = req.body.name;
+    }
+    await workspace?.save();
+
+    return res.status(200).send("Workspace updated");
+
+});
+
+workspaceRoute.delete("/byId/:workspaceId", requireWithUserAsync, async (req, res) => {
+    // TODO: Test route
+    const workspaceId = req.params.workspaceId;
+    if(!workspaceId){
+        return res.status(500).send("Error: Workspace id invalid");
+    }
+    const workspace = await Workspace.findOne(workspaceId);
+
+    const didDelete = await workspace?.remove();
+    if(!didDelete){
+        res.status(500).send("Error: Workspace failed to remove");
+    }
+    return res.status(200).send("Workspace removed");
 });
 
 export { workspaceRoute };
