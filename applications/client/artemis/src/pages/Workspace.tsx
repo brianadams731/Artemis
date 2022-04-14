@@ -7,7 +7,6 @@ import { IWorkspace, useFetchWorkspaceById } from '../hooks/swr/useFetchWorkspac
 import { getEndpoint } from '../utils/apiEndpoints';
 
 import styles from '../styles/Workspace.module.scss';
-import { patchDataAsync } from '../utils/patchDataAsync';
 import { TicketModal } from '../components/TicketModal';
 import { TicketModalState } from '../interfaces/TicketModalState';
 import { AnimatePresence } from 'framer-motion';

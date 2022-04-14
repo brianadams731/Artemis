@@ -43,3 +43,22 @@
         height: 100px;
     }
 }
+
+.trash{
+    display: block;
+    padding: 0;
+    margin-top: -10px;
+    margin-left: 90%;
+    height: fit-content;
+    width: fit-content;
+    background: none;
+    &:hover svg{
+        fill: var(--c-main-purple);
+    }
+    svg{
+        height: 25px;
+        fill: var(--c-main-gray);
+        transition: fill .2s ease-in-out;
+    }
+    
+}
