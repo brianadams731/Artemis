@@ -1,5 +1,5 @@
 import express from "express";
-import { getRepository } from "typeorm";
+import { getManager, getRepository } from "typeorm";
 import { requireWithUserAsync } from "../middleware/requireWithUserAsync";
 import { Board } from "../models/Board";
 import { Ticket } from "../models/Ticket";
@@ -23,12 +23,13 @@ ticketRoute.post("/add/byBoardId/:boardId", async (req, res) => {
         description: string;
     }
     const boardId = req.params.boardId;
-    
-    const lastIndex = await getRepository(Ticket).createQueryBuilder("ticket")
-    .leftJoin("ticket.board","board")
-    .where("board.id=:boardId",{boardId: boardId})
-    .getCount();
-    
+
+    const lastIndex = await getRepository(Ticket)
+        .createQueryBuilder("ticket")
+        .leftJoin("ticket.board", "board")
+        .where("board.id=:boardId", { boardId: boardId })
+        .getCount();
+
     const board = await Board.findOne(boardId, {
         relations: ["tickets"],
     });
@@ -52,42 +53,68 @@ ticketRoute.get("/get-all-tickets-debug", async (req, res) => {
     return res.status(200).json(query);
 });
 
-ticketRoute.put("/:ticketId/:ticketComment/:ticketDescription", requireWithUserAsync, async (req, res) => {
-    const ticketId = req.params.ticketId;
-    const ticketComment = req.params.ticketComment;
-    const ticketDescription = req.params.ticketDescription;
-    if (!ticketId) {
-        return res.status(500).send("Error: Please include Ticket ID");
-    }
-    const ticket = await Ticket.findOne(ticketId);
-    if (!ticket) {
-        return res.status(500).send("Error: No such a ticket ID");
-    }
-    if(ticketComment || ticketComment === "")
-    {
-        ticket.comment=ticketComment;
-    }
-    if(ticketDescription)
-    {
-        ticket.description=ticketDescription;
-    }
-    await ticket.save();
+ticketRoute.put(
+    "/:ticketId/:ticketComment/:ticketDescription",
+    requireWithUserAsync,
+    async (req, res) => {
+        const ticketId = req.params.ticketId;
+        const ticketComment = req.params.ticketComment;
+        const ticketDescription = req.params.ticketDescription;
+        if (!ticketId) {
+            return res.status(500).send("Error: Please include Ticket ID");
+        }
+        const ticket = await Ticket.findOne(ticketId);
+        if (!ticket) {
+            return res.status(500).send("Error: No such a ticket ID");
+        }
+        if (ticketComment || ticketComment === "") {
+            ticket.comment = ticketComment;
+        }
+        if (ticketDescription) {
+            ticket.description = ticketDescription;
+        }
+        await ticket.save();
 
-    
-    return res.status(200).send("Ticket updated");
-});
+        return res.status(200).send("Ticket updated");
+    }
+);
 
-ticketRoute.delete("/:ticketId", requireWithUserAsync, async (req, res) => {
+ticketRoute.delete("/byId/:ticketId", async (req, res) => {
     // TODO: Test route
     const ticketId = req.params.ticketId;
     if(!ticketId){
         return res.status(500).send("Error: Ticket id invalid");
     }
-    const ticket = await Ticket.findOne(ticketId);
-
-    const didDelete = await ticket?.remove();
-    if(!didDelete){
-        res.status(500).send("Error: Ticket failed to remove");
+    try {
+        const ticket = await getManager().query(
+            `
+                SELECT board_id, index
+                FROM ticket
+                WHERE id=$1
+            `,
+            [ticketId]
+        );
+        if(!ticket){
+            throw "Ticket Does Not Exist!";
+        }
+        await getManager().query(
+            `
+                DELETE FROM ticket
+                WHERE id=$1
+            `,
+            [ticketId]
+        );
+        await getManager().query(
+            `
+                UPDATE ticket
+                SET index = index - 1
+                WHERE board_id=$1 and index > $2
+            `,
+            [ticket.board_id, ticket.index]
+        );
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send("Error: Ticket failed to remove");
     }
     return res.status(200).send("Ticket removed");
 });

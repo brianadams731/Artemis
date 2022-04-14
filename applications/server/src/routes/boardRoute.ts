@@ -89,6 +89,9 @@ boardRouter.post("/updateTickets", async (req, res) => {
     }
     const targetTicket = await Ticket.findOne(req.body.source.ticketId);
     if (!targetTicket || targetTicket.index !== req.body.source.ticketIndex) {
+        console.log(`id: ${targetTicket.id}`);
+        console.log(`Request: ${req.body.source.ticketIndex}`);
+        console.log(`DB: ${targetTicket.index}`);
         return res.status(500).send("Error: Ticket index does not match");
     }
     
