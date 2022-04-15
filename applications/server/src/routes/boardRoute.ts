@@ -95,6 +95,12 @@ boardRouter.post("/updateTickets", async (req, res) => {
         return res.status(500).send("Error: Ticket index does not match");
     }
     
+    /*
+    const source = getRepository(Ticket).createQueryBuilder("ticket")
+    .select(["ticket.id","ticket.index"])
+    .where("ticket.index")
+    */
+
     await getManager().query(
         `
             UPDATE ticket

@@ -80,9 +80,8 @@ ticketRoute.put(
 );
 
 ticketRoute.delete("/byId/:ticketId", async (req, res) => {
-    // TODO: Test route
     const ticketId = req.params.ticketId;
-    if(!ticketId){
+    if (!ticketId) {
         return res.status(500).send("Error: Ticket id invalid");
     }
     try {
@@ -94,7 +93,8 @@ ticketRoute.delete("/byId/:ticketId", async (req, res) => {
             `,
             [ticketId]
         );
-        if(!ticket){
+
+        if (!ticket) {
             throw "Ticket Does Not Exist!";
         }
         await getManager().query(
@@ -110,7 +110,7 @@ ticketRoute.delete("/byId/:ticketId", async (req, res) => {
                 SET index = index - 1
                 WHERE board_id=$1 and index > $2
             `,
-            [ticket.board_id, ticket.index]
+            [ticket[0].board_id, ticket[0].index]
         );
     } catch (err) {
         console.log(err);
