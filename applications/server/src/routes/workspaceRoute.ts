@@ -45,6 +45,13 @@ workspaceRoute.get("/byId/:workspaceId", async (req, res) => {
         return res.status(400).send("Error: Malformed Request");
     }
 
+    const debug = await getRepository(Workspace)
+    .createQueryBuilder("workspace")
+    .select(["workspace.id"])
+    .getMany();
+
+    console.log(JSON.stringify(debug,null,2));
+    
     const query = await getRepository(Workspace)
         .createQueryBuilder("workspace")
         .select(["workspace.id", "workspace.name"])
