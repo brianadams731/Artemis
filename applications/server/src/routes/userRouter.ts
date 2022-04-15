@@ -13,7 +13,7 @@ userRouter.get("/workspaces", requireWithUserAsync, async (req, res) => {
     .select("user.id")
     .leftJoinAndSelect("user.workspaces","workspace")
     .where("user.id=:userId",{userId: req.user.id})
-    .getMany();
+    .getOne();
     
     return res.status(200).json(workspaces);
 });

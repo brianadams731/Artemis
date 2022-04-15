@@ -94,6 +94,27 @@ workspaceRoute.patch("/subscribe/:workspaceId", requireWithUserAsync, async (req
     return res.status(200).send("Subscribed");    
 });
 
+workspaceRoute.delete("/subscribe/:workspaceId", requireWithUserAsync ,async (req,res)=>{
+    if (!req.user || !req.params.workspaceId) {
+        return res.status(400).send("Error: User not auth or invalid workspaceId")
+    };
+    const user = await getRepository(User).createQueryBuilder("user")
+    .select("user.id")
+    .leftJoinAndSelect("user.workspaces","workspace")
+    .where("user.id=:userId",{userId: req.user.id})
+    .getOne();
+    if(!user){
+        return res.status(400).send("Error: User not found");
+    }
+    const index = user?.workspaces.findIndex(item => item.id === req.params.workspaceId);
+    if(index === -1){
+        return res.status(400).send("Error: Cannot find subscription")
+    }
+    user?.workspaces.splice(index,1);
+    await user.save();
+    return res.status(200).send("Unsubscribed");
+})
+
 workspaceRoute.patch("/byId/:workspaceId", async (req, res) => {
     const workspaceId = req.params.workspaceId;
     if (!workspaceId) {
@@ -124,4 +145,16 @@ workspaceRoute.delete("/byId/:workspaceId", requireWithUserAsync, async (req, re
     return res.status(200).send("Workspace removed");
 });
 
+workspaceRoute.get("/users/:workspaceId", async(req,res)=>{
+    if(!req.params.workspaceId){
+        return res.status(400).send("Error: Malformed Request");
+    }
+    const users = await getRepository(Workspace).createQueryBuilder("workspace")
+    .select("workspace.id")
+    .leftJoinAndSelect("workspace.users","user")
+    .where("workspace.id=:workspaceId",{workspaceId:req.params.workspaceId})
+    .getOne();
+
+    return res.status(200).json(users);
+})
 export { workspaceRoute };
