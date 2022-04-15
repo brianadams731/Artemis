@@ -13,7 +13,6 @@ import { AnimatePresence } from 'framer-motion';
 import { useParams } from 'react-router-dom';
 import { postDataAsync } from '../utils/postDataAsync';
 
-
 const Workspace = (): JSX.Element => {
     const { id } = useParams();
 
@@ -67,6 +66,7 @@ const Workspace = (): JSX.Element => {
 
     return (
         <div className={styles.outerWrap}>
+            <img className={styles.background} src='/assets/backgroudHex.svg'/>
             <AnimatePresence>
                 {ticketModalState.state === "edit" && <TicketModal state={ticketModalState.state} id={ticketModalState.id} boardId={ticketModalState.boardId} description={ticketModalState.description} comment={ticketModalState.comment} closeModal={() => setTicketModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace} />}
                 {ticketModalState.state === "new" && <TicketModal state={ticketModalState.state} boardId={ticketModalState.boardId} closeModal={() => setTicketModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace} />}
@@ -91,7 +91,7 @@ const Workspace = (): JSX.Element => {
                             </div>
                             <Droppable droppableId={board.id}>
                                 {(provided: DroppableProvided, snapshot: DroppableStateSnapshot) => (
-                                    <div ref={provided.innerRef} {...provided.droppableProps} className={styles.board} style={snapshot.isDraggingOver ? { backgroundColor: '#00F0FF' } : {}}>
+                                    <div ref={provided.innerRef} {...provided.droppableProps} className={styles.board} style={snapshot.isDraggingOver ? { backgroundColor: 'rgba(0, 238, 255,.6)' } : {}}>
                                         {board.tickets.map((ticket, index) => (
                                             <Draggable draggableId={ticket.id} index={index} key={ticket.id}>
                                                 {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
