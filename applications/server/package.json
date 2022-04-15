@@ -8,7 +8,7 @@
     "start": "ts-node-dev ./src/app.ts",
     "build": "tsc",
     "buildNoEmit": "tsc --noEmit",
-    "start:prod": "tsc && pm2 start ./out/app.js",
+    "start:prod": "tsc && pm2 start ./out/app.js --watch",
     "stop:prod": "pm2 stop app",
     "restart:prod": "pm2 restart app",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js --config src/utils/connectionConfig.ts",
