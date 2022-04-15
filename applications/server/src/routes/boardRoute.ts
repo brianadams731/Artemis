@@ -1,9 +1,11 @@
 import express from "express";
+import { read } from "fs";
 import { stringify } from "querystring";
 import { EntityManager, getManager, getRepository } from "typeorm";
 import { requireWithUserAsync } from "../middleware/requireWithUserAsync";
 import { Board } from "../models/Board";
 import { Ticket } from "../models/Ticket";
+import { Workspace } from "../models/Workspace";
 
 const boardRouter = express.Router();
 
@@ -18,27 +20,40 @@ boardRouter.get("/search/byName/:name", async (req, res) => {
     return res.status(200).json(query);
 });
 
-boardRouter.post("/add", async (req, res) => {
+boardRouter.post("/add/:workspaceId", async (req, res) => {
     interface BoardRequest {
         name: string;
     }
+
+    if(!req.params.workspaceId || !req.body.name){
+        console.log(req.params.workspaceId);
+        console.log(req.body.name);
+        return res.status(400).send("Error: Bad request")
+    }
+    const workspace = await getRepository(Workspace).createQueryBuilder("workspace")
+    .select("workspace.id")
+    .leftJoinAndSelect("workspace.boards","board")
+    .where("workspace.id=:workspaceId",{workspaceId: req.params.workspaceId})
+    .getOne();
+    
     const board = new Board();
     board.name = req.body.name;
-    await board.save();
 
+    workspace?.boards.push(board);
+    workspace?.save();
     return res.status(201).json(board);
 });
 
-boardRouter.get("/get-all-debug", async (req, res) => {
+/*boardRouter.get("/get-all-debug", async (req, res) => {
     const query = await getRepository(Board)
         .createQueryBuilder("board")
         .leftJoinAndSelect("board.tickets", "ticket")
         .getMany();
 
     return res.status(200).json(query);
-});
+});*/
 
-boardRouter.put("/:boardId", requireWithUserAsync, async (req, res) => {
+boardRouter.patch("/byId/:boardId", async (req, res) => {
     const boardId = req.params.boardId;
 
     if (!boardId) {
@@ -54,8 +69,7 @@ boardRouter.put("/:boardId", requireWithUserAsync, async (req, res) => {
     return res.status(200).send("Board updated");
 });
 
-boardRouter.delete("/:boardId", requireWithUserAsync, async (req, res) => {
-    // TODO: Test route
+boardRouter.delete("/byId/:boardId", async (req, res) => {
     const boardId = req.params.boardId;
     if (!boardId) {
         return res.status(500).send("Error: Board id invalid");
@@ -94,12 +108,6 @@ boardRouter.post("/updateTickets", async (req, res) => {
         console.log(`DB: ${targetTicket.index}`);
         return res.status(500).send("Error: Ticket index does not match");
     }
-    
-    /*
-    const source = getRepository(Ticket).createQueryBuilder("ticket")
-    .select(["ticket.id","ticket.index"])
-    .where("ticket.index")
-    */
 
     await getManager().query(
         `
