@@ -64,7 +64,7 @@ workspaceRoute.get("/byId/:workspaceId", async (req, res) => {
     query?.boards.forEach((item) => {
         item.tickets.sort((a, b) => a.index - b.index);
     });
-
+    console.log(JSON.stringify(query,null,2));
     return res.status(200).json(query);
 });
 
