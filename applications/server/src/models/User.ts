@@ -27,7 +27,9 @@ class User extends BaseEntity {
     @ManyToOne(() => Organization, (organization) => organization.members)
     organization: Organization;
 
-    @ManyToMany(() => Workspace, (workspace) => workspace.users)
+    @ManyToMany(() => Workspace, (workspace) => workspace.users, {
+        onUpdate: "CASCADE"
+    })
     @JoinTable()
     workspaces: Workspace[];
 }

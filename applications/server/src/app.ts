@@ -12,6 +12,7 @@ import { boardRouter } from "./routes/boardRoute";
 import { loginRouter } from "./routes/loginRoute";
 import { registerRouter } from "./routes/registerRoute";
 import { logoutRouter } from "./routes/logoutRoute";
+import { userRouter } from "./routes/userRouter";
 
 
 dotenv.config();
@@ -29,6 +30,7 @@ app.use("/logout", logoutRouter);
 app.use("/ticket", ticketRoute);
 app.use("/workspace", workspaceRoute);
 app.use("/board", boardRouter);
+app.use("/user", userRouter);
 
 
 
