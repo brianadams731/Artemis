@@ -44,14 +44,14 @@ boardRouter.post("/add/:workspaceId", async (req, res) => {
     return res.status(201).json(board);
 });
 
-/*boardRouter.get("/get-all-debug", async (req, res) => {
+boardRouter.get("/get-all-debug", async (req, res) => {
     const query = await getRepository(Board)
         .createQueryBuilder("board")
         .leftJoinAndSelect("board.tickets", "ticket")
         .getMany();
 
     return res.status(200).json(query);
-});*/
+});
 
 boardRouter.patch("/byId/:boardId", async (req, res) => {
     const boardId = req.params.boardId;

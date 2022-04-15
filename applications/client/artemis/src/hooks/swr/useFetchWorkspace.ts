@@ -18,7 +18,7 @@ const useFetchWorkspaceById = (
     mutateWorkspace: KeyedMutator<IWorkspace>;
 } => {
     const { data, error, mutate } = useSWR(
-        `${getEndpoint("workspace_debug")}`,
+        `${getEndpoint("workspace_by_id")}/${workspaceId}`,
         fetcher
     );
     return {

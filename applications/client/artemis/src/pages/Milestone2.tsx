@@ -30,7 +30,7 @@ const Milestone2 = (): JSX.Element => {
 
     return (
         <main>
-            <Link  to="dashboard/workspace/1">Click to View Work Space Example</Link>
+            <Link  to="dashboard/workspace/4b786df1-9fd3-4f17-a6d6-b339756fb562">Click to View Work Space Example</Link>
 
             <form onSubmit={(e) => {
                 e.preventDefault();

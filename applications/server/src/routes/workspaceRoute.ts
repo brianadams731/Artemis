@@ -21,7 +21,8 @@ interface ITicket {
     id: string;
     description: string;
 }
-workspaceRoute.get('/debug',async(req,res)=>{
+
+/*workspaceRoute.get('/debug',async(req,res)=>{
     const query = await getRepository(Workspace).createQueryBuilder('workspace')
     .select(["workspace.id","workspace.name"])
     .leftJoinAndSelect("workspace.boards","boards")
@@ -37,8 +38,27 @@ workspaceRoute.get('/debug',async(req,res)=>{
     //console.log(JSON.stringify(query, null, 2));
     
     return res.status(200).json(query);
-})
+})*/
 
+workspaceRoute.get("/byId/:workspaceId", async (req,res)=>{
+    if(!req.params.workspaceId){
+        return res.status(400).send("Error: Malformed Request");
+    }
+
+    const query = await getRepository(Workspace).createQueryBuilder('workspace')
+    .select(["workspace.id","workspace.name"])
+    .leftJoinAndSelect("workspace.boards","boards")
+    .leftJoinAndSelect("boards.tickets","tickets")
+    .where("workspace.id=:workspaceId",{workspaceId: req.params.workspaceId})
+    .getOne();
+
+    //TODO: sort in database!!!
+    query?.boards.forEach((item)=>{
+        item.tickets.sort((a,b)=>a.index - b.index);
+    })
+    
+    return res.status(200).json(query);
+})
 workspaceRoute.post("/byId/:workspaceId", (req, res) => {
     console.log(req.params.workspaceId);
     console.log(req.body);
