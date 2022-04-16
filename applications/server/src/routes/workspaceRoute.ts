@@ -43,14 +43,24 @@ workspaceRoute.get("/byId/:workspaceId", async (req, res) => {
         .createQueryBuilder("workspace")
         .select(["workspace.id", "workspace.name"])
         .leftJoinAndSelect("workspace.boards", "boards")
+        .orderBy("boards.name")
         .leftJoinAndSelect("boards.tickets", "tickets")
         .where("workspace.id=:workspaceId", { workspaceId: req.params.workspaceId })
         .getOne();
 
-    //TODO: sort in database!!!
     query?.boards.forEach((item) => {
         item.tickets.sort((a, b) => a.index - b.index);
     });
+
+    // 
+    query?.boards.forEach((item, index)=>{
+        if(item.name.toLowerCase() === "unassigned"){
+            const removed = query?.boards.splice(index,1);
+            query?.boards.unshift(removed[0]);
+        }
+    })
+
+
 
     return res.status(200).json(query);
 });
