@@ -41,7 +41,7 @@ const Register = (): JSX.Element => {
 
     return (
         <div className={regStyles.wrapper}>
-            <form className={styles.accountForm} onSubmit={
+            <form className={`${styles.accountForm} ${styles.formEle}`} onSubmit={
                 async (e) => {
                     e.preventDefault();
                     handleRegister();

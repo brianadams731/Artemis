@@ -15,7 +15,7 @@ const LogIn = (): JSX.Element => {
 
     return (
         <div className={loginStyles.wrapper}>
-            <form className={styles.form} onSubmit={async (e) => {
+            <form className={styles.formEle} onSubmit={async (e) => {
                 e.preventDefault();
                 console.log(email);
                 console.log(password);
