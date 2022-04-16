@@ -4,19 +4,34 @@ import styles from "../styles/EditBoardModal.module.scss";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { getEndpoint } from "../utils/apiEndpoints";
-import { KeyedMutator, mutate } from "swr";
+import { KeyedMutator } from "swr";
 import { IWorkspace } from "../hooks/swr/useFetchWorkspace";
 import { patchDataAsync } from "../utils/patchDataAsync";
+import { postDataAsync } from "../utils/postDataAsync";
 
-interface Props {
-    id: string;
-    name: string;
+interface Default {
     mutateWorkspace: KeyedMutator<IWorkspace>;
     closeModal: () => void;
 }
 
-const EditBoardModal = ({ id, name, closeModal, mutateWorkspace }: Props): JSX.Element => {
-    const [rename, setRename] = useState<string>(name);
+interface PropsEdit extends Default {
+    state: "edit";
+    id: string;
+    name: string;
+
+    workspaceId?: string;
+}
+interface PropsNew extends Default {
+    state: "new";
+    workspaceId: string;
+
+    id?: string;
+    name?: string;
+}
+type Props = PropsEdit | PropsNew;
+
+const EditBoardModal = ({ state, id, name, workspaceId, closeModal, mutateWorkspace }: Props): JSX.Element => {
+    const [rename, setRename] = useState<string>(state === "edit" ? name : "");
     const [canExit, setCanExit] = useState<boolean>(true);
 
     useEffect(() => {
@@ -27,50 +42,64 @@ const EditBoardModal = ({ id, name, closeModal, mutateWorkspace }: Props): JSX.E
     }, [])
 
     return (
-        <motion.div  initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={styles.wrapper} onMouseUp={()=>
-            setTimeout(()=>{
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={styles.wrapper} onMouseUp={() =>
+            setTimeout(() => {
                 setCanExit(true)
-            },0) 
+            }, 0)
         } onClick={() => {
-            canExit&& closeModal();
+            canExit && closeModal();
         }}>
-            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className={styles.modalWrapper} onMouseDown={()=>setCanExit(false)} onClick={(e) => {
+            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className={styles.modalWrapper} onMouseDown={() => setCanExit(false)} onClick={(e) => {
                 e.stopPropagation();
             }}>
-                <button className={styles.trash} onClick={async ()=>{
-                    if(name.toLowerCase() === "unassigned".toLowerCase()){
+                {state === "edit" && <button className={styles.trash} onClick={async () => {
+                    if (state === "edit" && name.toLowerCase() === "unassigned".toLowerCase()) {
                         return;
                     }
 
-                    const res = await fetch(`${getEndpoint("board_by_id")}/${id}`,{
-                        method:"DELETE"
+                    const res = await fetch(`${getEndpoint("board_by_id")}/${id}`, {
+                        method: "DELETE"
                     })
-                    if(res.ok){
+                    if (res.ok) {
                         mutateWorkspace();
-                        canExit&& closeModal();
+                        closeModal();
                     }
                 }}>
                     <Trashcan />
-                </button>
+                </button>}
                 <form onSubmit={async (e) => {
                     e.preventDefault();
-                    if (rename === name || name.toLowerCase() === "unassigned".toLowerCase()) {
-                        return;
+                    if (state === "edit") {
+                        if (rename === name || name.toLowerCase() === "unassigned".toLowerCase()) {
+                            return;
+                        }
+                        const res = await patchDataAsync(`${getEndpoint("board_by_id")}/${id}`, {
+                            name: rename
+                        }, false);
+                        if (res.ok) {
+                            mutateWorkspace();
+                            closeModal();
+                        }
+                    } else if (state === "new") {
+                        if (rename === "") {
+                            return;
+                        }
+                        const res = await postDataAsync(`${getEndpoint("board_add")}/${workspaceId}`, {
+                            name: rename
+                        }, false)
+                        if (res.ok) {
+                            mutateWorkspace();
+                            closeModal();
+                        }
                     }
-                    const res = await patchDataAsync(`${getEndpoint("board_by_id")}/${id}`,{
-                        name: rename
-                    }, false);
-                    if(res.ok){
-                        mutateWorkspace();
-                        canExit&& closeModal();
-                    }
+
                 }}>
-                    <label> Update Name
+                    <label>{state === "edit" ? "Update Name" : "Board Name"}
                         <input type="text" value={rename} onChange={(e) => {
                             setRename(e.target.value);
                         }} />
                     </label>
-                    <button type="submit">Update Name</button>
+                    <button type="submit">{state === "edit" ? "Update Board" : "Add Board"}</button>
                 </form>
             </motion.div>
         </motion.div>

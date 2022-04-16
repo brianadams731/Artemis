@@ -19,6 +19,7 @@ const endpoints: IEndpoints = Object.freeze({
     board_search_by_name: `${base}/board/search/byName/`, // :boardName is required
     board_update_ticket: `${base}/board/updateTickets`,
     board_by_id: `${base}/board/byId`, // :boardId is required
+    board_add: `${base}/board/add/`, // :workspaceId is required
     
     login: `${base}/login`,
     register: `${base}/register`

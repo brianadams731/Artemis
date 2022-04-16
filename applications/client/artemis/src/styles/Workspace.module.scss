@@ -107,3 +107,28 @@
         cursor: grabbing;
     }
 }
+
+.addWrapper{
+    @extend .board;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    button{
+        width: 50%;
+        height: fit-content;
+        padding: 0px;
+        background: none;
+        &:hover svg{
+            &:hover{
+                fill: var(--c-main-purple);
+                cursor: pointer;
+            }
+        }
+    }
+    svg{
+        fill: var(--c-main-gray);
+        width: 100%;
+        transition: fill .2s ease-in-out;
+    }
+}
