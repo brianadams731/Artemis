@@ -6,16 +6,18 @@ const registerRouter = express.Router();
 registerRouter.post("/", async (req,res)=>{
     const parsedUser = await parseUserRegisterAsync(req.body);
 
-    let user = await User.create({
-        username: parsedUser.username,
-        password: parsedUser.password,
-        email:parsedUser.email,
-    }).save().catch(()=>{
-        res.status(500).send("Error: User exists")
-    });
+    try{
+        const user = new User();
+        user.username = parsedUser.username!;
+        user.password = parsedUser.password!;
+        user.email = parsedUser.email!;
+        user.save();
+        req.session.userId = user!.id;
+    }catch(err){
+        res.status(500).send("Error: User not created");
+    }
     
-    req.session.userId = user!.id;
-    res.redirect("/");
+    res.status(200).send("User Created");
 })
 
 export {registerRouter};
