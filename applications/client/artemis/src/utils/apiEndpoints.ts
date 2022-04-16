@@ -16,6 +16,8 @@ const endpoints: IEndpoints = Object.freeze({
     board_get_all_debug: `${base}/board/get-all-debug`,
     board_search_by_name: `${base}/board/search/byName/`, // :boardName is required
     board_update_ticket: `${base}/board/updateTickets`,
+    login: `${base}/login`,
+    register: `${base}/register`
 });
 
 const getEndpoint = (endpoint: string): string | undefined => {

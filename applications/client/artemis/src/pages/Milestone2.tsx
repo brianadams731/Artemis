@@ -13,7 +13,7 @@ const Milestone2 = (): JSX.Element => {
             const parsedReq = await rawReq.json();
             setDebug(parsedReq)
         }());
-    })
+    },[]);
     if (!debug) {
         return <h1>Loading Debug Menu...</h1>
     }
@@ -24,6 +24,9 @@ const Milestone2 = (): JSX.Element => {
                         <Link style={{display:"block"}} to={`dashboard/workspace/${item.id}`}>Click to View Workspace ID {item.id}</Link>
                 )
             })}
+            <Link style={{display:"block"}} to="/register">Register</Link>
+            <Link style={{display:"block"}} to="/login">Login</Link>
+
         </main>
     )
 }

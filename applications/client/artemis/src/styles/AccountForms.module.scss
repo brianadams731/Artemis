@@ -3,9 +3,6 @@ form {
     grid-gap: 16px;
     width: 530px;
     height: 802px;
-    left: 1053px;
-    top: 158px;
-
     background: #FDFDFD;
     border: 1px solid rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
@@ -14,14 +11,6 @@ form {
     padding: 5vw ;
     position: relative; 
     text-align: center;
-    margin-top: -158px;
-    
-    // * {
-    //     box-sizing: border-box;
-    //     margin: 0;
-    //     padding: 0;
-    //     border: 1px solid red;
-    // }
 
     button {
         background: #4198E9;
@@ -30,6 +19,7 @@ form {
         height: 85px;
         left: 1064px;
         top: 810px;
+        justify-self: center;
     }
 
     input {

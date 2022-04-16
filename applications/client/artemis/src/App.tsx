@@ -14,8 +14,8 @@ function App():JSX.Element {
         <Routes>
           <Route path="/" element={<Milestone2 />} />
           <Route path="/dashboard/*" element={<Dashboard />} />
-          <Route path="login" element={<LogIn />} />
-          <Route path="register" element={<Register />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </BrowserRouter>
     </div>

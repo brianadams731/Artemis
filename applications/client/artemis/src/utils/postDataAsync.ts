@@ -7,11 +7,14 @@ const postDataAsync = async (url: string, dataToPost: any, parseJson: boolean = 
             },
             body: JSON.stringify(dataToPost),
         });
+
         if (parseJson) {
             return await res.json();
-        }
+        }       
         return res;
-    } catch (Error) {
+    } catch (error) {
+        console.log(error);
+        
         console.log(`Error: ${url} failed to send`);
     }
 };
