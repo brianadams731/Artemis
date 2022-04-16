@@ -19,6 +19,7 @@
     align-items: center;
     justify-content: center;
 }
+
 .boardHead{
     display: flex;
     align-items: center;
@@ -28,13 +29,14 @@
     h2{
         font-weight: 600;
     }
-    &::after{
-        content: "";
-        width: 25px;
+    &:hover .boardSetting{
+        pointer-events: initial;
+        opacity: 1;
+        transform: scale(1);
     }
 }
 
-.addTicket{
+.addTicket, .boardSetting{
     height: 25px;
     width: 25px;
     padding: 0;
@@ -50,7 +52,30 @@
     color: var(--c-main-gray);
 
     svg{
+        width: 75%;
         fill: var(--c-main-gray);
+    }
+}
+
+@keyframes rotate{
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(359deg);
+    }
+}
+
+.boardSetting{
+    border: none;
+    opacity: 0;
+    pointer-events: none;
+    &:hover svg{
+        animation: rotate 4s infinite linear;
+    }
+    svg{
+        width: 70%;
+        transform-origin: center;
     }
 }
 
