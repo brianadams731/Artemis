@@ -56,17 +56,18 @@ boardRouter.get("/get-all-debug", async (req, res) => {
 boardRouter.patch("/byId/:boardId", async (req, res) => {
     const boardId = req.params.boardId;
 
-    if (!boardId) {
-        return res.status(500).send("Error: Board id invalid");
+    if (!boardId || !req.body.name) {
+        return res.status(500).send("Error: Board or name invalid");
     }
 
     const board = await Board.findOne(boardId);
-    if (board) {
+    if (board && board.name.toLowerCase() !== "unassigned") {
         board.name = req.body.name;
+        await board?.save();
+        return res.status(200).send("Board updated");
     }
-    await board?.save();
 
-    return res.status(200).send("Board updated");
+    return res.status(404).send("Error: Board not found");
 });
 
 boardRouter.delete("/byId/:boardId", async (req, res) => {
@@ -74,7 +75,11 @@ boardRouter.delete("/byId/:boardId", async (req, res) => {
     if (!boardId) {
         return res.status(500).send("Error: Board id invalid");
     }
+    
     const board = await Board.findOne(boardId);
+    if(!board || board.name.toLowerCase() == "unassigned"){
+        return res.status(400).send("Error: Board not found");
+    }
 
     const didDelete = await board?.remove();
     if (!didDelete) {
