@@ -1,5 +1,10 @@
+//this is the wrapper for the individual cards
 .wrapper{
-    &:hover{
+    width: 300px;
+    height: 150px;
+    border: 1px solid black;
+    &:hover{    
         cursor: pointer;
-    }
+    }    
+
 }

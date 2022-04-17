@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { WorkspaceTile } from "../components/WorkspaceTile";
 import { getEndpoint } from "../utils/apiEndpoints";
+import { DashboardHeader } from "../components/DashboardHeader";
 
 import styles from "../styles/WorkspaceSelection.module.scss";
 
@@ -28,17 +29,17 @@ const WorkspaceSelection = (): JSX.Element => {
     }
 
     return (
-        <div className={styles.wrapper}>
-            <h1>Select Workspace</h1>
-            {workspaceTiles.map(item=>{
-                return (
-                    <WorkspaceTile name={item.name} id={item.id}/>
-                )
-            })}
+        <div className={styles.outerWrap}>
+            <img className={styles.background} src='/assets/WorkSpaceBackground.svg' alt="background"/>
+            <div className={styles.tileWrapper}>
+                {workspaceTiles.map(item=>{
+                    return (
+                        <WorkspaceTile name={item.name} id={item.id}/>
+                    )
+                })}
+            </div>
         </div>
-    )
-
-}
+        )
+    }
 
 export { WorkspaceSelection }
-

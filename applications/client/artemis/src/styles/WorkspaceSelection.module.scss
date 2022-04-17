@@ -1,5 +1,30 @@
-.wrapper{
-    h1{
-        
+// this outer wrapper is for the background position
+.outerWrap{
+    position: relative;
+    .background{
+        z-index: -999;
+        position: absolute;
+        object-fit: cover;
+        height: 100%; //changes the size
+        left: 50%; //position on screen
+        top: 50%; //position on screen
+        transform: translate(-50%, -50%); //centering
     }
 }
+
+//this wrapper will move all items on the page
+.tileWrapper{
+    //this block of code centers the cards on the page
+    max-width: 70vw;
+    margin-right: auto;
+
+    width: 100%;
+    min-height: 80vh;
+    gap: 35px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    justify-content: center;
+}
+
+

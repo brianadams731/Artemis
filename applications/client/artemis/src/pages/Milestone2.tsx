@@ -26,7 +26,7 @@ const Milestone2 = (): JSX.Element => {
             })}
             <Link style={{display:"block"}} to="/register">Register</Link>
             <Link style={{display:"block"}} to="/login">Login</Link>
-            <Link style={{display:"block"}} to="/select">Select</Link>
+            <Link style={{display:"block"}} to="/dashboard/select">Select</Link>
         </main>
     )
 }
