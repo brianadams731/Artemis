@@ -65,6 +65,11 @@ workspaceRoute.get("/byId/:workspaceId", async (req, res) => {
     return res.status(200).json(query);
 });
 
+workspaceRoute.get("/all", async(req,res)=>{
+    const workspaces = await Workspace.find();
+    return res.json(workspaces);
+})
+
 workspaceRoute.post("/add", async (req, res) => {
     if (!req.body.name) {
         return res.status(400).send("Error: Malformed Request");

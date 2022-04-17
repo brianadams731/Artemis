@@ -4,6 +4,7 @@ import { Dashboard } from './pages/Dashboard';
 import { LogIn } from './pages/LogIn';
 import { Milestone2 } from './pages/Milestone2';
 import { Register } from './pages/Register';
+import { WorkspaceSelection } from './pages/WorkspaceSelection';
 
 import styles from './styles/App.module.scss';
 
@@ -13,6 +14,7 @@ function App():JSX.Element {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Milestone2 />} />
+          <Route path="/select" element={<WorkspaceSelection />} />
           <Route path="/dashboard/*" element={<Dashboard />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/register" element={<Register />} />

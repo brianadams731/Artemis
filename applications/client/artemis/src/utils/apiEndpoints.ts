@@ -11,6 +11,7 @@ const endpoints: IEndpoints = Object.freeze({
     workspace_debug: `${base}/workspace/debug`,
     workspace_by_id: `${base}/workspace/byId`, // :id is required
     all_user_workspaces: `${base}/workspace/byUser`, // :userId is required
+    all_workspaces: `${base}/workspace/all`,
     
     ticket_by_id: `${base}/ticket/byId`, //:ticketId is required
     add_ticket_by_boardId: `${base}/ticket/add/byBoardId`,// :boardId is required
