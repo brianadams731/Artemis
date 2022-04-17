@@ -1,21 +1,18 @@
-import { SessionOptions, MemoryStore } from "express-session";
+import session, { SessionOptions, MemoryStore } from "express-session";
 import dotenv from "dotenv";
 import { v4 as uuidv4 } from 'uuid';
 dotenv.config();
-
-// USED TO ADD FIELDS TO SESSION OBJECT ie req.session.userID!
-/*declare module "express-session" {
-    interface Session {
-        userID: number;
-    }
-*/
 
 const sessionConfig: SessionOptions  = {
     name: "userSession",
     secret: "cookieSecret",
     resave: false,
     saveUninitialized: false,
-    store: new MemoryStore,
+    cookie: { maxAge: 60 * 24 * 60 * 60 * 1000 },
+    store: new (require('connect-pg-simple')(session))({
+        conString: process.env.DATABASE_URL,
+        createTableIfMissing: true
+    }),
     genid: function(req){
         return uuidv4();
     },
