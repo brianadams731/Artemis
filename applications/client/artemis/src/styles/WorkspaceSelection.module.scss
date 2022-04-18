@@ -1,6 +1,13 @@
 // this outer wrapper is for the background position
+@import 'WorkspaceTile.module.scss';
+
 .outerWrap{
     position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     .background{
         z-index: -999;
         position: absolute;
@@ -12,19 +19,28 @@
     }
 }
 
+
+
 //this wrapper will move all items on the page
 .tileWrapper{
     //this block of code centers the cards on the page
-    max-width: 70vw;
-    margin-right: auto;
-
-    width: 100%;
-    min-height: 80vh;
-    gap: 35px;
+    width: 70vw;
+    gap: 30px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: $tileWidth $tileWidth $tileWidth;
+
     align-items: center;
     justify-content: center;
+    place-items: center;
 }
 
 
+.addTile{
+    @extend %tile;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg{
+        width:75%;
+    }
+}

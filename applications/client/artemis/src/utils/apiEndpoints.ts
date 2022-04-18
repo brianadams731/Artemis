@@ -10,6 +10,8 @@ const base =
 const endpoints: IEndpoints = Object.freeze({
     workspace_debug: `${base}/workspace/debug`,
     workspace_by_id: `${base}/workspace/byId`, // :id is required
+    workspace_add: `${base}/workspace/add`,
+
     all_user_workspaces: `${base}/workspace/byUser`, // :userId is required
     all_workspaces: `${base}/workspace/all`,
     

@@ -31,8 +31,8 @@ const DashboardHeader = (): JSX.Element => {
                 <nav className={styles.navBox}>
                     <ul>
                         <Link to="/">dashboard</Link>
-                        <Link to="/dashboard/workspace/1">workspace</Link>
-                        <Link to="/dashboard/workspace/1">about</Link>
+                        <Link to="/dashboard/select">workspace</Link>
+                        <a href="http://about.thoughtgrove.com">about</a>
                     </ul>
                 </nav>
 
