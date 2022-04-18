@@ -17,15 +17,11 @@ const LogIn = (): JSX.Element => {
         <div className={loginStyles.wrapper}>
             <form className={styles.formEle} onSubmit={async (e) => {
                 e.preventDefault();
-                console.log(email);
-                console.log(password);
-
-
                 const res = await postDataAsync(getEndpoint('login')!, {
                     email: email, password: password
                 }, false)
                 if(res.ok){
-                    navigate("/");
+                    navigate("/dashboard/select");
                 }
             }}>
                 <br />

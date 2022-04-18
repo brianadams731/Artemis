@@ -11,8 +11,7 @@ const endpoints: IEndpoints = Object.freeze({
     workspace_debug: `${base}/workspace/debug`,
     workspace_by_id: `${base}/workspace/byId`, // :id is required
     workspace_add: `${base}/workspace/add`,
-
-    all_user_workspaces: `${base}/workspace/byUser`, // :userId is required
+    all_user_workspaces: `${base}/user/workspaces`,
     all_workspaces: `${base}/workspace/all`,
     
     ticket_by_id: `${base}/ticket/byId`, //:ticketId is required
@@ -25,6 +24,8 @@ const endpoints: IEndpoints = Object.freeze({
     board_add: `${base}/board/add`, // :workspaceId is required
     
     login: `${base}/login`,
+    logout: `${base}/logout`,
+    login_test: `${base}/login/test`,
     register: `${base}/register`
 });
 

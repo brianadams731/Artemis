@@ -5,6 +5,7 @@ import styles from "../styles/WorkspaceModal.module.scss";
 import { getEndpoint } from "../utils/apiEndpoints";
 import { patchDataAsync } from "../utils/patchDataAsync";
 import { postDataAsync } from "../utils/postDataAsync";
+import { Trashcan } from "./svg/Trashcan";
 
 interface Base{
     closeModal: ()=>void;
@@ -63,7 +64,7 @@ const WorkspaceModal = ({state, id, name, closeModal}:Props):JSX.Element => {
                     }}/>
                     <button type="submit">{state === "new"?"Add Workspace":"Update"}</button>
                 </form>
-                {state === "edit" && <button onClick={async (e)=>{ //delete button here
+                {state === "edit" && <button className={styles.trash} onClick={async (e)=>{ //delete button here
                     e.preventDefault();
                     const rawRes = await fetch(`${getEndpoint("workspace_by_id")}/${id}`,{
                         method: "DELETE"
@@ -73,7 +74,7 @@ const WorkspaceModal = ({state, id, name, closeModal}:Props):JSX.Element => {
                     }else{
                         alert("ERROR: Did not delete")
                     }
-                }}>Delete</button>}
+                }}><Trashcan /></button>}
             </div>
         </div>
     ,document.querySelector("#portal1")!)

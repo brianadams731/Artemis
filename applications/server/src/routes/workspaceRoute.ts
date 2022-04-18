@@ -70,21 +70,34 @@ workspaceRoute.get("/all", async(req,res)=>{
     return res.json(workspaces);
 })
 
-workspaceRoute.post("/add", async (req, res) => {
+workspaceRoute.post("/add", requireWithUserAsync, async (req, res) => {
     if (!req.body.name) {
         return res.status(400).send("Error: Malformed Request");
+    }
+
+    if(!req.user){
+        return res.status(401).send("Error: User not authorized");
     }
 
     const workspace = new Workspace();
     workspace.name = req.body.name;
 
-    console.log("HERE");
+    const user = await getRepository(User)
+    .createQueryBuilder("user")
+    .select("user.id")
+    .leftJoinAndSelect("user.workspaces", "workspace")
+    .where("user.id=:userId", { userId: req.user.id })
+    .getOne();
+    
     
     const board = new Board();
     board.name = "Unassigned";
     workspace.boards = [board];
 
     await workspace.save();
+    user?.workspaces.push(workspace);
+    user?.save();
+    
     return res.status(200).send("Workspace: Added");
 });
 
@@ -163,7 +176,6 @@ workspaceRoute.patch("/byId/:workspaceId", async (req, res) => {
 });
 
 workspaceRoute.delete("/byId/:workspaceId", requireWithUserAsync, async (req, res) => {
-    // TODO: Test route
     const workspaceId = req.params.workspaceId;
     if (!workspaceId) {
         return res.status(500).send("Error: Workspace id invalid");

@@ -27,11 +27,15 @@ loginRouter.post("/", async (req, res) => {
 
 loginRouter.get("/test", async (req, res)=>{
     console.log(req.session.userId);
+    
     if(!req.session.userId){
-        return res.status(401).send("Error: Not Logged In");
+        return res.status(401).send();
     }
     const user = await User.findOne(req.session.userId);
-    return res.status(200).json(user);
+    if(!user){
+        return res.status(401).send();  
+    }
+    return res.status(200).send();
 })
 
 export { loginRouter };

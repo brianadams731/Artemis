@@ -14,8 +14,11 @@ userRouter.get("/workspaces", requireWithUserAsync, async (req, res) => {
     .leftJoinAndSelect("user.workspaces","workspace")
     .where("user.id=:userId",{userId: req.user.id})
     .getOne();
-    
-    return res.status(200).json(workspaces);
+
+    if(!workspaces){
+        return res.status(404).send("Error: Cannot find user")
+    }
+    return res.status(200).json(workspaces.workspaces);
 });
 
 userRouter.patch("/update", requireWithUserAsync, async (req, res) => {

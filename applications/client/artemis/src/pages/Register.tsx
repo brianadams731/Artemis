@@ -51,7 +51,7 @@ const Register = (): JSX.Element => {
                         email: email
                     }, false)
                     if(res.ok){
-                        navigate("/");
+                        navigate("/dashboard/select");
                     }
                 }
             }>

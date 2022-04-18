@@ -3,7 +3,7 @@
 
 .outerWrap{
     position: relative;
-    min-height: 90vh;
+    min-height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -40,7 +40,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    &:hover{
+        cursor: pointer;
+    }
+    &:hover svg{
+        transform: scale(1.1);
+        fill: var(--c-main-purple);
+    }
     svg{
-        width:75%;
+        width:65%;
+        transition: all .2s ease-in-out;
     }
 }
