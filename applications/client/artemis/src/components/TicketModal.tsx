@@ -103,8 +103,9 @@ const TicketModal = ({ id, state, boardId, comment, description, closeModal, mut
                                 console.log(sourceTicket)
                             })
                             , false)
-                        await patchDataAsync(`${getEndpoint("")}/${id}`, {
-
+                        await patchDataAsync(`${getEndpoint("ticket_by_id")}/${id}`, {
+                            ticketComment: ticketComment,
+                            ticketDescription: ticketDescription
                         })
                     }
                     // TODO: Uncomment out to sync workspace back up with server

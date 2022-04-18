@@ -53,13 +53,10 @@ ticketRoute.get("/get-all-tickets-debug", async (req, res) => {
     return res.status(200).json(query);
 });
 
-ticketRoute.put(
-    "/:ticketId/:ticketComment/:ticketDescription",
-    requireWithUserAsync,
-    async (req, res) => {
+ticketRoute.patch("/byId/:ticketId", requireWithUserAsync, async (req, res) => {
         const ticketId = req.params.ticketId;
-        const ticketComment = req.params.ticketComment;
-        const ticketDescription = req.params.ticketDescription;
+        const ticketComment = req.body.ticketComment;
+        const ticketDescription = req.body.ticketDescription;
         if (!ticketId) {
             return res.status(500).send("Error: Please include Ticket ID");
         }
