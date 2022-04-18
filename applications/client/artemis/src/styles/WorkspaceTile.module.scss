@@ -10,7 +10,12 @@ $tileHeight: 300px;
     background: rgba(239, 239, 239, 0.8);
     box-shadow: 4px 4px 4px rgba(80, 66, 66, 0.25);
     border-radius: 50px;
+
+    button {
+        
+    }
 }
+
 
 .wrapper{
     @extend %tile;
@@ -22,7 +27,6 @@ $tileHeight: 300px;
     
     &:hover{    
         cursor: pointer;
-    }    
-
-
+    }  
+    
 }

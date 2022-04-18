@@ -63,7 +63,7 @@ const WorkspaceModal = ({state, id, name, closeModal}:Props):JSX.Element => {
                     }}/>
                     <button type="submit">{state === "new"?"Add Workspace":"Update"}</button>
                 </form>
-                {state === "edit" && <button onClick={async (e)=>{
+                {state === "edit" && <button onClick={async (e)=>{ //delete button here
                     e.preventDefault();
                     const rawRes = await fetch(`${getEndpoint("workspace_by_id")}/${id}`,{
                         method: "DELETE"

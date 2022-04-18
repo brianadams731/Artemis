@@ -15,7 +15,7 @@ const WorkspaceTile = ({id, name, editModal}:Props): JSX.Element => {
             navigate(`/dashboard/workspace/${id}`);
         }}>
             <h3>{name}</h3>
-            <button onClick={(e)=>{
+            <button onClick={(e)=>{ //edit button here
                 e.stopPropagation();
                 editModal({name, id});
             }}>Edit</button>
