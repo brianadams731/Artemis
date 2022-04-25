@@ -13,6 +13,7 @@ import { loginRouter } from "./routes/loginRoute";
 import { registerRouter } from "./routes/registerRoute";
 import { logoutRouter } from "./routes/logoutRoute";
 import { userRouter } from "./routes/userRouter";
+import { errorTrackerRouter } from "./routes/errorTrackerRouter";
 
 
 dotenv.config();
@@ -31,6 +32,9 @@ app.use("/ticket", ticketRoute);
 app.use("/workspace", workspaceRoute);
 app.use("/board", boardRouter);
 app.use("/user", userRouter);
+app.use("/errorTracker", errorTrackerRouter);
+
+app.use('/public', express.static('public'));
 
 
 
@@ -38,6 +42,6 @@ app.get("/", (req, res) => {
     return res.send("Test from server");
 });
 
-app.listen(process.env.PORT || "8080", () => {
+app.listen(process.env.PORT || "8080", () => {    
     console.log(`Server running at http://localhost:${process.env.PORT || "8080"}/`);
 });
