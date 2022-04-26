@@ -124,7 +124,7 @@ ticketRoute.post("/byId/:ticketId", async (req, res) => {
     
     await createQueryBuilder()
         .update(Ticket)
-        .set({currentdate: ()=>"NOW()"})
+        .set({closeDate: ()=>"NOW()"})
         .where("ticket.id = :searchTicketId", {searchTicketId: ticketId})
         .execute();
     return res.status(200).send();
