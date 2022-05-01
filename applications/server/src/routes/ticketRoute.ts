@@ -1,5 +1,5 @@
 import express from "express";
-import { getManager, getRepository } from "typeorm";
+import { createQueryBuilder, getManager, getRepository } from "typeorm";
 import { requireWithUserAsync } from "../middleware/requireWithUserAsync";
 import { Board } from "../models/Board";
 import { Ticket } from "../models/Ticket";
@@ -114,6 +114,20 @@ ticketRoute.delete("/byId/:ticketId", async (req, res) => {
         return res.status(500).send("Error: Ticket failed to remove");
     }
     return res.status(200).send("Ticket removed");
+});
+
+ticketRoute.post("/byId/:ticketId", async (req, res) => {
+    const ticketId = req.params.ticketId;
+    if (!ticketId) {
+        return res.status(400).send();
+    }
+    
+    await createQueryBuilder()
+        .update(Ticket)
+        .set({closeDate: ()=>"NOW()"})
+        .where("ticket.id = :searchTicketId", {searchTicketId: ticketId})
+        .execute();
+    return res.status(200).send();
 });
 
 export { ticketRoute };
