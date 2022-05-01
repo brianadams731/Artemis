@@ -95,7 +95,7 @@ const EditBoardModal = ({ state, id, name, workspaceId, closeModal, mutateWorksp
 
                 }}>
                     <label>{state === "edit" ? "Update Name" : "Board Name"}
-                        <input type="text" value={rename} onChange={(e) => {
+                        <input type="text" value={rename} data-testid="boardInput" onChange={(e) => {
                             setRename(e.target.value);
                         }} />
                     </label>
