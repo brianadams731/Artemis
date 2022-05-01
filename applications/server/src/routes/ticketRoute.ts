@@ -53,6 +53,24 @@ ticketRoute.get("/get-all-tickets-debug", async (req, res) => {
     return res.status(200).json(query);
 });
 
+ticketRoute.put("/byId/:ticketId/:priorityTicket", async (req, res) => {
+    const ticketId = req.params.ticketId;
+    const ticketPriority = req.params.priorityTicket;
+    if (!ticketId) {
+        return res.status(400).send("Error: Ticket ID  is empty");
+    }
+    if(!ticketPriority)
+    {
+        return res.status(400).send("Error: Priority is empty!")
+    }
+    await getRepository(Ticket).createQueryBuilder()
+        .update(Ticket)
+        .set({priority: ()=> ticketPriority})
+        .where("ticket.id = :searchTicketId", {searchTicketId: ticketId})
+        .execute();
+    return res.status(200).send("Success: Ticket priority was updated to "+ ticketPriority);
+});
+
 ticketRoute.patch("/byId/:ticketId", requireWithUserAsync, async (req, res) => {
         const ticketId = req.params.ticketId;
         const ticketComment = req.body.ticketComment;
