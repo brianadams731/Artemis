@@ -7,9 +7,9 @@ interface IUser{
 }
 const parseUserRegisterAsync = async(request:any):Promise<IUser> =>{
     let user:IUser = {};
-    user.email = request.email.toLowerCase(); // TODO consider verifying email
+    user.email = request.email;
     user.password = await generateHashedPasswordAsync(request.password);
-    user.username = request.username; 
+    user.username = request.username;
     return user;
 }
 

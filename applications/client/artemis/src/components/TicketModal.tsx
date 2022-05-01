@@ -114,13 +114,13 @@ const TicketModal = ({ id, state, boardId, comment, description, closeModal, mut
                 }}>
                     <label>
                         Title
-                        <input className={styles.title} type="text" value={ticketDescription} onChange={(e) => {
+                        <input className={styles.title} type="text" value={ticketDescription} data-testid="title" onChange={(e) => {
                             setTicketDescription(e.target.value);
                         }} />
                     </label>
                     <label>
                         Description
-                        <textarea className={styles.description} value={ticketComment} style={{ resize: 'none' }} onChange={(e) => {
+                        <textarea className={styles.description} value={ticketComment} style={{ resize: 'none' }} data-testid="description" onChange={(e) => {
                             setTicketComment(e.target.value);
                         }} />
                     </label>
