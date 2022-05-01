@@ -130,4 +130,22 @@ ticketRoute.post("/byId/:ticketId", async (req, res) => {
     return res.status(200).send();
 });
 
+ticketRoute.put("/byId/:ticketId/:priorityTicket", async (req, res) => {
+    const ticketId = req.params.ticketId;
+    const ticketPriority = req.params.priorityTicket;
+    if (!ticketId) {
+        return res.status(400).send("Error: Ticket ID  is empty");
+    }
+    if(!ticketPriority)
+    {
+        return res.status(400).send("Error: Priority is empty!")
+    }
+    await createQueryBuilder()
+        .update(Ticket)
+        .set({priority: ()=> ticketPriority})
+        .where("ticket.id = :searchTicketId", {searchTicketId: ticketId})
+        .execute();
+    return res.status(200).send("Success: Ticket priority was updated to "+ ticketPriority);
+});
+
 export { ticketRoute };
