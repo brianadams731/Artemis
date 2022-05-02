@@ -2,7 +2,7 @@ import express from "express";
 import { createQueryBuilder, getManager, getRepository } from "typeorm";
 import { requireWithUserAsync } from "../middleware/requireWithUserAsync";
 import { Board } from "../models/Board";
-import { priorityEnum, Ticket } from "../models/Ticket";
+import { Ticket } from "../models/Ticket";
 
 const ticketRoute = express.Router();
 
@@ -18,10 +18,6 @@ ticketRoute.get("/search/byDescription/:description", async (req, res) => {
 });
 
 ticketRoute.post("/add/byBoardId/:boardId", async (req, res) => {
-    interface Request {
-        comment: string;
-        description: string;
-    }
     const boardId = req.params.boardId;
 
     const lastIndex = await getRepository(Ticket)
@@ -37,6 +33,8 @@ ticketRoute.post("/add/byBoardId/:boardId", async (req, res) => {
     const ticket = new Ticket();
     ticket.comment = req.body.comment;
     ticket.description = req.body.description;
+    ticket.priority = req.body.priority ? req.body.priority : 0;
+
     ticket.index = lastIndex;
     board?.tickets.push(ticket);
     await board?.save();
@@ -54,27 +52,32 @@ ticketRoute.get("/get-all-tickets-debug", async (req, res) => {
 });
 
 ticketRoute.patch("/byId/:ticketId", requireWithUserAsync, async (req, res) => {
-        const ticketId = req.params.ticketId;
-        const ticketComment = req.body.ticketComment;
-        const ticketDescription = req.body.ticketDescription;
-        if (!ticketId) {
-            return res.status(500).send("Error: Please include Ticket ID");
-        }
-        const ticket = await Ticket.findOne(ticketId);
-        if (!ticket) {
-            return res.status(500).send("Error: No such a ticket ID");
-        }
-        if (ticketComment || ticketComment === "") {
-            ticket.comment = ticketComment;
-        }
-        if (ticketDescription) {
-            ticket.description = ticketDescription;
-        }
-        await ticket.save();
+    const ticketId = req.params.ticketId;
+    const ticketComment = req.body.ticketComment;
+    const ticketDescription = req.body.ticketDescription;
+    const ticketPriority = req.body.priority;
 
-        return res.status(200).send("Ticket updated");
+    if (!ticketId) {
+        return res.status(500).send("Error: Please include Ticket ID");
     }
-);
+    const ticket = await Ticket.findOne(ticketId);
+    if (!ticket) {
+        return res.status(500).send("Error: No such a ticket ID");
+    }
+    if (ticketComment || ticketComment === "") {
+        ticket.comment = ticketComment;
+    }
+    if (ticketDescription) {
+        ticket.description = ticketDescription;
+    }
+    if (ticketPriority) {
+        ticket.priority = ticketPriority;
+    }
+
+    await ticket.save();
+
+    return res.status(200).send("Ticket updated");
+});
 
 ticketRoute.delete("/byId/:ticketId", async (req, res) => {
     const ticketId = req.params.ticketId;
@@ -121,37 +124,62 @@ ticketRoute.post("/byId/:ticketId", async (req, res) => {
     if (!ticketId) {
         return res.status(400).send();
     }
-    
+
     await createQueryBuilder()
         .update(Ticket)
-        .set({closeDate: ()=>"NOW()"})
-        .where("ticket.id = :searchTicketId", {searchTicketId: ticketId})
+        .set({ closeDate: () => "NOW()" })
+        .where("ticket.id = :searchTicketId", { searchTicketId: ticketId })
         .execute();
     return res.status(200).send();
 });
 
-ticketRoute.put("/byId/:ticketId/:priorityTicket", async (req, res) => {
+ticketRoute.get("/close/:ticketId", async(req, res)=>{
     const ticketId = req.params.ticketId;
-    const ticketPriority = req.params.priorityTicket;
-    if (!ticketId) {
-        return res.status(400).send("Error: Ticket ID  is empty");
+    if(!ticketId){
+        return res.status(400).send();
     }
-    if(!ticketPriority)
-    {
-        return res.status(400).send("Error: Priority is empty!")
+    try{
+        await createQueryBuilder()
+            .update(Ticket)
+            .set({closeDate: ()=>"NOW()"})
+            .where("id=:ticketId",{ticketId})
+            .execute();
+    }catch(err){
+        return res.status(500).send();
     }
-    if(parseInt(ticketPriority)!=priorityEnum.HIGH||parseInt(ticketPriority)!=priorityEnum.MEDIUM||parseInt(ticketPriority)!=priorityEnum.LOW)
-    {
-        return res.status(400).send("Error: Wrong Enum only 0-2")
-    }
-    await createQueryBuilder()
-        .update(Ticket)
-        .set({priority: ()=> ticketPriority})
-        .where("ticket.id = :searchTicketId", {searchTicketId: ticketId})
-        .execute();
-    return res.status(200).send("Success: Ticket priority was updated to "+ ticketPriority);
+    return res.status(200).send();
+})
 
-    
+ticketRoute.get("/open/:ticketId", async(req, res)=>{
+    const ticketId = req.params.ticketId;
+    if(!ticketId){
+        return res.status(400).send();
+    }
+    try{
+        await createQueryBuilder()
+            .update(Ticket)
+            .set({closeDate: null})
+            .where("id=:ticketId",{ticketId})
+            .execute();
+    }catch(err){
+        return res.status(500).send();
+    }
+    return res.status(200).send();
+})
+
+ticketRoute.get("/byId/:ticketId", async (req, res) => {
+    const ticketId = req.params.ticketId;
+    let ticket: Ticket | undefined;
+    try {
+        ticket = await Ticket.findOne(ticketId);
+    } catch (err) {
+        return res.status(500).send();
+    }
+    if (!ticket) {
+        return res.status(400).send();
+    }
+
+    return res.status(200).json(ticket);
 });
 
 export { ticketRoute };

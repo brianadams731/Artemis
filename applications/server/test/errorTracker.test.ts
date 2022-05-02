@@ -18,10 +18,12 @@ describe('Ticket Functionality', () => {
     })
 
     test('Trap Error', async () => {
+        const workspaceId = "793795a6-ab6d-4115-9a9a-3ad7112bce31";
+        
         let res = await request(app).post("/errorTracker").send({
             message:"test message",
             stacktrace: "stacktrace",
-            workspaceId: "793795a6-ab6d-4115-9a9a-3ad7112bce31", // TODO: DONT HARD CODE THIS
+            workspaceId: workspaceId, // TODO: DONT HARD CODE THIS
             client: "test",
             location: "test client",
         });        
