@@ -34,6 +34,14 @@ const DashboardHeader = (): JSX.Element => {
                         <Link to="/">boards</Link>
                         <Link to="/dashboard/select">workspace</Link>
                         <a href="http://about.thoughtgrove.com">about</a>
+                        <a onClick={async ()=>{ 
+                            const res = await fetch(getEndpoint("logout")!);
+                            if (!res.ok) {
+                                console.log("Error");
+                            }else{
+                                navigate("/");
+                            }
+                        }}>logout</a>
                     </ul>
                 </nav>
 
