@@ -40,7 +40,7 @@ errorTrackerRouter.post("/", cors(), async (req, res) => {
         .getRawOne();
 
     if(checkForDuplicate?.count > 0){
-        return res.status(500).send();
+        return res.status(409).send();
     }
     
     const lastIndex = await getRepository(Ticket)

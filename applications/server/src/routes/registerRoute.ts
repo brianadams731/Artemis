@@ -1,4 +1,5 @@
 import express from "express";
+import { QueryFailedError } from "typeorm";
 import { User } from "../models/User";
 import { parseUserRegisterAsync } from "../utils/parseUser";
 const registerRouter = express.Router();
@@ -13,8 +14,11 @@ registerRouter.post("/", async (req,res)=>{
         user.email = parsedUser.email!;        
         await user.save();       
         req.session.userId = user!.id;
-    }catch(err){
-        console.log(err);
+    }catch(err:any){
+        if(err instanceof QueryFailedError){
+            // duplicate entry
+            return res.status(400).send();
+        }
         return res.status(500).send("Error: User not created");
     }
     return res.status(200).send("User Created");

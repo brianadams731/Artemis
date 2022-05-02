@@ -16,7 +16,6 @@ loginRouter.post("/", async (req, res) => {
     }
 
     const isValidPassword = await checkHashedPasswordAsync(loginCred.password, user.password);
-    console.log(isValidPassword);
     if (!isValidPassword) {
         return res.status(401).send("Error: Invalid Credentials");
     } else {
@@ -25,9 +24,7 @@ loginRouter.post("/", async (req, res) => {
     }
 });
 
-loginRouter.get("/test", async (req, res)=>{
-    console.log(req.session.userId);
-    
+loginRouter.get("/test", async (req, res)=>{  
     if(!req.session.userId){
         return res.status(401).send();
     }
