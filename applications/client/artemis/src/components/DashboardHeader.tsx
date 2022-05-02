@@ -31,7 +31,7 @@ const DashboardHeader = (): JSX.Element => {
             <div className={styles.navatar}>
                 <nav className={styles.navBox}>
                     <ul>
-                        <Link to="/">dashboard</Link>
+                        <Link to="/">boards</Link>
                         <Link to="/dashboard/select">workspace</Link>
                         <a href="http://about.thoughtgrove.com">about</a>
                     </ul>

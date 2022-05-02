@@ -17,7 +17,7 @@ describe("Request New Workspace", () => {
         )
         const input = screen.getByTestId<HTMLInputElement>("boardInput");
         fireEvent.change(input, { target: { value: 'Test Name' } });
-        expect(input.value).toEqual('Test Name');
+        expect(input.value).toEqual('Test Name'); 
     })
 
     test("Test edit name gets passed correctly", () => {
