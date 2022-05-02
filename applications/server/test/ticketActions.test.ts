@@ -8,7 +8,7 @@ interface Request {
 
 let ticketId: any;
 
-describe('Ticket Funcationality', () => {
+describe('Ticket Functionality', () => {
     test('POST /add/byBoardId/:boardId', (done) => {
         request(app)
         .post('/add')
