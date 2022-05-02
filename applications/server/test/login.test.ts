@@ -12,11 +12,18 @@ describe('Ticket Functionality', () => {
     beforeAll(async ()=>{
         dotenv.config();
         connection = await createConnection(connectionConfig);
+        
+        await request(app).post("/register").send({
+            email:"test@test.com",
+            password: "test",
+            username: "testUser"
+        });
 
         const res = await request(app).post("/login").send({
             email:"test@test.com",
             password:"test"
         });
+
         cookies = res.header['set-cookie'][0];
     })
 
