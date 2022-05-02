@@ -2,7 +2,7 @@ import express from "express";
 import { createQueryBuilder, getManager, getRepository } from "typeorm";
 import { requireWithUserAsync } from "../middleware/requireWithUserAsync";
 import { Board } from "../models/Board";
-import { Ticket } from "../models/Ticket";
+import { priorityEnum, Ticket } from "../models/Ticket";
 
 const ticketRoute = express.Router();
 
@@ -51,24 +51,6 @@ ticketRoute.get("/get-all-tickets-debug", async (req, res) => {
         .getMany();
 
     return res.status(200).json(query);
-});
-
-ticketRoute.put("/byId/:ticketId/:priorityTicket", async (req, res) => {
-    const ticketId = req.params.ticketId;
-    const ticketPriority = req.params.priorityTicket;
-    if (!ticketId) {
-        return res.status(400).send("Error: Ticket ID  is empty");
-    }
-    if(!ticketPriority)
-    {
-        return res.status(400).send("Error: Priority is empty!")
-    }
-    await getRepository(Ticket).createQueryBuilder()
-        .update(Ticket)
-        .set({priority: ()=> ticketPriority})
-        .where("ticket.id = :searchTicketId", {searchTicketId: ticketId})
-        .execute();
-    return res.status(200).send("Success: Ticket priority was updated to "+ ticketPriority);
 });
 
 ticketRoute.patch("/byId/:ticketId", requireWithUserAsync, async (req, res) => {
@@ -146,6 +128,30 @@ ticketRoute.post("/byId/:ticketId", async (req, res) => {
         .where("ticket.id = :searchTicketId", {searchTicketId: ticketId})
         .execute();
     return res.status(200).send();
+});
+
+ticketRoute.put("/byId/:ticketId/:priorityTicket", async (req, res) => {
+    const ticketId = req.params.ticketId;
+    const ticketPriority = req.params.priorityTicket;
+    if (!ticketId) {
+        return res.status(400).send("Error: Ticket ID  is empty");
+    }
+    if(!ticketPriority)
+    {
+        return res.status(400).send("Error: Priority is empty!")
+    }
+    if(parseInt(ticketPriority)!=priorityEnum.HIGH||parseInt(ticketPriority)!=priorityEnum.MEDIUM||parseInt(ticketPriority)!=priorityEnum.LOW)
+    {
+        return res.status(400).send("Error: Wrong Enum only 0-2")
+    }
+    await createQueryBuilder()
+        .update(Ticket)
+        .set({priority: ()=> ticketPriority})
+        .where("ticket.id = :searchTicketId", {searchTicketId: ticketId})
+        .execute();
+    return res.status(200).send("Success: Ticket priority was updated to "+ ticketPriority);
+
+    
 });
 
 export { ticketRoute };

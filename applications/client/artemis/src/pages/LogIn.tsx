@@ -26,7 +26,7 @@ const LogIn = (): JSX.Element => {
             }}>
                 <br />
                 <h1>Welcome</h1>
-                <input type="text" placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} required />
+                <input type="text" placeholder='Email' id="email-input" data-testid="email-input" value={email} onChange={(e) => setEmail(e.target.value)} required />
                 <input type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} required />
                 <a href="/">Forgot Password?</a>
                 <div>New to Artemis? <a href="/register">Create an account</a></div>

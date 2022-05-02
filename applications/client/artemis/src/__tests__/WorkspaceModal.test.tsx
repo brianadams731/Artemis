@@ -29,4 +29,9 @@ describe("Request New Workspace", () => {
         const input = screen.getByTestId<HTMLInputElement>("nameinput");
         expect(input.value).toEqual('testedit');
     })
+
+    test("Test number of All Workspaces differs from Your Workspaces", () => {
+        
+    })
+
 })
