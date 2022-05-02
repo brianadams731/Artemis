@@ -1,6 +1,11 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from "typeorm";
 import { Board } from "./Board";
 
+export enum priorityEnum {
+    LOW = 0,
+    MEDIUM = 1,
+    HIGH = 2
+}
 
 @Entity()
 class Ticket extends BaseEntity{
@@ -16,8 +21,16 @@ class Ticket extends BaseEntity{
     @CreateDateColumn()
     openDate: Date;
 
-    @Column({type:"date", nullable:true})
+    @Column({type:"timestamptz", nullable:true})
     closeDate: string;
+    
+
+    @Column({
+        type: "enum",
+        enum:priorityEnum,
+        default:priorityEnum.LOW
+    })
+    priority:priorityEnum
 
     @Column()
     index: number;

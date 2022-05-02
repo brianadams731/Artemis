@@ -5,14 +5,14 @@ import styles from '../styles/AccountForms.module.scss';
 import regStyles from "../styles/Register.module.scss";
 import { getEndpoint } from '../utils/apiEndpoints';
 import { useNavigate } from 'react-router-dom';
-
+ 
 const Register = (): JSX.Element => {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
-
+ 
     const handleRegister = () => {
         let messages = [];
         // let check = /(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*\W)/;
@@ -51,11 +51,11 @@ const Register = (): JSX.Element => {
                         email: email
                     }, false)
                     if(res.ok){
-                        navigate("/dashboard/select");
+                        navigate("/");
                     }
                 }
             }>
-                <h1>Register</h1>
+                <h2>Register</h2>
                 <input type="text" value={username} placeholder='Username' onChange={(e) => setUsername(e.target.value)} required />
                 <input type="email" value={email} placeholder='Email' onChange={(e) => setEmail(e.target.value)} required />
                 <input type="password" value={password} placeholder='Password' onChange={(e) => setPassword(e.target.value)} required />
@@ -63,7 +63,9 @@ const Register = (): JSX.Element => {
                 <label><input type="checkbox" required />I agree to Artemis Privacy Policy</label>
                 <label><input type="checkbox" required />I agree to Artemis Terms of Service</label>
                 <button>Register</button>
+                <footer>Have an account? <a href='/login'>Log In</a></footer>
             </form>
+            
         </div>
     )
 }

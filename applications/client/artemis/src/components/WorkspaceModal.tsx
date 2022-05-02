@@ -59,10 +59,10 @@ const WorkspaceModal = ({state, id, name, closeModal}:Props):JSX.Element => {
                         }
                     }
                 }}>
-                    <input type="text" value={editName} onChange={(e)=>{
+                    <input type="text" value={editName} data-testid="nameinput" onChange={(e)=>{
                         setEditName(e.target.value);
                     }}/>
-                    <button type="submit">{state === "new"?"Add Workspace":"Update"}</button>
+                    <button type="submit" data-testid="submit">{state === "new"?"Add Workspace":"Update"}</button>
                 </form>
                 {state === "edit" && <button className={styles.trash} onClick={async (e)=>{ //delete button here
                     e.preventDefault();
