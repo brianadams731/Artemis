@@ -16,20 +16,22 @@ describe('Ticket Functionality', () => {
     afterAll(async ()=>{
         await connection.close();
     })
-
+    
     const ticketId = "8f34ed43-4af5-4c92-8ee9-fa3c5c831788";
 
-    test('Change Priority', async () => {
-        const priority = 1;
-        let res = await request(app).post(`/ticket/byId/${ticketId}`).send({
-            ticketComment:"test",
-            ticketDescription:"test-description",
-            priority
-        }); 
-
+    test('Close Ticket', async () => {
+        let res = await request(app).get(`/ticket/close/${ticketId}`).send(); 
         expect(res.status).toEqual(200);
 
         res = await request(app).get(`/ticket/byId/${ticketId}`).send();      
-        expect(res.body?.priority).toEqual(priority);
+        expect(res.body?.closeDate).toBeTruthy();
     });
+
+    test('Open Ticket', async () =>{
+        let res = await request(app).get(`/ticket/open/${ticketId}`).send(); 
+        expect(res.status).toEqual(200);
+
+        res = await request(app).get(`/ticket/byId/${ticketId}`).send();      
+        expect(res.body?.closeDate).toBeFalsy();
+    })
 });

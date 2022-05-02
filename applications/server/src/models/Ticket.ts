@@ -21,7 +21,7 @@ class Ticket extends BaseEntity{
     @CreateDateColumn()
     openDate: Date;
 
-    @Column({type:"date", nullable:true})
+    @Column({type:"timestamptz", nullable:true})
     closeDate: string;
     
 

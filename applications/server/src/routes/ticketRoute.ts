@@ -133,6 +133,40 @@ ticketRoute.post("/byId/:ticketId", async (req, res) => {
     return res.status(200).send();
 });
 
+ticketRoute.get("/close/:ticketId", async(req, res)=>{
+    const ticketId = req.params.ticketId;
+    if(!ticketId){
+        return res.status(400).send();
+    }
+    try{
+        await createQueryBuilder()
+            .update(Ticket)
+            .set({closeDate: ()=>"NOW()"})
+            .where("id=:ticketId",{ticketId})
+            .execute();
+    }catch(err){
+        return res.status(500).send();
+    }
+    return res.status(200).send();
+})
+
+ticketRoute.get("/open/:ticketId", async(req, res)=>{
+    const ticketId = req.params.ticketId;
+    if(!ticketId){
+        return res.status(400).send();
+    }
+    try{
+        await createQueryBuilder()
+            .update(Ticket)
+            .set({closeDate: null})
+            .where("id=:ticketId",{ticketId})
+            .execute();
+    }catch(err){
+        return res.status(500).send();
+    }
+    return res.status(200).send();
+})
+
 ticketRoute.get("/byId/:ticketId", async (req, res) => {
     const ticketId = req.params.ticketId;
     let ticket: Ticket | undefined;
