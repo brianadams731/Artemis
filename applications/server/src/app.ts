@@ -45,3 +45,5 @@ app.get("/", (req, res) => {
 app.listen(process.env.PORT || "8080", () => {    
     console.log(`Server running at http://localhost:${process.env.PORT || "8080"}/`);
 });
+
+export { app };
