@@ -136,6 +136,7 @@
 
 .addWrapper{
     @extend .board;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -157,4 +158,12 @@
         width: 100%;
         transition: fill .2s ease-in-out;
     }
+}
+
+.counter{
+    position: absolute;
+    width: fit-content;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
 }
