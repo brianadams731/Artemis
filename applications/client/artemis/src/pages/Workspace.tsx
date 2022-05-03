@@ -73,7 +73,7 @@ const Workspace = (): JSX.Element => {
         <div className={styles.outerWrap}>
             <img className={styles.background} src='/assets/backgroundHex.svg' alt="background"/>
             <AnimatePresence>
-                {ticketModalState.state === "edit" && <TicketModal state={ticketModalState.state} id={ticketModalState.id} boardId={ticketModalState.boardId} description={ticketModalState.description} comment={ticketModalState.comment} closeModal={() => setTicketModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace} />}
+                {ticketModalState.state === "edit" && <TicketModal state={ticketModalState.state} id={ticketModalState.id} boardId={ticketModalState.boardId} description={ticketModalState.description} comment={ticketModalState.comment} priority={ticketModalState.priority} closeModal={() => setTicketModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace} />}
                 {ticketModalState.state === "new" && <TicketModal state={ticketModalState.state} boardId={ticketModalState.boardId} closeModal={() => setTicketModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace} />}
                 {boardModalState.state === "edit" && <EditBoardModal state={boardModalState.state} id={boardModalState.board.id} name={boardModalState.board.name} closeModal={() => setBoardModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace}/>}
                 {boardModalState.state === "new" && <EditBoardModal state={boardModalState.state} workspaceId={boardModalState.workspace.id} closeModal={() => setBoardModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace} />}
@@ -114,6 +114,7 @@ const Workspace = (): JSX.Element => {
                                                             boardId: board.id,
                                                             description: ticket.description,
                                                             comment: ticket.comment,
+                                                            priority: ticket.priority
                                                         });
                                                     }}>
                                                         {ticket.description}

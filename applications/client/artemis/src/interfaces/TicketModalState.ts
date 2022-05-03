@@ -4,6 +4,7 @@ interface TicketModelEdit {
     boardId: string;
     description: string;
     comment: string;
+    priority: string;
 }
 
 interface TicketModalNew {

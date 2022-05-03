@@ -31,7 +31,11 @@ describe("Request New Workspace", () => {
     })
 
     test("Test number of All Workspaces differs from Your Workspaces", () => {
-        
+        render(
+            <>
+            
+            </>
+        )
     })
 
 })

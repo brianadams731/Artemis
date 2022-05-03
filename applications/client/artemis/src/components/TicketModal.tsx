@@ -10,12 +10,15 @@ import { patchDataAsync } from "../utils/patchDataAsync";
 import { postDataAsync } from "../utils/postDataAsync";
 import { Trashcan } from "./svg/Trashcan";
 
+import { Dropdown } from "./Dropdown";
+
 interface EditProps {
     state: "edit"
     id: string;
     boardId: string;
     description: string;
     comment: string;
+    priority: string;
     closeModal: () => void;
     mutateWorkspace: KeyedMutator<IWorkspace>;
 }
@@ -29,15 +32,17 @@ interface NewProps {
     id?: string;
     comment?: string;
     description?: string;
+    priority?: string;
 }
 
 type Props = NewProps | EditProps;
 
-const TicketModal = ({ id, state, boardId, comment, description, closeModal, mutateWorkspace }: Props): JSX.Element => {
+const TicketModal = ({ id, state, boardId, comment, description, priority, closeModal, mutateWorkspace }: Props): JSX.Element => {
 
     const [ticketDescription, setTicketDescription] = useState<string>(description ? description : "");
     const [ticketComment, setTicketComment] = useState<string>(comment ? comment : "");
-    const [canExit, setCanExit] = useState(true);
+    const [ticketPriority, setTicketPriority] = useState("")
+    const [canExit, setCanExit] = useState(true);    
 
     useEffect(() => {
         document.body.style.overflow = "hidden";
@@ -46,6 +51,10 @@ const TicketModal = ({ id, state, boardId, comment, description, closeModal, mut
             document.body.style.overflow = "unset";
         }
     }, [])
+
+    // const handlePriority = (e) => {
+    //     setTicketPriority(e.target.value);
+    // }
 
     return ReactDOM.createPortal(
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={styles.wrapper} onClick={() => { canExit&& closeModal() }} onMouseUp={()=>{
@@ -84,13 +93,15 @@ const TicketModal = ({ id, state, boardId, comment, description, closeModal, mut
                                     // TODO: generate a better id
                                     id: `ticket${Math.floor(Math.random() * 999999999)}`,
                                     description: ticketDescription,
-                                    comment: ticketComment
+                                    comment: ticketComment,
+                                    priority: ticketPriority
                                 })
                             })
                             , false)
                         await postDataAsync(`${getEndpoint("add_ticket_by_boardId")}/${boardId}`, {
                             description: ticketDescription,
-                            comment: ticketComment
+                            comment: ticketComment,
+                            priority: ticketPriority
                         })
                         mutateWorkspace();
                     } else {
@@ -100,12 +111,14 @@ const TicketModal = ({ id, state, boardId, comment, description, closeModal, mut
                                 const sourceTicket = sourceBoard?.tickets?.find((item) => item.id === id);
                                 sourceTicket!.description = ticketDescription;
                                 sourceTicket!.comment = ticketComment;
+                                sourceTicket!.priority = ticketPriority
                                 console.log(sourceTicket)
                             })
                             , false)
                         await patchDataAsync(`${getEndpoint("ticket_by_id")}/${id}`, {
                             ticketComment: ticketComment,
-                            ticketDescription: ticketDescription
+                            ticketDescription: ticketDescription,
+                            ticketPriority: ticketPriority
                         })
                     }
                     // TODO: Uncomment out to sync workspace back up with server
@@ -123,6 +136,12 @@ const TicketModal = ({ id, state, boardId, comment, description, closeModal, mut
                         <textarea className={styles.description} value={ticketComment} style={{ resize: 'none' }} data-testid="description" onChange={(e) => {
                             setTicketComment(e.target.value);
                         }} />
+                    </label>
+                    <label>
+                        Priority
+                        <div className="select-div">
+                            <Dropdown/>
+                        </div>
                     </label>
 
                     <button type="submit">{id ? "Update" : "Create"}</button>
