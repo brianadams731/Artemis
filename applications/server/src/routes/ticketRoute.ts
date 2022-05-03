@@ -55,8 +55,7 @@ ticketRoute.patch("/byId/:ticketId", requireWithUserAsync, async (req, res) => {
     const ticketId = req.params.ticketId;
     const ticketComment = req.body.ticketComment;
     const ticketDescription = req.body.ticketDescription;
-    const ticketPriority = req.body.priority;
-
+    const ticketPriority = req.body.ticketPriority;
     if (!ticketId) {
         return res.status(500).send("Error: Please include Ticket ID");
     }
@@ -71,6 +70,7 @@ ticketRoute.patch("/byId/:ticketId", requireWithUserAsync, async (req, res) => {
         ticket.description = ticketDescription;
     }
     if (ticketPriority) {
+        console.log("UPDATE");
         ticket.priority = ticketPriority;
     }
 

@@ -25,12 +25,8 @@ class Ticket extends BaseEntity{
     closeDate: string;
     
 
-    @Column({
-        type: "enum",
-        enum:priorityEnum,
-        default:priorityEnum.LOW
-    })
-    priority:priorityEnum
+    @Column({default: 0})
+    priority: number;
 
     @Column()
     index: number;
