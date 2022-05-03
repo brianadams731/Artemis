@@ -73,7 +73,7 @@ const Workspace = (): JSX.Element => {
         <div className={styles.outerWrap}>
             <img className={styles.background} src='/assets/backgroundHex.svg' alt="background"/>
             <AnimatePresence>
-                {ticketModalState.state === "edit" && <TicketModal state={ticketModalState.state} id={ticketModalState.id} boardId={ticketModalState.boardId} description={ticketModalState.description} comment={ticketModalState.comment} priority={ticketModalState.priority} closeModal={() => setTicketModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace} />}
+                {ticketModalState.state === "edit" && <TicketModal state={ticketModalState.state} id={ticketModalState.id} boardId={ticketModalState.boardId} description={ticketModalState.description} comment={ticketModalState.comment} closeDate={ticketModalState.closeDate} priority={ticketModalState.priority} closeModal={() => setTicketModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace} />}
                 {ticketModalState.state === "new" && <TicketModal state={ticketModalState.state} boardId={ticketModalState.boardId} closeModal={() => setTicketModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace} />}
                 {boardModalState.state === "edit" && <EditBoardModal state={boardModalState.state} id={boardModalState.board.id} name={boardModalState.board.name} closeModal={() => setBoardModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace}/>}
                 {boardModalState.state === "new" && <EditBoardModal state={boardModalState.state} workspaceId={boardModalState.workspace.id} closeModal={() => setBoardModalState({ state: "closed" })} mutateWorkspace={mutateWorkspace} />}
@@ -108,16 +108,20 @@ const Workspace = (): JSX.Element => {
                                             <Draggable draggableId={ticket.id} index={index} key={ticket.id}>
                                                 {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
                                                     <div ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps} className={styles.ticket} style={{ ...provided.draggableProps.style }} onClick={() => {
+                                                        console.log(ticket);
+                                                        
                                                         setTicketModalState({
                                                             state: "edit",
                                                             id: ticket.id,
                                                             boardId: board.id,
                                                             description: ticket.description,
                                                             comment: ticket.comment,
-                                                            priority: ticket.priority
+                                                            priority: ticket.priority,
+                                                            closeDate: ticket.closeDate
                                                         });
                                                     }}>
-                                                        {ticket.description}
+                                                        <div data-priority={ticket.priority} className={styles.priority}></div>
+                                                        <span data-closed={ticket.closeDate?true:false}>{ticket.description}</span>
                                                     </div>
                                                 )}
                                             </Draggable>

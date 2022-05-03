@@ -2,7 +2,8 @@ interface ITicket {
     id: string;
     description: string;
     comment: string;
-    priority: string;
+    priority: number;
+    closeDate: string|null;
 }
 
 export type { ITicket };
