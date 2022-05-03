@@ -5,6 +5,7 @@ interface TicketModelEdit {
     description: string;
     comment: string;
     priority: number;
+    closeDate: string|null;
 }
 
 interface TicketModalNew {

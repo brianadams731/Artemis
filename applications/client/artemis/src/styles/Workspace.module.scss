@@ -125,6 +125,13 @@
     [data-priority="2"]{
         background-color: rgb(219, 1, 1);
     }
+
+    [data-closed="true"]{
+        text-decoration: line-through;
+    }
+    [data-closed="false"]{
+        text-decoration: none;
+    }
 }
 
 .addWrapper{
