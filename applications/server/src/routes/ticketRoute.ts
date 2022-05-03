@@ -71,7 +71,6 @@ ticketRoute.patch("/byId/:ticketId", requireWithUserAsync, async (req, res) => {
         ticket.description = ticketDescription;
     }
     if (ticketPriority) {
-        console.log("UPDATE");
         ticket.priority = ticketPriority;
     }
 
