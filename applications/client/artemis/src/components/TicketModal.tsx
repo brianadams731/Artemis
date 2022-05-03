@@ -16,6 +16,7 @@ interface EditProps {
     boardId: string;
     description: string;
     comment: string;
+    priority: number;
     closeModal: () => void;
     mutateWorkspace: KeyedMutator<IWorkspace>;
 }
@@ -29,14 +30,16 @@ interface NewProps {
     id?: string;
     comment?: string;
     description?: string;
+    priority?:number;
 }
 
 type Props = NewProps | EditProps;
 
-const TicketModal = ({ id, state, boardId, comment, description, closeModal, mutateWorkspace }: Props): JSX.Element => {
+const TicketModal = ({ id, state, boardId, comment, priority, description, closeModal, mutateWorkspace }: Props): JSX.Element => {
 
     const [ticketDescription, setTicketDescription] = useState<string>(description ? description : "");
     const [ticketComment, setTicketComment] = useState<string>(comment ? comment : "");
+    const [ticketPriority, setTicketPriority] = useState<number>(priority? priority : 0);
     const [canExit, setCanExit] = useState(true);
 
     useEffect(() => {
@@ -81,17 +84,18 @@ const TicketModal = ({ id, state, boardId, comment, description, closeModal, mut
                             produce<IWorkspace>(draft => {
                                 const sourceBoard = draft.boards.find((item) => item.id === boardId);
                                 sourceBoard?.tickets.push({
-                                    // TODO: generate a better id
                                     id: `ticket${Math.floor(Math.random() * 999999999)}`,
                                     description: ticketDescription,
-                                    comment: ticketComment
+                                    comment: ticketComment,
+                                    priority: ticketPriority
                                 })
                             })
                             , false)
                         await postDataAsync(`${getEndpoint("add_ticket_by_boardId")}/${boardId}`, {
                             description: ticketDescription,
-                            comment: ticketComment
-                        })
+                            comment: ticketComment,
+                            priority: ticketPriority
+                        }, false)
                         mutateWorkspace();
                     } else {
                         mutateWorkspace(
@@ -100,13 +104,17 @@ const TicketModal = ({ id, state, boardId, comment, description, closeModal, mut
                                 const sourceTicket = sourceBoard?.tickets?.find((item) => item.id === id);
                                 sourceTicket!.description = ticketDescription;
                                 sourceTicket!.comment = ticketComment;
-                                console.log(sourceTicket)
+                                sourceTicket!.priority = ticketPriority;
                             })
                             , false)
+
+                            console.log(ticketPriority);
+                            
                         await patchDataAsync(`${getEndpoint("ticket_by_id")}/${id}`, {
                             ticketComment: ticketComment,
-                            ticketDescription: ticketDescription
-                        })
+                            ticketDescription: ticketDescription,
+                            ticketPriority: ticketPriority
+                        }, false)
                     }
                     // TODO: Uncomment out to sync workspace back up with server
                     //await mutateWorkspace();
@@ -124,6 +132,12 @@ const TicketModal = ({ id, state, boardId, comment, description, closeModal, mut
                             setTicketComment(e.target.value);
                         }} />
                     </label>
+
+                    <div className={styles.radioWrapper} onClick={(e)=>e.preventDefault()}>
+                        <button style={ticketPriority === 2?{border: "3px solid var(--c-main-gray)"}:{}}className={styles.red} onClick={()=> setTicketPriority(2)}></button>
+                        <button style={ticketPriority === 1?{border: "3px solid var(--c-main-gray)"}:{}}className={styles.yellow} onClick={()=> setTicketPriority(1)}></button>
+                        <button style={ticketPriority === 0?{border: "3px solid var(--c-main-gray)"}:{}}className={styles.blue} onClick={()=> setTicketPriority(0)}></button>
+                    </div>
 
                     <button type="submit">{id ? "Update" : "Create"}</button>
                 </form>
