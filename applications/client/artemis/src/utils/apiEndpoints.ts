@@ -16,6 +16,8 @@ const endpoints: IEndpoints = Object.freeze({
     
     ticket_by_id: `${base}/ticket/byId`, //:ticketId is required
     add_ticket_by_boardId: `${base}/ticket/add/byBoardId`,// :boardId is required
+    mark_ticket_open: `${base}/ticket/open`, // :ticketId is required
+    mark_ticket_closed: `${base}/ticket/close`, // :ticketId is required
 
     board_get_all_debug: `${base}/board/get-all-debug`,
     board_search_by_name: `${base}/board/search/byName/`, // :boardName is required
