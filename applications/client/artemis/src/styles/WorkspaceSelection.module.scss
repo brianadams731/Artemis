@@ -19,7 +19,15 @@
     }
 }
 
-
+.searchBar{
+    margin-left: auto; 
+    margin-right: auto;
+    display: block;
+    border-radius: 20px;
+    align-items: center;
+    padding: 10px;
+    margin-top: 10px;
+}
 
 //this wrapper will move all items on the page
 .tileWrapper{

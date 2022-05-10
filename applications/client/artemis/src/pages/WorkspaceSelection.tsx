@@ -14,6 +14,7 @@ const WorkspaceSelection = (): JSX.Element => {
     const [workspaceTiles, setWorkspaceTiles] = useState<IWorkspaceTile[]>();
     const [workspaceModalState, setWorkspaceModalState] = useState<WorkspaceModalState>({ state: "closed" });
     const [whichWorkspaces, setWhichWorkspaces] = useState<"all" | "user">("all");
+    const [search, setSearch] = useState('');
 
     const updateWorkspace = async (): Promise<void> => {
         const rawData = await fetch(getEndpoint(whichWorkspaces === "all" ? "all_workspaces" : "all_user_workspaces")!);
@@ -41,6 +42,7 @@ const WorkspaceSelection = (): JSX.Element => {
             <button style={{display:"block", marginLeft:"auto", marginRight:"auto"}}onClick={() => {
                 setWhichWorkspaces(whichWorkspaces === "all" ? "user" : "all");
             }}>{whichWorkspaces === "all" ? "View Your Workspaces" : "View All Workspaces" }</button>
+            <input className={styles.searchBar} type="text" placeholder='Search for a workspace' onChange={e => {setSearch(e.target.value)}}/>
             <div className={styles.outerWrap}>
                 {workspaceModalState.state === "new" && <WorkspaceModal state={workspaceModalState.state} closeModal={() => {
                     updateWorkspace();
@@ -62,7 +64,14 @@ const WorkspaceSelection = (): JSX.Element => {
                     }}>
                         <Plus />
                     </div>
-                    {workspaceTiles.map(item => {
+                    {workspaceTiles
+                    .filter(e=> {
+                        if(search === ""){
+                            return e;
+                        }else if(e.name.toLowerCase().includes(search.toLowerCase())){
+                            return e;
+                        }
+                    }).map(item => {
                         return (
                             <WorkspaceTile key={item.id} name={item.name} id={item.id} editModal={(workspace: IWorkspaceTile) => {
                                 setWorkspaceModalState({
