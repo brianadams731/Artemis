@@ -17,7 +17,7 @@ describe('Ticket Functionality', () => {
         await connection.close();
     })
     
-    const ticketId = "8f34ed43-4af5-4c92-8ee9-fa3c5c831788";
+    const ticketId = "0348e780-ba17-43e5-99f8-a4ddfba97f68";
 
     test('Close Ticket', async () => {
         let res = await request(app).get(`/ticket/close/${ticketId}`).send(); 

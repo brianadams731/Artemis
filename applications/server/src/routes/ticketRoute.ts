@@ -1,6 +1,7 @@
 import express from "express";
 import { createQueryBuilder, getManager, getRepository } from "typeorm";
 import { requireWithUserAsync } from "../middleware/requireWithUserAsync";
+import { Workspace } from "../models/Workspace";
 import { Board } from "../models/Board";
 import { Ticket } from "../models/Ticket";
 
@@ -70,7 +71,6 @@ ticketRoute.patch("/byId/:ticketId", requireWithUserAsync, async (req, res) => {
         ticket.description = ticketDescription;
     }
     if (ticketPriority) {
-        console.log("UPDATE");
         ticket.priority = ticketPriority;
     }
 
@@ -133,39 +133,39 @@ ticketRoute.post("/byId/:ticketId", async (req, res) => {
     return res.status(200).send();
 });
 
-ticketRoute.get("/close/:ticketId", async(req, res)=>{
+ticketRoute.get("/close/:ticketId", async (req, res) => {
     const ticketId = req.params.ticketId;
-    if(!ticketId){
+    if (!ticketId) {
         return res.status(400).send();
     }
-    try{
+    try {
         await createQueryBuilder()
             .update(Ticket)
-            .set({closeDate: ()=>"NOW()"})
-            .where("id=:ticketId",{ticketId})
+            .set({ closeDate: () => "NOW()" })
+            .where("id=:ticketId", { ticketId })
             .execute();
-    }catch(err){
+    } catch (err) {
         return res.status(500).send();
     }
     return res.status(200).send();
-})
+});
 
-ticketRoute.get("/open/:ticketId", async(req, res)=>{
+ticketRoute.get("/open/:ticketId", async (req, res) => {
     const ticketId = req.params.ticketId;
-    if(!ticketId){
+    if (!ticketId) {
         return res.status(400).send();
     }
-    try{
+    try {
         await createQueryBuilder()
             .update(Ticket)
-            .set({closeDate: null})
-            .where("id=:ticketId",{ticketId})
+            .set({ closeDate: null })
+            .where("id=:ticketId", { ticketId })
             .execute();
-    }catch(err){
+    } catch (err) {
         return res.status(500).send();
     }
     return res.status(200).send();
-})
+});
 
 ticketRoute.get("/byId/:ticketId", async (req, res) => {
     const ticketId = req.params.ticketId;
@@ -180,6 +180,34 @@ ticketRoute.get("/byId/:ticketId", async (req, res) => {
     }
 
     return res.status(200).json(ticket);
+});
+
+ticketRoute.get("/count/:workspaceId", async (req, res) => {
+    console.log(req.params.workspaceId);
+    
+    const workspace = await getRepository(Workspace).createQueryBuilder("workspace")
+    .select(["tickets.closeDate"])
+    .leftJoin("workspace.boards","boards")
+    .leftJoin("boards.tickets", "tickets")
+    .where("workspace.id = :workspaceId",{workspaceId: req.params.workspaceId})
+    .getRawMany();
+
+    let nullCount = 0;
+    let nonNullCount = 0;
+
+    workspace.forEach((ticket)=>{
+        if(ticket.tickets_closeDate === null){
+            nullCount++;
+        }else{
+            nonNullCount++;
+        }
+    })
+    
+    return res.status(200).json({
+        closed: nonNullCount,
+        open: nullCount
+    });
+    
 });
 
 export { ticketRoute };

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, DraggableProvided, DraggableStateSnapshot, Droppable, DroppableProvided, DroppableStateSnapshot, DropResult } from "react-beautiful-dnd"
 import { produce } from "immer";
 import { KeyedMutator } from 'swr';
@@ -15,14 +15,26 @@ import { postDataAsync } from '../utils/postDataAsync';
 import { BoardModalState } from '../interfaces/BoardModalState';
 import { EditBoardModal } from '../components/EditBoardModal';
 import { Plus } from '../components/svg/Plus';
+import {  ICount } from '../interfaces/ICount';
 
 const Workspace = (): JSX.Element => {
     const { id } = useParams();
 
     const [ticketModalState, setTicketModalState] = useState<TicketModalState>({ state: "closed" });
     const [boardModalState, setBoardModalState] = useState<BoardModalState>({ state: "closed" });
+    
+    const [count, setCount] = useState<ICount|null>(null);
 
     const { workspaceData, isWorkspaceLoading, workspaceHasError, mutateWorkspace } = useFetchWorkspaceById(id!);
+
+    useEffect(()=>{
+        (async function(){
+            const raw = await fetch(`${getEndpoint("get_count")}/${id}`);
+            const parsed = await raw.json();
+            setCount(parsed);
+            console.log(parsed);
+        }());
+    },[workspaceData])
 
     const dragEnd = async (result: DropResult, mutate: KeyedMutator<IWorkspace>) => {
         const { source, destination } = result;
@@ -134,6 +146,10 @@ const Workspace = (): JSX.Element => {
                     ))}
                 </DragDropContext>
                 <div className={styles.addWrapper}>
+                <div className={styles.counter}>
+                    {count&&<div><p>Total Open Tickets: {count?.open}</p></div>}
+                    {count&&<div><p>Total Closed Tickets: {count?.closed}</p></div>}
+                </div>
                     <button onClick={(e)=>{
                         setBoardModalState({state:"new", workspace: workspaceData});
                     }}>
