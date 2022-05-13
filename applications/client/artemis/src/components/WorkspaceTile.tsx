@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { IWorkspaceTile } from '../interfaces/IWorkspaceTile';
 import styles from '../styles/WorkspaceTile.module.scss';
 
-interface Props{
+interface Props{ 
     id: string;
     name: string;
     editModal: (workspace: IWorkspaceTile)=>void;

@@ -3,7 +3,7 @@ import { WorkspaceTile } from "../components/WorkspaceTile";
 import { getEndpoint } from "../utils/apiEndpoints";
 import { IWorkspaceTile } from "../interfaces/IWorkspaceTile";
 import { WorkspaceModalState } from "../interfaces/WorkspaceModalState";
-
+ 
 import { Plus } from "../components/svg/Plus";
 
 import styles from "../styles/WorkspaceSelection.module.scss";
@@ -45,7 +45,7 @@ const WorkspaceSelection = (): JSX.Element => {
             <input className={styles.searchBar} type="text" placeholder='Search for a workspace' onChange={e => {setSearch(e.target.value)}}/>
             <div className={styles.outerWrap}>
                 {workspaceModalState.state === "new" && <WorkspaceModal state={workspaceModalState.state} closeModal={() => {
-                    updateWorkspace();
+                    updateWorkspace(); 
                     setWorkspaceModalState({ state: "closed" });
                 }} />}
                 {workspaceModalState.state === "edit" && <WorkspaceModal

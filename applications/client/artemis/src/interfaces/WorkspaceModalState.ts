@@ -12,7 +12,7 @@ interface WorkspaceModalNew {
 interface WorkspaceModalClosed {
     state:"closed";
 }
-
+ 
 type WorkspaceModalState = WorkspaceModalOpen | WorkspaceModalClosed | WorkspaceModalNew;
 
 export type { WorkspaceModalState };

@@ -21,6 +21,14 @@ userRouter.get("/workspaces", requireWithUserAsync, async (req, res) => {
     return res.status(200).json(workspaces.workspaces);
 });
 
+userRouter.get("/profile", requireWithUserAsync, async (req, res) => {
+    if (!req.user) {
+        return res.status(403).send("Error: Not Auth");
+    }
+    console.log(req.user);
+    return res.status(200).json(req.user)
+});
+
 userRouter.patch("/update", requireWithUserAsync, async (req, res) => {
     if (!req.user) {
         return res.status(403).send("Error: Not Auth");
