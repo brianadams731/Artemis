@@ -29,7 +29,9 @@ const endpoints: IEndpoints = Object.freeze({
     login: `${base}/login`,
     logout: `${base}/logout`,
     login_test: `${base}/login/test`,
-    register: `${base}/register`
+    register: `${base}/register`,
+
+    profile: `${base}/user/profile`
 });
 
 const getEndpoint = (endpoint: string): string | undefined => {

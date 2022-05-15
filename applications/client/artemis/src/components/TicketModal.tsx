@@ -64,7 +64,7 @@ const TicketModal = ({ id, state, boardId, comment, priority, description, close
             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className={styles.modalWrapper} onMouseDown={()=>setCanExit(false)} onClick={(e) => { 
                 e.stopPropagation();
             }}>
-                <button className={styles.trash} onClick={async () => {
+                {state === "edit" && <button className={styles.trash} onClick={async () => {
                     mutateWorkspace(
                         produce<IWorkspace>(draft => {
                             const sourceBoard = draft.boards.find((item) => item.id === boardId);
@@ -81,7 +81,7 @@ const TicketModal = ({ id, state, boardId, comment, priority, description, close
                     closeModal();
                 }}>
                     <Trashcan />
-                </button>
+                </button>}
                 <form onSubmit={async (e) => {
                     e.preventDefault();
                     if (state === "new") {
