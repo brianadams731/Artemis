@@ -25,8 +25,12 @@ userRouter.get("/profile", requireWithUserAsync, async (req, res) => {
     if (!req.user) {
         return res.status(403).send("Error: Not Auth");
     }
-    console.log(req.user);
-    return res.status(200).json(req.user)
+
+    return res.status(200).json({
+        id: req.user.id,
+        username: req.user.username,
+        email: req.user.email
+    })
 });
 
 userRouter.patch("/update", requireWithUserAsync, async (req, res) => {
