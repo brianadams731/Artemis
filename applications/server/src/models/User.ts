@@ -5,6 +5,7 @@ import {
     JoinTable,
     ManyToMany,
     ManyToOne,
+    OneToMany,
     PrimaryGeneratedColumn,
 } from "typeorm";
 import { Organization } from "./Organization";
@@ -32,6 +33,9 @@ class User extends BaseEntity {
     })
     @JoinTable()
     workspaces: Workspace[];
+
+    @OneToMany(()=> Workspace, (workspace)=>workspace.owner)
+    ownsWorkspaces: Workspace[];
 }
 
 export { User };

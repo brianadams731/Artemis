@@ -9,16 +9,19 @@ import { Plus } from "../components/svg/Plus";
 import styles from "../styles/WorkspaceSelection.module.scss";
 import { WorkspaceModal } from "../components/WorkspaceModal";
 
+interface ExtendedTile extends IWorkspaceTile{
+    userOwns: boolean;
+}
 
 const WorkspaceSelection = (): JSX.Element => {
-    const [workspaceTiles, setWorkspaceTiles] = useState<IWorkspaceTile[]>();
+    const [workspaceTiles, setWorkspaceTiles] = useState<ExtendedTile[]>();
     const [workspaceModalState, setWorkspaceModalState] = useState<WorkspaceModalState>({ state: "closed" });
     const [whichWorkspaces, setWhichWorkspaces] = useState<"all" | "user">("all");
     const [search, setSearch] = useState('');
 
     const updateWorkspace = async (): Promise<void> => {
         const rawData = await fetch(getEndpoint(whichWorkspaces === "all" ? "all_workspaces" : "all_user_workspaces")!);
-        const parsedData: IWorkspaceTile[] = await rawData.json();
+        const parsedData: ExtendedTile[] = await rawData.json();
        
         parsedData.sort((a: any, b: any) => a.name.localeCompare(b.name));
 
@@ -73,7 +76,7 @@ const WorkspaceSelection = (): JSX.Element => {
                         }
                     }).map(item => {
                         return (
-                            <WorkspaceTile key={item.id} name={item.name} id={item.id} editModal={(workspace: IWorkspaceTile) => {
+                            <WorkspaceTile key={item.id} name={item.name} id={item.id} userOwns={item.userOwns} editModal={(workspace: IWorkspaceTile) => {
                                 setWorkspaceModalState({
                                     state: "edit",
                                     workspace: {

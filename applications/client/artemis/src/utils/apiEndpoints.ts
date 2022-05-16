@@ -31,7 +31,8 @@ const endpoints: IEndpoints = Object.freeze({
     login_test: `${base}/login/test`,
     register: `${base}/register`,
 
-    profile: `${base}/user/profile`
+    profile: `${base}/user/profile`,
+    subscribe: `${base}/workspace/subscribe`, //:workspaceId is required  GET TO SUBSCRIBE/DELETE TO UNSUBSCRIBE
 });
 
 const getEndpoint = (endpoint: string): string | undefined => {

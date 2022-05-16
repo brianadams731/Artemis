@@ -113,7 +113,6 @@ ticketRoute.delete("/byId/:ticketId", async (req, res) => {
             [ticket[0].board_id, ticket[0].index]
         );
     } catch (err) {
-        console.log(err);
         return res.status(500).send("Error: Ticket failed to remove");
     }
     return res.status(200).send("Ticket removed");
@@ -182,11 +181,9 @@ ticketRoute.get("/byId/:ticketId", async (req, res) => {
     return res.status(200).json(ticket);
 });
 
-ticketRoute.get("/count/:workspaceId", async (req, res) => {
-    console.log(req.params.workspaceId);
-    
+ticketRoute.get("/count/:workspaceId", async (req, res) => {    
     const workspace = await getRepository(Workspace).createQueryBuilder("workspace")
-    .select(["tickets.closeDate"])
+    .select(["tickets.id, tickets.closeDate"])
     .leftJoin("workspace.boards","boards")
     .leftJoin("boards.tickets", "tickets")
     .where("workspace.id = :workspaceId",{workspaceId: req.params.workspaceId})
@@ -194,9 +191,13 @@ ticketRoute.get("/count/:workspaceId", async (req, res) => {
 
     let nullCount = 0;
     let nonNullCount = 0;
-
+        
     workspace.forEach((ticket)=>{
-        if(ticket.tickets_closeDate === null){
+        if(!ticket.id){
+            return;
+        }    
+         
+        if(ticket.closeDate === null){
             nullCount++;
         }else{
             nonNullCount++;
