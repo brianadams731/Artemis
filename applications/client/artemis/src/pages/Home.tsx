@@ -8,8 +8,8 @@ const Home = (): JSX.Element => {
                 <div className="artemis">ARTEMIS</div>
                 <ul className="nav-links">
                     <div className="menu">
-                        <li><button className="button getstarted" ><Link to="/register">Get Started with Artemis</Link></button></li>
-                        <li><button className="button login"><Link to="/login">Login</Link></button></li>
+                    <Link to="/register"><li><button className="button getstarted" >Get Started with Artemis</button></li></Link>
+                        <Link to="/login"><li><button className="button login">Login</button></li></Link>
                         <li><div className="button space"></div></li>
                     </div>
                 </ul>
