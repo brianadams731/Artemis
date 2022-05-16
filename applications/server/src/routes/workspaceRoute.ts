@@ -12,6 +12,11 @@ interface IWorkspace {
     name: string;
     boards: IBoard[];
 }
+
+interface ParsedWorkspace extends Workspace {
+    userOwns: boolean;
+}
+
 // These are interfaces that make ^
 interface IBoard {
     id: string;
@@ -28,8 +33,6 @@ workspaceRoute.get("/debug", async (req, res) => {
         .createQueryBuilder("workspace")
         .select(["workspace.id"])
         .getMany();
-
-    console.log(JSON.stringify(debug, null, 2));
 
     return res.status(200).json(debug);
 });
@@ -52,7 +55,6 @@ workspaceRoute.get("/byId/:workspaceId", async (req, res) => {
         item.tickets.sort((a, b) => a.index - b.index);
     });
 
-    // 
     query?.boards.forEach((item, index)=>{
         if(item.name.toLowerCase() === "unassigned"){
             const removed = query?.boards.splice(index,1);
@@ -65,9 +67,14 @@ workspaceRoute.get("/byId/:workspaceId", async (req, res) => {
     return res.status(200).json(query);
 });
 
-workspaceRoute.get("/all", async(req,res)=>{
+workspaceRoute.get("/all",async(req,res)=>{
     const workspaces = await Workspace.find();
-    return res.json(workspaces);
+    const parsed = (workspaces as ParsedWorkspace[]).map((workspace) =>{
+        workspace.userOwns = req?.session?.userId === workspace.ownerId
+        return workspace;
+    })
+    
+    return res.json(parsed);
 })
 
 workspaceRoute.post("/add", requireWithUserAsync, async (req, res) => {
@@ -81,6 +88,7 @@ workspaceRoute.post("/add", requireWithUserAsync, async (req, res) => {
 
     const workspace = new Workspace();
     workspace.name = req.body.name;
+    workspace.owner = req.user;
 
     const user = await getRepository(User)
     .createQueryBuilder("user")
@@ -159,15 +167,20 @@ workspaceRoute.delete("/subscribe/:workspaceId", requireWithUserAsync, async (re
     return res.status(200).send("Unsubscribed");
 });
 
-workspaceRoute.patch("/byId/:workspaceId", async (req, res) => {
+workspaceRoute.patch("/byId/:workspaceId", requireWithUserAsync, async (req, res) => {
     const workspaceId = req.params.workspaceId;
-    if (!workspaceId) {
+    if (!workspaceId || !req.user) {
         return res.status(500).send("Error: Please include Workspace ID");
     }
     const workspace = await Workspace.findOne(workspaceId);
     if (!workspace) {
         return res.status(404).send("Error: Workspace not found");
     }
+        
+    if(workspace.ownerId !== req.user?.id){
+        return res.status(401).send();
+    }
+
     if (workspace) {
         workspace.name = req.body.name;
     }
@@ -177,11 +190,17 @@ workspaceRoute.patch("/byId/:workspaceId", async (req, res) => {
 
 workspaceRoute.delete("/byId/:workspaceId", requireWithUserAsync, async (req, res) => {
     const workspaceId = req.params.workspaceId;
-    if (!workspaceId) {
+    if (!workspaceId || !req.user) {
         return res.status(500).send("Error: Workspace id invalid");
     }
     const workspace = await Workspace.findOne(workspaceId);
-    const didDelete = await workspace?.remove();
+    if(!workspace){
+        return res.status(404).send();
+    }
+    if(workspace.ownerId !== req.user.id){
+        return res.status(401).send();
+    }
+    const didDelete = await workspace.remove();
     if (!didDelete) {
         res.status(500).send("Error: Workspace failed to remove");
     }

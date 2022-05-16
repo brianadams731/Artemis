@@ -26,8 +26,6 @@ boardRouter.post("/add/:workspaceId", async (req, res) => {
     }
 
     if(!req.params.workspaceId || !req.body.name){
-        console.log(req.params.workspaceId);
-        console.log(req.body.name);
         return res.status(400).send("Error: Bad request")
     }
     const workspace = await getRepository(Workspace).createQueryBuilder("workspace")
@@ -108,9 +106,6 @@ boardRouter.post("/updateTickets", async (req, res) => {
     }
     const targetTicket = await Ticket.findOne(req.body.source.ticketId);
     if (!targetTicket || targetTicket.index !== req.body.source.ticketIndex) {
-        console.log(`id: ${targetTicket.id}`);
-        console.log(`Request: ${req.body.source.ticketIndex}`);
-        console.log(`DB: ${targetTicket.index}`);
         return res.status(500).send("Error: Ticket index does not match");
     }
 

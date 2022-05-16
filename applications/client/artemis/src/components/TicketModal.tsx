@@ -60,7 +60,6 @@ const TicketModal = ({ id, state, boardId, comment, priority, description, close
                 setCanExit(true);
             },0)
         }}>
-            {console.log(closeDate)}
             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className={styles.modalWrapper} onMouseDown={()=>setCanExit(false)} onClick={(e) => { 
                 e.stopPropagation();
             }}>
@@ -93,7 +92,7 @@ const TicketModal = ({ id, state, boardId, comment, priority, description, close
                                     description: ticketDescription,
                                     comment: ticketComment,
                                     priority: ticketPriority,
-                                    closeDate: ticketClosedDate?"placeholder":null
+                                    closeDate: null
                                 })
                             })
                             , false)
@@ -142,7 +141,7 @@ const TicketModal = ({ id, state, boardId, comment, priority, description, close
                         <button style={ticketPriority === 1?{border: "3px solid var(--c-main-gray)"}:{}}className={styles.yellow} onClick={()=> setTicketPriority(1)}></button>
                         <button style={ticketPriority === 0?{border: "3px solid var(--c-main-gray)"}:{}}className={styles.blue} onClick={()=> setTicketPriority(0)}></button>
                     </div>
-                    <button onClick={async(e)=>{
+                    {state==="edit"&&<button onClick={async(e)=>{
                         e.preventDefault();
                         if(!ticketClosedDate){
                             await fetch(`${getEndpoint("mark_ticket_closed")}/${id}`);
@@ -165,7 +164,7 @@ const TicketModal = ({ id, state, boardId, comment, priority, description, close
                             )
                             closeModal();
                         }
-                    }}>{!ticketClosedDate?"Mark Ticket as Closed":"Mark Ticket as Open"}</button>
+                    }}>{!ticketClosedDate?"Mark Ticket as Closed":"Mark Ticket as Open"}</button>}
                     <button type="submit">{id ? "Update" : "Create"}</button>
                 </form>
             </motion.div>

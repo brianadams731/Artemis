@@ -2,8 +2,13 @@ import express from "express";
 import { getRepository } from "typeorm";
 import { requireWithUserAsync } from "../middleware/requireWithUserAsync";
 import { User } from "../models/User";
+import { Workspace } from "../models/Workspace";
 
 const userRouter = express.Router();
+
+interface ParsedWorkspace extends Workspace {
+    userOwns: boolean;
+}
 
 userRouter.get("/workspaces", requireWithUserAsync, async (req, res) => {
     if (!req.user) {
@@ -18,7 +23,13 @@ userRouter.get("/workspaces", requireWithUserAsync, async (req, res) => {
     if(!workspaces){
         return res.status(404).send("Error: Cannot find user")
     }
-    return res.status(200).json(workspaces.workspaces);
+    
+    const parsed = (workspaces.workspaces as ParsedWorkspace[]).map((workspace:any) =>{
+        workspace.userOwns = req.user?.id === workspace.ownerId
+        return workspace;
+    })
+
+    return res.status(200).json(parsed);
 });
 
 userRouter.get("/profile", requireWithUserAsync, async (req, res) => {
