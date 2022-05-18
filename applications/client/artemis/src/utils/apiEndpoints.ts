@@ -6,7 +6,7 @@ const base =
     process.env.NODE_ENV === "development"
         ? "/api"
         //: "http://www.thoughtgrove.com/api";
-        :"34.125.22.156/api";
+        :"http://34.125.22.156/api";
 
 const endpoints: IEndpoints = Object.freeze({
     workspace_debug: `${base}/workspace/debug`,
