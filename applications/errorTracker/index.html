@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="http://www.thoughtgrove.com/api/public/errorTracker.js" workspaceId="d4254af4-7a06-46c4-be8a-91b966c654bb" ></script>
+        <title>Throw an Error</title>
+    </head>
+    <body>
+        <div class="wrapper">
+            <button id="errorBtn" class="btn">Throw Error</button>
+        </div>
+        <style>
+            *{
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+            }
+            .wrapper{
+                height: 100vh;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                background-color: rgb(175, 174, 174);
+            }
+            .btn{
+                display: block;
+                border: none;
+                display: block;
+                width: fit-content;
+                background-color: rgb(222, 31, 31);
+                box-shadow: 0 6px rgb(179, 26, 26);
+
+                color: white;
+                padding: 10px 25px;
+                border-radius: 10px;
+                font-size: 2.5rem;
+                transition: all 0.15s ease-in-out;
+            }
+            .btn:hover{
+                cursor: pointer;
+                transform: translateY(3px);
+                box-shadow: 0 3px var(--c-uno-red-shadow);
+            }
+            .btn:active{
+               transform: translateY(6px);
+                box-shadow: none;
+            }
+            
+        </style>
+        <script>
+            const btn = document.querySelector("#errorBtn");
+            btn.addEventListener("click",(e)=>{
+                console.log(thiswillgenerateanerror.other.noexist);
+            })
+        </script>
+    </body>
+</html>
