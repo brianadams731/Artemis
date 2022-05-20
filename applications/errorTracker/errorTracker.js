@@ -1,6 +1,6 @@
 window.artemisErrorTrackerWorkspaceId = document.currentScript.getAttribute('workspaceId');
 window.addEventListener('error', async (e) => {
-    await fetch("http://www.thoughtgrove.com/api/errorTracker",{
+    await fetch("https://www.thoughtgrove.com/api/errorTracker",{
         method: "POST",
         credentials: "omit",
         mode: "cors",

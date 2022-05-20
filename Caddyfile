@@ -3,7 +3,7 @@ about.thoughtgrove.com:80 {
 	file_server
 }
 
-www.thoughtgrove.com:80, thoughtgrove.com:80, :80 {
+www.thoughtgrove.com, thoughtgrove.com, :80 {
 	route /api* {
 		uri strip_prefix /api
 		reverse_proxy 127.0.0.1:8080
