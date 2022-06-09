@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --verbose",
     "start": "ts-node-dev ./src/app.ts",
-    "build": "tsc && cpy public out && cpy .env out",
+    "build": "tsc && cpy public out",
     "buildNoEmit": "tsc --noEmit",
     "start:prod": "tsc && pm2 start ./out/app.js --watch",
     "stop:prod": "pm2 stop app",
