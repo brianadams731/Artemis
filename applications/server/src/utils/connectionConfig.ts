@@ -26,11 +26,8 @@ const connectionConfig:ConnectionOptions = {
         User,
         Workspace
     ],
-    ssl: true,
-    extra: {
-        ssl: {
-            rejectUnauthorized: false
-        }
+    ssl:{
+        rejectUnauthorized: false,
     }
 }
 
