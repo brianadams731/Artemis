@@ -12,8 +12,7 @@ const sessionConfig: SessionOptions = {
     store: new (require("connect-pg-simple")(session))({
         conObject: {
             connectionString: process.env.DATABASE_URL,
-            ssl: true,
-            rejectUnauthorized: false
+            ssl: { rejectUnauthorized: false }
         },
         createTableIfMissing: true,
     }),
