@@ -1,0 +1,23 @@
+{
+  "name": "artemis",
+  "version": "1.0.0",
+  "description": "./applications/server/out/app.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "cd applications/server && npm install && cd .. && cd .. && cd server && npm install",
+    "build": "cd applications/client/artemis && npm run build && cd .. && cd .. && cd server && npm run build",
+    "start": "cd applications/server/out && node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CSC-648-SFSU/csc648-spring22-04-team02.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CSC-648-SFSU/csc648-spring22-04-team02/issues"
+  },
+  "homepage": "https://github.com/CSC-648-SFSU/csc648-spring22-04-team02#readme"
+}

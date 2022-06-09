@@ -10,6 +10,7 @@ import { registerRouter } from "./routes/registerRoute";
 import { logoutRouter } from "./routes/logoutRoute";
 import { userRouter } from "./routes/userRouter";
 import { errorTrackerRouter } from "./routes/errorTrackerRouter";
+import path from "path";
 
 const app = express();
 
@@ -26,10 +27,10 @@ app.use("/board", boardRouter);
 app.use("/user", userRouter);
 app.use("/errorTracker", errorTrackerRouter);
 
-app.use("/public", express.static("public"));
+app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-    return res.send("Test from server");
+    res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 export { app };

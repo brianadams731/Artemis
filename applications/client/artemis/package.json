@@ -10,6 +10,7 @@
     "@types/node": "^16.11.26",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.13",
+    "cross-env": "^7.0.3",
     "framer-motion": "^6.2.8",
     "http-proxy-middleware": "^2.0.4",
     "immer": "^9.0.12",
@@ -24,7 +25,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "cross-env BUILD_PATH='../../server/public/' react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

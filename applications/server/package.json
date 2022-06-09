@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --verbose",
     "start": "ts-node-dev ./src/app.ts",
-    "build": "tsc",
+    "build": "tsc && cpy public out && cpy .env out",
     "buildNoEmit": "tsc --noEmit",
     "start:prod": "tsc && pm2 start ./out/app.js --watch",
     "stop:prod": "pm2 stop app",
@@ -45,6 +45,7 @@
     "bcrypt": "^5.0.1",
     "connect-pg-simple": "^7.0.0",
     "cors": "^2.8.5",
+    "cpy-cli": "^4.1.0",
     "express": "^4.17.3",
     "express-async-errors": "^3.1.1",
     "express-session": "^1.17.2",
