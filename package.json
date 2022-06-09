@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "cd applications/server && npm install && cd .. && cd .. && cd server && npm install",
+    "postinstall": "cd applications/client/artemis && npm install && cd .. && cd .. && cd server && npm install",
     "build": "cd applications/client/artemis && npm run build && cd .. && cd .. && cd server && npm run build",
     "start": "cd applications/server/out && node app.js"
   },
