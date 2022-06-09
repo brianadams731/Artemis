@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/CSC-648-SFSU/csc648-spring22-04-team02/issues"
   },
-  "homepage": "https://github.com/CSC-648-SFSU/csc648-spring22-04-team02#readme"
+  "homepage": "https://github.com/CSC-648-SFSU/csc648-spring22-04-team02#readme",
+  "engines": {
+    "node": "16.x"
+  }
 }
