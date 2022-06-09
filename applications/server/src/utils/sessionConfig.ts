@@ -10,7 +10,11 @@ const sessionConfig: SessionOptions = {
     saveUninitialized: false,
     cookie: { maxAge: 60 * 24 * 60 * 60 * 1000 },
     store: new (require("connect-pg-simple")(session))({
-        conString: process.env.DATABASE_URL,
+        conObject: {
+            connectionString: process.env.DATABASE_URL,
+            ssl: true,
+            rejectUnauthorized: false
+        },
         createTableIfMissing: true,
     }),
     genid: function (req) {

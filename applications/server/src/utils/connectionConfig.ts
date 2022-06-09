@@ -26,9 +26,12 @@ const connectionConfig:ConnectionOptions = {
         User,
         Workspace
     ],
-    ssl:{
-        rejectUnauthorized: false,
+    ssl: true,
+    extra: {
+    ssl: {
+      "rejectUnauthorized": false
     }
+  }
 }
 
 export = connectionConfig;
