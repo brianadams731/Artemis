@@ -6,6 +6,7 @@
  - All of the team website
  - All of the error tracker code
  - Most of the frontend and backend tests
+ - Application scaffolding (configs, project structure, migrations etc)
 
  ### Things I did not do
   - The landing page (HTML and CSS)
