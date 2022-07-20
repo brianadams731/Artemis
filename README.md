@@ -7,6 +7,8 @@
  - All of the error tracker code
  - Most of the frontend and backend tests
  - Application scaffolding (configs, project structure, migrations etc)
+ - Setup and managed project hosted on a VM (hosted on GCP)
+ - After project submission altered project to be hosted on Heroku
 
  ### Things I did not do
   - The landing page (HTML and CSS)
