@@ -1,29 +1,19 @@
-# csc648-spring22-04-team02 Repository
+## This was a group project for my CSC648 class
+### Things I did
+ - Majority of the server side logic including sessions, CRUD operations with tickets, users and workspaces, rewrites of log in and registration, db architecture etc.
+ - All of the Artemis application logic and rendering (everything past the log in screen)
+ - Auth
+ - All of the team website
+ - All of the error tracker code
+ - Most of the frontend and backend tests
 
-## Application URL: 
+ ### Things I did not do
+  - The landing page (HTML and CSS)
+  - The log in/log out (HTML and CSS)
 
+### Things I would like to improve
+ - Optimize excessive rerendering in workspaces. This includes dividing access to the global cache up between
+ the boards themselves instead of being passed as props, and memoizing state and callbacks being passed as props from extremely dynamic components.
 
-## Please do the following steps before completing Milestone 0.
-1. Change the name of the repository of csc648-spring22-SectionName-teamNN. 
- - SectionName should be one of 01, 02, 03 or 04. 
- - teamNN should be your team number. Team numbers whose value is less than 10, please pad with a 0. Ex team 1 is Team01 team 11 is Team11. Please make sure to also remove the username from the repository as well. Teams with incorrectly name repository will have points deducted from their milestone 0 grades.
- - Please follow the above naming convention.
- - Example) csc648-spring22-04-Team01,   csc648-spring22-01-Team05
-
-1. PLEASE REMOVE THE USERNAME FROM THE REPOSITORY NAME!!!
-
-2. Add ALL members of your team to this repository. For it to count, they must ACCEPT the invite.
-
-3. Fill out the table below
-
-
-| Student Name | Student Email | GitHub Username | Stundet's role <br />
-
-| Brian Adams     | badams2@mail.sfsu.edu            |   brianadams731           |  Team Lead <br />
-| Joseph Kois     | jkois@mail.sfsu.edu              |   josephkois              |  Github Master <br />
-| Brandon Cruz-Youll     | bcruz5@mail.sfsu.edu      |   BeeSeeWhy               |  Scrum Master <br />
-| Sherman Wong    |  swong42@mail.sfsu.edu           |   illiquid47              |  Backend Lead <br />
-| Arslan Alimov   | aalimov@mail.sfsu.edu            |   ArslanAlimov            |  Backend Support <br />
-| Jade Simien     | jsimien@sfsu.edu                 |   JadeS01                 |  Frontend Lead <br />
-
-## NO code needs to be stored in the root of your repository. You may rename the application folder if you like to your team's application name. But all source code related to your team's application should be stored inside the application folder.
+ - Modernizing the UI. More whitespace, clearer visual hierarchies and intentional use of accent colors would help
+ this application both in terms of ease of use and modern feel.
